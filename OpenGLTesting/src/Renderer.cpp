@@ -13,6 +13,9 @@ Renderer::Renderer(int screenWidth, int screenHeight, bool debug)
 
 Renderer::~Renderer()
 {
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &EBO);
 	SDL_DestroyRenderer(sdlRenderer);
 	SDL_DestroyWindow(sdlWindow);
 	sdlRenderer = NULL;
