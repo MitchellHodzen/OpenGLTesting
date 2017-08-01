@@ -93,7 +93,11 @@ bool Renderer::Initialize()
 			{
 				glViewport(0, 0, screenWidth, screenHeight);
 				glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-				InitOpenGL();
+				if (!InitOpenGL())
+				{
+					std::cout<<"Failed to initialize OpenGL"<<std::endl;
+					success = false;
+				}
 			}
 		}
 	}
@@ -101,43 +105,55 @@ bool Renderer::Initialize()
 }
 bool Renderer::InitOpenGL()
 {
-
-	const GLchar* vertexShaderSource[] = {"#version 450 core\nlayout (location = 0) in vec3 aPos;\nvoid main(){ gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);}"};
-
-	const GLchar* fragmentShaderSource[] ={"#version 450 core\nout vec4 FragColor;\nvoid main( ){ FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);}"};
 	bool success = true;
+	std::string vertexShaderSourceString = ReadShader("src/shaders/vertexShader1.vert");
+	std::string fragmentShaderSourceString = ReadShader("src/shaders/fragmentShader1.frag");
+	const char* vertexShaderSource = vertexShaderSourceString.c_str();
+	const char* fragmentShaderSource = fragmentShaderSourceString.c_str();
+
 	gProgramID = glCreateProgram();	
 	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1, vertexShaderSource, NULL);
+	glShaderSource(vertexShader, 1,&vertexShaderSource, NULL);
 	glCompileShader(vertexShader);
 	GLint vertexShaderCompiled = GL_FALSE;
 	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &vertexShaderCompiled);
 	if (vertexShaderCompiled != GL_TRUE)
 	{
-		std::cout<<"Unable to compile verted shader"<<std::endl;
+		std::cout<<"Unable to compile vertex shader"<<std::endl;
+		success = false;
 	}
-	
-	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, fragmentShaderSource, NULL);
-	glCompileShader(fragmentShader);
-	GLint fragmentShaderCompiled = GL_FALSE;
-	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &fragmentShaderCompiled);
-	if (fragmentShaderCompiled != GL_TRUE)
+	else
 	{
-		std::cout<<"Unable to compile fragment shader"<<std::endl;
-	}
-	glAttachShader(gProgramID, vertexShader);
-	glAttachShader(gProgramID, fragmentShader);
-	glLinkProgram(gProgramID);
-	GLint programLinked = GL_FALSE;
-	glGetProgramiv(gProgramID, GL_LINK_STATUS, &programLinked);
-	if (programLinked != GL_TRUE)
-	{
-		std::cout<<"Unable to link program"<<std::endl;
-	}	
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
+		GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+		glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+		glCompileShader(fragmentShader);
+		GLint fragmentShaderCompiled = GL_FALSE;
+		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &fragmentShaderCompiled);
+		if (fragmentShaderCompiled != GL_TRUE)
+		{
+			std::cout<<"Unable to compile fragment shader"<<std::endl;
+			success = false;
+		}
+		else
+		{
+			glAttachShader(gProgramID, vertexShader);
+			glAttachShader(gProgramID, fragmentShader);
+			glLinkProgram(gProgramID);
+			GLint programLinked = GL_FALSE;
+			glGetProgramiv(gProgramID, GL_LINK_STATUS, &programLinked);
+			if (programLinked != GL_TRUE)
+			{
+				std::cout<<"Unable to link program"<<std::endl;
+				success = false;
+			}	
+			else
+			{
 
+				glDeleteShader(vertexShader);
+				glDeleteShader(fragmentShader);
+			}
+		}
+	}
 	float verticies[] = {
 		0.5f, 0.5f, 0.0f,
 		0.5f, -0.5f, 0.0f,
@@ -166,4 +182,11 @@ bool Renderer::InitOpenGL()
 	glBindVertexArray(0);
 	return success;
 	
+}
+
+std::string Renderer::ReadShader(std::string location)
+{
+	std::ifstream shaderStream(location, std::ios::in);
+	std::string shaderString{ std::istreambuf_iterator<char>(shaderStream), std::istreambuf_iterator<char>()};
+	return shaderString;
 }

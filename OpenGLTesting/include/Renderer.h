@@ -6,6 +6,8 @@
 #include <vector>
 #include <iostream>
 #include "Texture.h"
+#include <string>
+#include <fstream>
 class Renderer
 {
 public:
@@ -25,14 +27,11 @@ private:
 	bool debug;
 
 	bool InitOpenGL();
+	std::string ReadShader(std::string location);
 	SDL_GLContext gContext;	
 	GLuint gProgramID;
-	//GLint gVertexPos2DLocation;
 	GLuint VBO;
 	GLuint VAO;
 	GLuint EBO;
-	//GLuint IBO;
-	//const GLchar* vertexShaderSource[];
-	//const GLchar* fragmentShaderSource[];
 };
 
