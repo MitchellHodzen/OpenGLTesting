@@ -11,6 +11,11 @@ Texture::~Texture()
 {
 }
 
+GLuint Texture::GetTextureID()
+{
+	return textureID;
+}
+
 bool Texture::LoadTexture(std::string path, GLenum sWrap, GLenum tWrap, GLenum minFilter, GLenum magFilter)
 {
 	unsigned char* data;

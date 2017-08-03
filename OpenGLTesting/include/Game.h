@@ -5,9 +5,8 @@
 #include <SDL.h>
 #include <stdio.h>
 #include <vector>
-#include "Texture.h"
-#include "Renderer.h"
-#include "InputManager.h"
+class InputManager;
+class Renderer;
 class Game
 {
 public:
@@ -15,8 +14,8 @@ public:
 	~Game();
 	void Start();
 private:
-	void printProgramLog(GLuint program);
-	void printShaderLog(GLuint shader);
+	//void printProgramLog(GLuint program);
+	//void printShaderLog(GLuint shader);
 	bool Initialize();
 	int screenWidth;
 	int screenHeight;

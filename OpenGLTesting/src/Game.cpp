@@ -1,5 +1,6 @@
 #include "Game.h"
-
+#include "Renderer.h"
+#include "InputManager.h"
 
 Game::Game()
 {
@@ -19,10 +20,6 @@ Game::~Game()
 
 void Game::Start()
 {
-	//GLuint gProgramID = 0;
-	//GLint gVertexPos2DLocation = -1;
-	//GLuint gVBO = 0;
-	//GLuint gIBO = 0;
 	if (Initialize())
 	{
 		float averageFramerate = 0;

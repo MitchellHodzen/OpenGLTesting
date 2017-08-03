@@ -1,6 +1,9 @@
 #include "Renderer.h"
 #include "Shader.h"
 #include "Texture.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 
 Renderer::Renderer(int screenWidth, int screenHeight, bool debug)
@@ -28,11 +31,28 @@ SDL_Window* Renderer::GetWindow()
 }
 void Renderer::Draw()
 {
+	glm::mat4 model;
+	model = glm::rotate(model, ((float)SDL_GetTicks()/1000)*glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+
+	glm::mat4 view = glm::lookAt(glm::vec3(4, 3, 3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+
+	glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)screenWidth / screenHeight, 0.1f, 100.0f);
+
+	int modelLoc = glGetUniformLocation(shader->GetShaderID(), "model");
+	int viewLoc = glGetUniformLocation(shader->GetShaderID(), "view");
+	int projLoc = glGetUniformLocation(shader->GetShaderID(), "projection");
+	
+	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+	glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
+
 	glClear(GL_COLOR_BUFFER_BIT);
 	glUseProgram(shader->GetShaderID());
+	glBindTexture(GL_TEXTURE_2D, texture->GetTextureID());
 	glBindVertexArray(VAO);
-	//glDrawArrays(GL_TRIANGLES, 0, 3);
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+	//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	SDL_GL_SwapWindow(sdlWindow);
 }
 
@@ -104,13 +124,58 @@ bool Renderer::InitOpenGL()
 			}	
 		}
 	}
-	
+	/*	
 	float verticies[] = {
 		//Position          Texture coords
 		0.5f, 0.5f, 0.0f,   1.0f, 1.0f,
 		0.5f, -0.5f, 0.0f,  1.0f, 0.0f,
 		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
 		-0.5f, 0.5f, 0.0f,  0.0f, 1.0f
+	};
+	*/
+	//	position	texture coords
+	float verticies[] = {
+   		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+    		0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+     		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+     		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+    		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+    		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+    		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+     		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+     		0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+     		0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+    		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+    		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+    		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+    		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		
+     		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+     		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+     		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+     		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+     		0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+     		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		
+    		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+     		0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+     		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+     		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+    		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+    		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+     		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+     		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+     		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+    		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 	};
 	unsigned int indicies[] = {
 		0, 1, 3,
@@ -141,6 +206,8 @@ bool Renderer::InitOpenGL()
 		std::cout<<"Could not load texture"<<std::endl;
 		success = false;
 	}	
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture->GetTextureID());
 	return success;
 	
 }
