@@ -16,6 +16,7 @@ Renderer::~Renderer()
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
+	delete shader;
 	SDL_DestroyRenderer(sdlRenderer);
 	SDL_DestroyWindow(sdlWindow);
 	sdlRenderer = NULL;
@@ -45,7 +46,7 @@ void Renderer::Draw()
 	//}
 	//SDL_RenderPresent(sdlRenderer);
 	glClear(GL_COLOR_BUFFER_BIT);
-	glUseProgram(gProgramID);
+	glUseProgram(shader->GetShaderID());
 	glBindVertexArray(VAO);
 	//glDrawArrays(GL_TRIANGLES, 0, 3);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -106,52 +107,53 @@ bool Renderer::Initialize()
 bool Renderer::InitOpenGL()
 {
 	bool success = true;
-	std::string vertexShaderSourceString = ReadShader("src/shaders/vertexShader1.vert");
-	std::string fragmentShaderSourceString = ReadShader("src/shaders/fragmentShader1.frag");
-	const char* vertexShaderSource = vertexShaderSourceString.c_str();
-	const char* fragmentShaderSource = fragmentShaderSourceString.c_str();
+	shader = new Shader();
+	//std::string vertexShaderSourceString = ReadShader("src/shaders/vertexShader1.vert");
+	//std::string fragmentShaderSourceString = ReadShader("src/shaders/fragmentShader1.frag");
+	//const char* vertexShaderSource = vertexShaderSourceString.c_str();
+	//const char* fragmentShaderSource = fragmentShaderSourceString.c_str();
 
-	gProgramID = glCreateProgram();	
-	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1,&vertexShaderSource, NULL);
-	glCompileShader(vertexShader);
-	GLint vertexShaderCompiled = GL_FALSE;
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &vertexShaderCompiled);
-	if (vertexShaderCompiled != GL_TRUE)
+	//gProgramID = glCreateProgram();	
+	//GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	//glShaderSource(vertexShader, 1,&vertexShaderSource, NULL);
+	//glCompileShader(vertexShader);
+	//GLint vertexShaderCompiled = GL_FALSE;
+	//glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &vertexShaderCompiled);
+	if (!shader->ReadVertexShader("src/shaders/vertexShader1.vert"))
 	{
 		std::cout<<"Unable to compile vertex shader"<<std::endl;
 		success = false;
 	}
 	else
 	{
-		GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-		glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-		glCompileShader(fragmentShader);
-		GLint fragmentShaderCompiled = GL_FALSE;
-		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &fragmentShaderCompiled);
-		if (fragmentShaderCompiled != GL_TRUE)
+		//GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+		//glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+		//glCompileShader(fragmentShader);
+		//GLint fragmentShaderCompiled = GL_FALSE;
+		//glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &fragmentShaderCompiled);
+		if (!shader->ReadFragmentShader("src/shaders/fragmentShader1.frag"))//fragmentShaderCompiled != GL_TRUE)
 		{
 			std::cout<<"Unable to compile fragment shader"<<std::endl;
 			success = false;
 		}
 		else
 		{
-			glAttachShader(gProgramID, vertexShader);
-			glAttachShader(gProgramID, fragmentShader);
-			glLinkProgram(gProgramID);
-			GLint programLinked = GL_FALSE;
-			glGetProgramiv(gProgramID, GL_LINK_STATUS, &programLinked);
-			if (programLinked != GL_TRUE)
+			//glAttachShader(gProgramID, vertexShader);
+			//glAttachShader(gProgramID, fragmentShader);
+			//glLinkProgram(gProgramID);
+			//GLint programLinked = GL_FALSE;
+			//glGetProgramiv(gProgramID, GL_LINK_STATUS, &programLinked);
+			if (!shader->LinkShaders())//programLinked != GL_TRUE)
 			{
 				std::cout<<"Unable to link program"<<std::endl;
 				success = false;
 			}	
-			else
-			{
+			//else
+			//{
 
-				glDeleteShader(vertexShader);
-				glDeleteShader(fragmentShader);
-			}
+				//glDeleteShader(vertexShader);
+				//glDeleteShader(fragmentShader);
+			//}
 		}
 	}
 	float verticies[] = {

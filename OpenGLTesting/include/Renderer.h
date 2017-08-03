@@ -8,6 +8,7 @@
 #include "Texture.h"
 #include <string>
 #include <fstream>
+#include "Shader.h"
 class Renderer
 {
 public:
@@ -33,5 +34,6 @@ private:
 	GLuint VBO;
 	GLuint VAO;
 	GLuint EBO;
+	Shader* shader;
 };
 
