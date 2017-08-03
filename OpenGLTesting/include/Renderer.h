@@ -3,7 +3,8 @@
 #include <SDL_opengl.h>
 #include <SDL.h>
 #include <iostream>
-#include "Shader.h"
+class Texture;
+class Shader;
 class Renderer
 {
 public:
@@ -24,5 +25,6 @@ private:
 	GLuint VAO;
 	GLuint EBO;
 	Shader* shader;
+	Texture* texture;
 };
 

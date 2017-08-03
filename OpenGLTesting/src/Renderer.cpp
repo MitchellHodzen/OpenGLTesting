@@ -1,5 +1,6 @@
 #include "Renderer.h"
-
+#include "Shader.h"
+#include "Texture.h"
 
 
 Renderer::Renderer(int screenWidth, int screenHeight, bool debug)
@@ -103,6 +104,7 @@ bool Renderer::InitOpenGL()
 			}	
 		}
 	}
+	
 	float verticies[] = {
 		0.5f, 0.5f, 0.0f,
 		0.5f, -0.5f, 0.0f,
@@ -129,6 +131,13 @@ bool Renderer::InitOpenGL()
 	
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
+
+	texture = new Texture();
+	if (!texture->LoadTexture("resources/textures/grass.png", GL_REPEAT, GL_REPEAT, GL_LINEAR, GL_LINEAR))
+	{
+		std::cout<<"Could not load texture"<<std::endl;
+		success = false;
+	}	
 	return success;
 	
 }
