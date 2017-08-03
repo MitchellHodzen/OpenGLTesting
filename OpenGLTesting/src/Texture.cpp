@@ -19,7 +19,7 @@ Texture::~Texture()
 void Texture::CreateBlankTexture(int width, int height, Renderer* renderer)
 {
 	FreeTexture();
-	texture = SDL_CreateTexture(renderer->GetRenderer(), SDL_GetWindowPixelFormat(renderer->GetWindow()), SDL_TEXTUREACCESS_STREAMING, width, height);
+	//texture = SDL_CreateTexture(renderer->GetRenderer(), SDL_GetWindowPixelFormat(renderer->GetWindow()), SDL_TEXTUREACCESS_STREAMING, width, height);
 	if (texture == NULL)
 	{
 		std::cout<<"Unable to create blank texture. SDL Erorr: "<<SDL_GetError()<<std::endl;
@@ -53,7 +53,7 @@ void Texture::LoadTexture(std::string path, Renderer* renderer)
 		else
 		{
 			//texture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
-			texture = SDL_CreateTexture(renderer->GetRenderer(), SDL_GetWindowPixelFormat(renderer->GetWindow()), SDL_TEXTUREACCESS_STREAMING, loadedSurface->w, loadedSurface->h);
+			//texture = SDL_CreateTexture(renderer->GetRenderer(), SDL_GetWindowPixelFormat(renderer->GetWindow()), SDL_TEXTUREACCESS_STREAMING, loadedSurface->w, loadedSurface->h);
 			if (texture == NULL)
 			{
 				//std::cout << "Unable to create texture. SDL error: " << SDL_GetError() << std::endl;

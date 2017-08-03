@@ -7,7 +7,6 @@ Renderer::Renderer(int screenWidth, int screenHeight, bool debug)
 	this->screenWidth = screenWidth;
 	this->screenHeight = screenHeight;
 	this->debug = debug;
-
 }
 
 
@@ -17,48 +16,23 @@ Renderer::~Renderer()
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
 	delete shader;
-	SDL_DestroyRenderer(sdlRenderer);
 	SDL_DestroyWindow(sdlWindow);
-	sdlRenderer = NULL;
 	sdlWindow = NULL;
-	IMG_Quit();
 	SDL_Quit();
 }
 
-//void Renderer::Render(Entity* entity, Camera* camera)
-//{
-	//entity->GetVisualComponent()->Render((int)entity->GetPosX() - (int)camera->GetPosX(), (int)entity->GetPosY() - (int)camera->GetPosY(), sdlRenderer);
-	//if (debug == true)
-	//{
-	//}
-//}
 SDL_Window* Renderer::GetWindow()
 {
 	return sdlWindow;
 }
 void Renderer::Draw()
 {
-	//SDL_RenderClear(sdlRenderer);
-	//texture->Render(sdlRenderer);	
-	//for (unsigned i = 0; i < entityList->size(); ++i)
-	//{
-		//Render((*entityList)[i], camera);
-	//}
-	//SDL_RenderPresent(sdlRenderer);
 	glClear(GL_COLOR_BUFFER_BIT);
 	glUseProgram(shader->GetShaderID());
 	glBindVertexArray(VAO);
 	//glDrawArrays(GL_TRIANGLES, 0, 3);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	SDL_GL_SwapWindow(sdlWindow);
-}
-void Renderer::SetRenderer(SDL_Renderer* renderer)
-{
-	sdlRenderer = renderer;
-}
-SDL_Renderer* Renderer::GetRenderer()
-{
-	return sdlRenderer;
 }
 
 bool Renderer::Initialize()
@@ -108,17 +82,6 @@ bool Renderer::InitOpenGL()
 {
 	bool success = true;
 	shader = new Shader();
-	//std::string vertexShaderSourceString = ReadShader("src/shaders/vertexShader1.vert");
-	//std::string fragmentShaderSourceString = ReadShader("src/shaders/fragmentShader1.frag");
-	//const char* vertexShaderSource = vertexShaderSourceString.c_str();
-	//const char* fragmentShaderSource = fragmentShaderSourceString.c_str();
-
-	//gProgramID = glCreateProgram();	
-	//GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	//glShaderSource(vertexShader, 1,&vertexShaderSource, NULL);
-	//glCompileShader(vertexShader);
-	//GLint vertexShaderCompiled = GL_FALSE;
-	//glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &vertexShaderCompiled);
 	if (!shader->ReadVertexShader("src/shaders/vertexShader1.vert"))
 	{
 		std::cout<<"Unable to compile vertex shader"<<std::endl;
@@ -126,11 +89,6 @@ bool Renderer::InitOpenGL()
 	}
 	else
 	{
-		//GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-		//glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-		//glCompileShader(fragmentShader);
-		//GLint fragmentShaderCompiled = GL_FALSE;
-		//glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &fragmentShaderCompiled);
 		if (!shader->ReadFragmentShader("src/shaders/fragmentShader1.frag"))//fragmentShaderCompiled != GL_TRUE)
 		{
 			std::cout<<"Unable to compile fragment shader"<<std::endl;
@@ -138,22 +96,11 @@ bool Renderer::InitOpenGL()
 		}
 		else
 		{
-			//glAttachShader(gProgramID, vertexShader);
-			//glAttachShader(gProgramID, fragmentShader);
-			//glLinkProgram(gProgramID);
-			//GLint programLinked = GL_FALSE;
-			//glGetProgramiv(gProgramID, GL_LINK_STATUS, &programLinked);
 			if (!shader->LinkShaders())//programLinked != GL_TRUE)
 			{
 				std::cout<<"Unable to link program"<<std::endl;
 				success = false;
 			}	
-			//else
-			//{
-
-				//glDeleteShader(vertexShader);
-				//glDeleteShader(fragmentShader);
-			//}
 		}
 	}
 	float verticies[] = {
@@ -184,11 +131,4 @@ bool Renderer::InitOpenGL()
 	glBindVertexArray(0);
 	return success;
 	
-}
-
-std::string Renderer::ReadShader(std::string location)
-{
-	std::ifstream shaderStream(location, std::ios::in);
-	std::string shaderString{ std::istreambuf_iterator<char>(shaderStream), std::istreambuf_iterator<char>()};
-	return shaderString;
 }
