@@ -1,5 +1,5 @@
 #include "InputManager.h"
-
+#include "CameraController.h"
 
 
 InputManager::InputManager()
@@ -10,6 +10,11 @@ InputManager::InputManager()
 
 InputManager::~InputManager()
 {
+}
+
+void InputManager::SetCam(CameraController* cameraController)
+{
+	cam = cameraController;
 }
 
 bool InputManager::HandleInput()
@@ -39,17 +44,26 @@ bool InputManager::HandleInput()
 				break;
 			case SDLK_RIGHT:
 				break;
+			case SDLK_DOWN:
+				break;
 			}
 		}
 	}
 	if (currentKeyboardState[SDL_SCANCODE_UP])
 	{
+		cam->MoveCamera(CameraController::Direction::UP);
 	}
 	if (currentKeyboardState[SDL_SCANCODE_LEFT])
 	{
+		cam->MoveCamera(CameraController::Direction::LEFT);
 	}
 	if (currentKeyboardState[SDL_SCANCODE_RIGHT])
 	{
+		cam->MoveCamera(CameraController::Direction::RIGHT);
+	}
+	if (currentKeyboardState[SDL_SCANCODE_DOWN])
+	{
+		cam->MoveCamera(CameraController::Direction::DOWN);
 	}
 	return quit;
 }

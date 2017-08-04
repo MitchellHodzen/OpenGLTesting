@@ -15,6 +15,7 @@ public:
 	void Draw();
 	bool Initialize();
 	SDL_Window* GetWindow();
+	Camera* camera;
 private:
 	bool debug;
 	SDL_Window* sdlWindow;
@@ -28,7 +29,6 @@ private:
 	GLuint EBO;
 	Shader* shader;
 	Texture* texture;
-	Camera* camera;
 	glm::vec3* target;
 };
 

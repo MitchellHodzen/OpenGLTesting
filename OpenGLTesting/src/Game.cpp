@@ -1,7 +1,7 @@
 #include "Game.h"
 #include "Renderer.h"
 #include "InputManager.h"
-
+#include "CameraController.h"
 Game::Game()
 {
 	screenWidth = 800;
@@ -30,6 +30,9 @@ void Game::Start()
 		Uint32 currentFrameTime = 0;
 		float deltaTime = 0.0f;
 		currentFrameTime = SDL_GetTicks();
+
+		CameraController cam(renderer->camera, 0.25f);
+		inputManager->SetCam(&cam);
 
 		while (quit == false)
 		{

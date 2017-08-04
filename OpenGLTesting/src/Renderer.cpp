@@ -203,8 +203,9 @@ bool Renderer::InitOpenGL()
 	glBindVertexArray(0);
 
 	texture = new Texture();
-	if (!texture->LoadTexture("resources/textures/crate1_diffuse.png", GL_REPEAT, GL_REPEAT, GL_LINEAR, GL_LINEAR))
+
 	//if (!texture->LoadTexture("resources/textures/grass.png", GL_REPEAT, GL_REPEAT, GL_LINEAR, GL_LINEAR))
+	if (!texture->LoadTexture("resources/textures/crate1_diffuse.png", GL_REPEAT, GL_REPEAT, GL_LINEAR, GL_LINEAR))
 	{
 		std::cout<<"Could not load texture"<<std::endl;
 		success = false;
@@ -215,7 +216,8 @@ bool Renderer::InitOpenGL()
 	target = new glm::vec3(0, 0, 0);
 	camera = new Camera();
 	camera->SetTarget(target);
-	camera->SetPosition(glm::vec3(4, 3, 3));
+	camera->SetPosition(glm::vec3(0, 0, -3));
+	camera->SetTarget(NULL);
 	return success;
 	
 }
