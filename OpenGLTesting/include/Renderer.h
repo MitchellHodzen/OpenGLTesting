@@ -3,8 +3,10 @@
 #include <SDL_opengl.h>
 #include <SDL.h>
 #include <iostream>
+#include <glm/vec3.hpp>
 class Texture;
 class Shader;
+class Camera;
 class Renderer
 {
 public:
@@ -26,5 +28,7 @@ private:
 	GLuint EBO;
 	Shader* shader;
 	Texture* texture;
+	Camera* camera;
+	glm::vec3* target;
 };
 

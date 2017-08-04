@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "Camera.h"
 
 
 Renderer::Renderer(int screenWidth, int screenHeight, bool debug)
@@ -34,7 +35,7 @@ void Renderer::Draw()
 	glm::mat4 model;
 	model = glm::rotate(model, ((float)SDL_GetTicks()/1000)*glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
 
-	glm::mat4 view = glm::lookAt(glm::vec3(4, 3, 3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+	glm::mat4 view = camera->GetViewMatrix(); //glm::lookAt(glm::vec3(4, 3, 3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
 
 	glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)screenWidth / screenHeight, 0.1f, 100.0f);
 
@@ -47,7 +48,7 @@ void Renderer::Draw()
 	glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
 
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glUseProgram(shader->GetShaderID());
 	glBindTexture(GL_TEXTURE_2D, texture->GetTextureID());
 	glBindVertexArray(VAO);
@@ -89,6 +90,7 @@ bool Renderer::Initialize()
 			{
 				glViewport(0, 0, screenWidth, screenHeight);
 				glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+				glEnable(GL_DEPTH_TEST);
 				if (!InitOpenGL())
 				{
 					std::cout<<"Failed to initialize OpenGL"<<std::endl;
@@ -201,13 +203,19 @@ bool Renderer::InitOpenGL()
 	glBindVertexArray(0);
 
 	texture = new Texture();
-	if (!texture->LoadTexture("resources/textures/grass.png", GL_REPEAT, GL_REPEAT, GL_LINEAR, GL_LINEAR))
+	if (!texture->LoadTexture("resources/textures/crate1_diffuse.png", GL_REPEAT, GL_REPEAT, GL_LINEAR, GL_LINEAR))
+	//if (!texture->LoadTexture("resources/textures/grass.png", GL_REPEAT, GL_REPEAT, GL_LINEAR, GL_LINEAR))
 	{
 		std::cout<<"Could not load texture"<<std::endl;
 		success = false;
 	}	
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture->GetTextureID());
+
+	target = new glm::vec3(0, 0, 0);
+	camera = new Camera();
+	camera->SetTarget(target);
+	camera->SetPosition(glm::vec3(4, 3, 3));
 	return success;
 	
 }
