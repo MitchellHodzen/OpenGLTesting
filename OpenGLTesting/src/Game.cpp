@@ -25,6 +25,7 @@ void Game::Start()
 		float averageFramerate = 0;
 		int frames = 0;
 		bool quit = false;
+		bool firstFrame = true;
 
 		Uint32 lastFrameTime = 0;
 		Uint32 currentFrameTime = 0;
@@ -37,16 +38,19 @@ void Game::Start()
 		while (quit == false)
 		{
 			//Calculate frame time
-			lastFrameTime = currentFrameTime;
-			currentFrameTime = SDL_GetTicks();
-			deltaTime = (float)(currentFrameTime - lastFrameTime) / 1000;
-			averageFramerate += 1/deltaTime;
-			frames++;
+			if (!firstFrame)
+			{
+				lastFrameTime = currentFrameTime;
+				currentFrameTime = SDL_GetTicks();
+				deltaTime = (float)(currentFrameTime - lastFrameTime) / 1000;
+				averageFramerate += 1/deltaTime;
+				frames++;
+			}
 			
 			//Get user input
 			quit = inputManager->HandleInput();
 			renderer->Draw();
-			
+			firstFrame = false;	
 			//SDL_Delay(30);
 		}
 		averageFramerate = averageFramerate / frames;

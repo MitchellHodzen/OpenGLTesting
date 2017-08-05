@@ -7,6 +7,7 @@
 class Texture;
 class Shader;
 class Camera;
+class Cube;
 class Renderer
 {
 public:
@@ -30,5 +31,7 @@ private:
 	Shader* shader;
 	Texture* texture;
 	glm::vec3* target;
+	Cube* cubeArray;
+	int cubeAmount;
 };
 
