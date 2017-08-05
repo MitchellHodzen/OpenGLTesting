@@ -65,7 +65,7 @@ void Renderer::Draw()
 bool Renderer::Initialize()
 {
 	bool success = true;
-	cubeAmount = 1000;	
+	cubeAmount = 100;
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		std::cout << "SDL could not be initialized. SDL error: " << SDL_GetError() << std::endl;
@@ -97,6 +97,10 @@ bool Renderer::Initialize()
 				glViewport(0, 0, screenWidth, screenHeight);
 				glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 				glEnable(GL_DEPTH_TEST);
+				if (SDL_GL_SetSwapInterval(0) < 0)
+				{
+					std::cout<<"Unable to disable vsync"<<std::endl;
+				}
 				if (!InitOpenGL())
 				{
 					std::cout<<"Failed to initialize OpenGL"<<std::endl;
