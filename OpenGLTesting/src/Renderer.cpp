@@ -157,14 +157,14 @@ bool Renderer::InitOpenGL()
     		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
     		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
     		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		
+
      		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
      		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
      		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
      		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
      		0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
      		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		
+
     		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
      		0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
      		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
@@ -216,7 +216,7 @@ bool Renderer::InitOpenGL()
 	target = new glm::vec3(0, 0, 0);
 	camera = new Camera();
 	camera->SetTarget(target);
-	camera->SetPosition(glm::vec3(0, 0, -3));
+	camera->SetPosition(glm::vec3(0, 0, 3));
 	camera->SetTarget(NULL);
 	return success;
 	
