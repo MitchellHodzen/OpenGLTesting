@@ -38,6 +38,8 @@ void Renderer::Draw()
 	glm::mat4 VP = projection * view;
 
 	shader->SetMat4("VP", VP);
+	shader->SetVec3("ambientLight", 1, 1, 1);
+	shader->SetVec3("objectColor", 1, .5, .31);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glUseProgram(shader->GetShaderID());
@@ -71,8 +73,7 @@ bool Renderer::Initialize()
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-
-		sdlWindow = SDL_CreateWindow("OpenGL", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screenWidth, screenHeight, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+sdlWindow = SDL_CreateWindow("OpenGL", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screenWidth, screenHeight, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 		if (sdlWindow == NULL)
 		{
 			std::cout << "SDL Window could not be created. SDL error: " << SDL_GetError() << std::endl;
@@ -147,49 +148,49 @@ bool Renderer::InitOpenGL()
 		-0.5f, 0.5f, 0.0f,  0.0f, 1.0f
 	};
 	*/
-	//	position	texture coords
+	//	position	texture coords         normals
 	float verticies[] = {
-   		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-    		0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-     		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-     		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-    		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-    		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+   		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,  0.0f, 0.0f, -1.0f,
+    		0.5f, -0.5f, -0.5f,  1.0f, 0.0f,  0.0f, 0.0f, -1.0f,
+     		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,  0.0f, 0.0f, -1.0f,
+     		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,  0.0f, 0.0f, -1.0f,
+    		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,  0.0f, 0.0f, -1.0f,
+    		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,  0.0f, 0.0f, -1.0f,
 
-    		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-     		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-     		0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-     		0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-    		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-    		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,  0.0f, 0.0f, 1.0f,
+     		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,  0.0f, 0.0f, 1.0f,
+     		0.5f,  0.5f,  0.5f,  1.0f, 1.0f,  0.0f, 0.0f, 1.0f,
+     		0.5f,  0.5f,  0.5f,  1.0f, 1.0f,  0.0f, 0.0f, 1.0f,
+    		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,  0.0f, 0.0f, 1.0f,
+    		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,  0.0f, 0.0f, 1.0f,
 
-    		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-    		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-    		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-    		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-    		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-    		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,  -1.0f, 0.0f, 0.0f,
+    		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,  -1.0f, 0.0f, 0.0f,
+    		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,  -1.0f, 0.0f, 0.0f,
+    		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,  -1.0f, 0.0f, 0.0f,
+    		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,  -1.0f, 0.0f, 0.0f,
+    		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,  -1.0f, 0.0f, 0.0f,
 
-     		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-     		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-     		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-     		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-     		0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-     		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+     		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,  1.0f, 0.0f, 0.0f,
+     		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,  1.0f, 0.0f, 0.0f,
+     		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,  1.0f, 0.0f, 0.0f,
+     		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,  1.0f, 0.0f, 0.0f,
+     		0.5f, -0.5f,  0.5f,  0.0f, 0.0f,  1.0f, 0.0f, 0.0f,
+     		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,  1.0f, 0.0f, 0.0f,
 
-    		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-     		0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-     		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-     		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-    		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-    		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,  0.0f, -1.0f, 0.0f,
+     		0.5f, -0.5f, -0.5f,  1.0f, 1.0f,  0.0f, -1.0f, 0.0f,
+     		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,  0.0f, -1.0f, 0.0f,
+     		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,  0.0f, -1.0f, 0.0f,
+    		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,  0.0f, -1.0f, 0.0f,
+    		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,  0.0f, -1.0f, 0.0f,
 
-    		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-     		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-     		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-     		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-    		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-    		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+    		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,  0.0f, 1.0f, 0.0f,
+     		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,  0.0f, 1.0f, 0.0f,
+     		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,  0.0f, 1.0f, 0.0f,
+     		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,  0.0f, 1.0f, 0.0f,
+    		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,  0.0f, 1.0f, 0.0f,
+    		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,  0.0f, 1.0f, 0.0f
 	};
 	unsigned int indicies[] = {
 		0, 1, 3,
