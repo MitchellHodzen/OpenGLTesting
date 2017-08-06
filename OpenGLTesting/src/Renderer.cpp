@@ -37,22 +37,19 @@ void Renderer::Draw()
 	glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)screenWidth / screenHeight, 0.1f, 100.0f);
 	glm::mat4 VP = projection * view;
 
-	int VPLoc = glGetUniformLocation(shader->GetShaderID(), "VP");
-	
-	glUniformMatrix4fv(VPLoc, 1, GL_FALSE, glm::value_ptr(VP));
+	shader->SetMat4("VP", VP);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glUseProgram(shader->GetShaderID());
 	glBindTexture(GL_TEXTURE_2D, texture->GetTextureID());
 	glBindVertexArray(VAO);
+
 	for (int i = 0; i < cubeAmount; ++i)
 	{
 		glm::mat4 model;
 		model = glm::translate(model, cubeArray[i].GetPosition());
 		model = glm::rotate(model, ((float)SDL_GetTicks()/1000)*glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
-		int modelLoc = glGetUniformLocation(shader->GetShaderID(), "model");
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-
+		shader->SetMat4("model", model);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 	}
 	//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

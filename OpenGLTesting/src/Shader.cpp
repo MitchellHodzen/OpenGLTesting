@@ -62,6 +62,14 @@ bool Shader::ReadVertexShader(std::string location)
 	}
 	return success;
 }
+void Shader::SetVec3(std::string name, float x, float y, float z)
+{
+	glUniform3f(glGetUniformLocation(shaderID, name.c_str()), x, y, z);
+}
+void Shader::SetMat4(std::string name, glm::mat4 value)
+{
+	glUniformMatrix4fv(glGetUniformLocation(shaderID, name.c_str()), 1, GL_FALSE, &value[0][0]);
+}
 
 std::string Shader::ReadShader(std::string location)
 {
