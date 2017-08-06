@@ -2,31 +2,23 @@
 
 Cube::Cube()
 {
-	position = Vector3();
+	position = glm::vec3();
 }
-Cube::Cube(Vector3 position)
+Cube::Cube(glm::vec3 position)
 {
 	this->position = position;
-}
-Cube::Cube(float x, float y, float z)
-{
-	position = Vector3(x, y, z);
 }
 Cube::~Cube()
 {
 }
 
-Vector3 Cube::GetPosition()
+glm::vec3 Cube::GetPosition()
 {
 	return position;
 }
 
-void Cube::SetPosition(Vector3 position)
+void Cube::SetPosition(glm::vec3 position)
 {
 	this->position = position;
-}
-void Cube::SetPosition(float x, float y, float z)
-{
-	position = Vector3(x, y, z);
 }
 

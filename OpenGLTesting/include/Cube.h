@@ -1,17 +1,17 @@
 #pragma once
-#include "Vector3.h"
+#include "glm/vec3.hpp"
 
 class Cube
 {
 	public:
 		Cube();
-		Cube(Vector3 position);
-		Cube(float x, float y, float z);
+		Cube(glm::vec3 position);
+		//Cube(float x, float y, float z);
 		~Cube();
-		Vector3 GetPosition();
-		void SetPosition(Vector3 position);
-		void SetPosition(float x, float y, float z);
+		glm::vec3 GetPosition();
+		void SetPosition(glm::vec3 position);
+		//void SetPosition(float x, float y, float z);
 	private:
-		Vector3 position;
+		glm::vec3 position;
 };
 

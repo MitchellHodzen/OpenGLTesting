@@ -33,7 +33,7 @@ SDL_Window* Renderer::GetWindow()
 }
 void Renderer::Draw()
 {
-	glm::mat4 view = camera->GetViewMatrix(); //glm::lookAt(glm::vec3(4, 3, 3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+	glm::mat4 view = camera->GetViewMatrix();
 	glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)screenWidth / screenHeight, 0.1f, 100.0f);
 
 	int viewLoc = glGetUniformLocation(shader->GetShaderID(), "view");
@@ -49,9 +49,7 @@ void Renderer::Draw()
 	for (int i = 0; i < cubeAmount; ++i)
 	{
 		glm::mat4 model;
-		Cube currentCube = cubeArray[i];
-		glm::vec3 cubePosition(currentCube.GetPosition().x, currentCube.GetPosition().y, currentCube.GetPosition().z);
-		model = glm::translate(model, cubePosition);
+		model = glm::translate(model, cubeArray[i].GetPosition());
 		model = glm::rotate(model, ((float)SDL_GetTicks()/1000)*glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
 		int modelLoc = glGetUniformLocation(shader->GetShaderID(), "model");
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
@@ -65,7 +63,7 @@ void Renderer::Draw()
 bool Renderer::Initialize()
 {
 	bool success = true;
-	cubeAmount = 100;
+	cubeAmount = 1000;
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		std::cout << "SDL could not be initialized. SDL error: " << SDL_GetError() << std::endl;
@@ -111,7 +109,7 @@ bool Renderer::Initialize()
 					cubeArray = new Cube[cubeAmount];
 					for (int i = 0; i < cubeAmount; ++i)
 					{
-						cubeArray[i] = Cube(i, 0, 0 );
+						cubeArray[i] = Cube(glm::vec3(i, 0, 0));
 					}
 				}
 			}
