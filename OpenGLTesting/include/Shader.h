@@ -6,6 +6,7 @@
 #include <fstream>
 #include <iostream>
 #include <glm/mat4x4.hpp>
+#include <glm/vec3.hpp>
 class Shader
 {
 	public:
@@ -16,6 +17,7 @@ class Shader
 		GLuint GetShaderID();
 		bool LinkShaders();
 		void SetVec3(std::string name, float x, float y, float z);
+		void SetVec3(std::string name, glm::vec3 value);
 		void SetMat4(std::string name, glm::mat4 value);
 	private:
 		GLuint shaderID;

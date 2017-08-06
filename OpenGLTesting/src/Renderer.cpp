@@ -41,6 +41,7 @@ void Renderer::Draw()
 	shader->SetVec3("ambientLight", 1, 1, 1);
 	shader->SetVec3("objectColor", 1, .5, .31);
 	shader->SetVec3("lightPosition", -1, 1, 1);
+	shader->SetVec3("eyePosition", camera->GetPosition());
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glUseProgram(shader->GetShaderID());
@@ -62,7 +63,7 @@ void Renderer::Draw()
 bool Renderer::Initialize()
 {
 	bool success = true;
-	cubeAmount = 100;
+	cubeAmount = 1000;
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		std::cout << "SDL could not be initialized. SDL error: " << SDL_GetError() << std::endl;
@@ -107,7 +108,7 @@ sdlWindow = SDL_CreateWindow("OpenGL", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UN
 					cubeArray = new Cube[cubeAmount];
 					for (int i = 0; i < cubeAmount; ++i)
 					{
-						cubeArray[i] = Cube(glm::vec3(i, 0, 0), 1.0f, 1.0f, 1.0f);
+						cubeArray[i] = Cube(glm::vec3(i*2, 0, 0), 1.0f, 1.0f, 1.0f);
 					}
 				}
 			}
