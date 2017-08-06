@@ -35,12 +35,11 @@ void Renderer::Draw()
 {
 	glm::mat4 view = camera->GetViewMatrix();
 	glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)screenWidth / screenHeight, 0.1f, 100.0f);
+	glm::mat4 VP = projection * view;
 
-	int viewLoc = glGetUniformLocation(shader->GetShaderID(), "view");
-	int projLoc = glGetUniformLocation(shader->GetShaderID(), "projection");
+	int VPLoc = glGetUniformLocation(shader->GetShaderID(), "VP");
 	
-	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-	glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+	glUniformMatrix4fv(VPLoc, 1, GL_FALSE, glm::value_ptr(VP));
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glUseProgram(shader->GetShaderID());
