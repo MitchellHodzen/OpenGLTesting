@@ -40,6 +40,7 @@ void Renderer::Draw()
 	shader->SetMat4("VP", VP);
 	shader->SetVec3("ambientLight", 1, 1, 1);
 	shader->SetVec3("objectColor", 1, .5, .31);
+	shader->SetVec3("lightPosition", -1, 1, 1);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glUseProgram(shader->GetShaderID());
@@ -61,7 +62,7 @@ void Renderer::Draw()
 bool Renderer::Initialize()
 {
 	bool success = true;
-	cubeAmount = 1000;
+	cubeAmount = 100;
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		std::cout << "SDL could not be initialized. SDL error: " << SDL_GetError() << std::endl;
@@ -204,10 +205,12 @@ bool Renderer::InitOpenGL()
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(verticies), verticies, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5*sizeof(GL_FLOAT), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8*sizeof(GL_FLOAT), (void*)0);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5*sizeof(GL_FLOAT), (void*)(3*sizeof(GL_FLOAT)));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8*sizeof(GL_FLOAT), (void*)(3*sizeof(GL_FLOAT)));
 	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8*sizeof(GL_FLOAT), (void*)(5*sizeof(GL_FLOAT))); 
+	glEnableVertexAttribArray(2);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicies), indicies, GL_STATIC_DRAW);
