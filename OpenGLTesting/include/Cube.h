@@ -5,13 +5,19 @@ class Cube
 {
 	public:
 		Cube();
-		Cube(glm::vec3 position);
-		//Cube(float x, float y, float z);
+		Cube(glm::vec3 position, float width, float height, float length);
 		~Cube();
 		glm::vec3 GetPosition();
 		void SetPosition(glm::vec3 position);
-		//void SetPosition(float x, float y, float z);
+		float GetWidth();
+		float GetHeight();
+		float GetLength();	
+		void SetWidth(float width);
+		void SetHeight(float height);
+		void SetLength(float length);
 	private:
+		enum Side {LENGTH, WIDTH, HEIGHT};
 		glm::vec3 position;
+		float sides[3];
 };
 

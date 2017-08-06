@@ -109,7 +109,7 @@ bool Renderer::Initialize()
 					cubeArray = new Cube[cubeAmount];
 					for (int i = 0; i < cubeAmount; ++i)
 					{
-						cubeArray[i] = Cube(glm::vec3(i, 0, 0));
+						cubeArray[i] = Cube(glm::vec3(i, 0, 0), 1.0f, 1.0f, 1.0f);
 					}
 				}
 			}
