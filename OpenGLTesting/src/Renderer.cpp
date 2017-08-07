@@ -46,10 +46,18 @@ void Renderer::Draw()
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture->GetTextureID()); 
 
-	shader->SetVec3("light.ambient", 0.1, 0.1, 0.1);
-	shader->SetVec3("light.diffuse", 1, 1, 1);
-	shader->SetVec3("light.specular", 1.0, 1.0, 1.0);
-	shader->SetVec3("light.position", -1, 1, 1);
+	shader->SetVec3("poLight.ambient", 0.1, 0.1, 0.1);
+	shader->SetVec3("poLight.diffuse", 1, 1, 1);
+	shader->SetVec3("poLight.specular", 1.0, 1.0, 1.0);
+	shader->SetVec3("poLight.position", -1, 1, 1);
+	shader->SetFloat("poLight.linear", 0.09f);
+	shader->SetFloat("poLight.quadratic", 0.032f);
+
+	shader->SetVec3("dirLight.ambient", 0.1, 0.1, 0.1);
+	shader->SetVec3("dirLight.diffuse", 1, 1, 1);
+	shader->SetVec3("dirLight.specular", 1.0, 1.0, 1.0);
+	shader->SetVec3("dirLight.direction", 0, -1, 0);
+
 
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
