@@ -6,6 +6,8 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "Camera.h"
 #include "Cube.h"
+#include "DirectionalLight.h"
+#include "PointLight.h"
 
 
 Renderer::Renderer(int screenWidth, int screenHeight, bool debug)
@@ -50,15 +52,13 @@ void Renderer::Draw()
 	shader->SetVec3("poLight.diffuse", 1, 1, 1);
 	shader->SetVec3("poLight.specular", 1.0, 1.0, 1.0);
 	shader->SetVec3("poLight.position", -1, 1, 1);
-	shader->SetFloat("poLight.linear", 0.09f);
-	shader->SetFloat("poLight.quadratic", 0.032f);
+	shader->SetFloat("poLight.linear", 0.045f);
+	shader->SetFloat("poLight.quadratic", 0.0075f);
 
 	shader->SetVec3("dirLight.ambient", 0.1, 0.1, 0.1);
 	shader->SetVec3("dirLight.diffuse", 1, 1, 1);
 	shader->SetVec3("dirLight.specular", 1.0, 1.0, 1.0);
 	shader->SetVec3("dirLight.direction", 0, -1, 0);
-
-
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glUseProgram(shader->GetShaderID());
