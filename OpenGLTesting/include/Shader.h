@@ -19,6 +19,8 @@ class Shader
 		void SetVec3(std::string name, float x, float y, float z);
 		void SetVec3(std::string name, glm::vec3 value);
 		void SetMat4(std::string name, glm::mat4 value);
+		void SetFloat(std::string name, float value);
+		void SetInt(std::string name, int value);
 	private:
 		GLuint shaderID;
 		GLuint vertexShader;

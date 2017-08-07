@@ -38,14 +38,22 @@ void Renderer::Draw()
 	glm::mat4 VP = projection * view;
 
 	shader->SetMat4("VP", VP);
-	shader->SetVec3("ambientLight", 1, 1, 1);
-	shader->SetVec3("objectColor", 1, .5, .31);
-	shader->SetVec3("lightPosition", -1, 1, 1);
 	shader->SetVec3("eyePosition", camera->GetPosition());
+
+	shader->SetVec3("material.specular", 0.5f, 0.5f, 0.5f);
+	shader->SetFloat("material.shininess", 32.0f);
+	shader->SetInt("material.diffuse", 0);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture->GetTextureID()); 
+
+	shader->SetVec3("light.ambient", 0.1, 0.1, 0.1);
+	shader->SetVec3("light.diffuse", 1, 1, 1);
+	shader->SetVec3("light.specular", 1.0, 1.0, 1.0);
+	shader->SetVec3("light.position", -1, 1, 1);
+
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glUseProgram(shader->GetShaderID());
-	glBindTexture(GL_TEXTURE_2D, texture->GetTextureID());
 	glBindVertexArray(VAO);
 
 	for (int i = 0; i < cubeAmount; ++i)
@@ -141,15 +149,6 @@ bool Renderer::InitOpenGL()
 			}	
 		}
 	}
-	/*	
-	float verticies[] = {
-		//Position          Texture coords
-		0.5f, 0.5f, 0.0f,   1.0f, 1.0f,
-		0.5f, -0.5f, 0.0f,  1.0f, 0.0f,
-		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-		-0.5f, 0.5f, 0.0f,  0.0f, 1.0f
-	};
-	*/
 	//	position	texture coords         normals
 	float verticies[] = {
    		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,  0.0f, 0.0f, -1.0f,
@@ -223,6 +222,7 @@ bool Renderer::InitOpenGL()
 
 	//if (!texture->LoadTexture("resources/textures/grass.png", GL_REPEAT, GL_REPEAT, GL_LINEAR, GL_LINEAR))
 	if (!texture->LoadTexture("resources/textures/crate1_diffuse.png", GL_REPEAT, GL_REPEAT, GL_LINEAR, GL_LINEAR))
+	//if (!texture->LoadTexture("resources/textures/container2.png", GL_REPEAT, GL_REPEAT, GL_LINEAR, GL_LINEAR))
 	{
 		std::cout<<"Could not load texture"<<std::endl;
 		success = false;
