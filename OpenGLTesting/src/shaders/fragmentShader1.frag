@@ -33,7 +33,7 @@ struct PointLight
 uniform vec3 eyePosition;
 
 uniform Material material;
-uniform DirectionalLight dirLight;
+uniform DirectionalLight directionalLight;
 uniform PointLight poLight;
 
 vec3 CalculateDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDirection);
@@ -45,7 +45,7 @@ void main()
 	vec3 norm = normalize(normal);
 	vec3 viewDirection = normalize(eyePosition - fragPosition);
 
-	vec3 result = CalculateDirectionalLight(dirLight, norm, viewDirection);
+	vec3 result = CalculateDirectionalLight(directionalLight, norm, viewDirection);
 	result += CalculatePointLight(poLight, norm, viewDirection);
 
 	FragColor = vec4(result, 1);

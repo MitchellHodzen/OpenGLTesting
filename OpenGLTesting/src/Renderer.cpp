@@ -8,6 +8,7 @@
 #include "Cube.h"
 #include "DirectionalLight.h"
 #include "PointLight.h"
+#include "Vertex.h"
 
 //#include <glm/gtx/quaternion.hpp>
 //#include <glm/gtc/quaternion.hpp>
@@ -57,10 +58,11 @@ void Renderer::Draw()
 	shader->SetFloat("poLight.linear", 0.045f);
 	shader->SetFloat("poLight.quadratic", 0.0075f);
 
-	//shader->SetVec3("dirLight.ambient", 0.1, 0.1, 0.1);
-	//shader->SetVec3("dirLight.diffuse", 1, 1, 1);
-	//shader->SetVec3("dirLight.specular", 1.0, 1.0, 1.0);
-	//shader->SetVec3("dirLight.direction", 0, -1, 0);
+	shader->SetDirectionalLight(directionalLight);
+	//shader->SetVec3("directionalLight.ambient", 0.1, 0.1, 0.1);
+	//shader->SetVec3("directionalLight.diffuse", 1, 1, 1);
+	//shader->SetVec3("directionalLight.specular", 1.0, 1.0, 1.0);
+	//shader->SetVec3("directionalLight.direction", 0, -1, 0);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glUseProgram(shader->GetShaderID());
@@ -137,6 +139,9 @@ sdlWindow = SDL_CreateWindow("OpenGL", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UN
 							cubeArray[counter++] = Cube(glm::vec3(x, -1, z), 1.0f, 1.0f, 1.0f);
 						}
 					}
+					directionalLight = new DirectionalLight(glm::vec3(0, -1, 0), glm::vec3(0.1, 0.1, 0.1), glm::vec3(1, 1, 1), glm::vec3(1.0, 1.0, 1.0));
+
+
 				}
 			}
 		}

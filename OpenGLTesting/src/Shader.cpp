@@ -1,4 +1,6 @@
 #include "Shader.h"
+#include "DirectionalLight.h"
+#include "PointLight.h"
 Shader::Shader()
 {
 }
@@ -89,6 +91,14 @@ void Shader::SetFloat(std::string name, float value)
 void Shader::SetInt(std::string name, int value)
 {
 	glUniform1i(glGetUniformLocation(shaderID, name.c_str()), value);
+}
+void Shader::SetDirectionalLight(DirectionalLight* light)
+{
+	//Work with the assumption there is only one directional light in the scene
+	SetVec3("directionalLight.ambient", light->ambient);
+	SetVec3("directionalLight.diffuse", light->diffuse);
+	SetVec3("directionalLight.specular", light->specular);
+	SetVec3("directionalLight.direction", light->direction);
 }
 
 std::string Shader::ReadShader(std::string location)

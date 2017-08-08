@@ -7,6 +7,8 @@
 #include <iostream>
 #include <glm/mat4x4.hpp>
 #include <glm/vec3.hpp>
+class DirectionalLight;
+class PointLight;
 class Shader
 {
 	public:
@@ -23,6 +25,7 @@ class Shader
 		void SetMat4(std::string name, glm::mat4 value);
 		void SetFloat(std::string name, float value);
 		void SetInt(std::string name, int value);
+		void SetDirectionalLight(DirectionalLight* light);
 	private:
 		GLuint shaderID;
 		GLuint vertexShader;

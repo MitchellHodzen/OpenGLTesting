@@ -8,6 +8,7 @@ class Texture;
 class Shader;
 class Camera;
 class Cube;
+class DirectionalLight;
 class Renderer
 {
 public:
@@ -30,6 +31,7 @@ private:
 	GLuint EBO;
 	Shader* shader;
 	Texture* texture;
+	DirectionalLight* directionalLight;
 	glm::vec3* target;
 	Cube* cubeArray;
 	int cubeAmount;
