@@ -51,6 +51,7 @@ void Game::Start()
 			//SDL_Delay(30);
 		}
 		std::cout<<"Average Framerate: " << std::fixed<<(double)frames/(((double)SDL_GetTicks() - startTicks)/1000) << std::endl;
+		std::cout<<"Average milliseconds per Frame: " <<std::fixed<<((double)SDL_GetTicks() - startTicks)/(double)frames<<std::endl;
 	}
 }
 

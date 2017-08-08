@@ -1,10 +1,12 @@
 #include "InputManager.h"
 #include "CameraController.h"
+#include <iostream>
 
 
 InputManager::InputManager()
 {
 	currentKeyboardState = SDL_GetKeyboardState(NULL);
+	//SDL_GetMouseState(&lastMouseX, &lastMouseY);
 }
 
 
@@ -49,21 +51,35 @@ bool InputManager::HandleInput()
 			}
 		}
 	}
-	if (currentKeyboardState[SDL_SCANCODE_UP])
+	if (currentKeyboardState[SDL_SCANCODE_W])
 	{
 		cam->MoveCamera(CameraController::Direction::UP);
 	}
-	if (currentKeyboardState[SDL_SCANCODE_LEFT])
+	if (currentKeyboardState[SDL_SCANCODE_A])
 	{
 		cam->MoveCamera(CameraController::Direction::LEFT);
 	}
-	if (currentKeyboardState[SDL_SCANCODE_RIGHT])
+	if (currentKeyboardState[SDL_SCANCODE_D])
 	{
 		cam->MoveCamera(CameraController::Direction::RIGHT);
 	}
-	if (currentKeyboardState[SDL_SCANCODE_DOWN])
+	if (currentKeyboardState[SDL_SCANCODE_S])
 	{
 		cam->MoveCamera(CameraController::Direction::DOWN);
 	}
+	int mouseX, mouseY;
+	SDL_GetRelativeMouseState(&mouseX, &mouseY);
+	//std::cout<<mouseX<<"   "<<mouseY<<std::endl;
+	float mouseXOffset = mouseX;//(float) mouseX - lastMouseX; 
+	float mouseYOffset = -mouseY;//(float) lastMouseY - mouseY;
+	//lastMouseX = mouseX;
+	//lastMouseY = mouseY;
+
+	float sensitivity = 0.05;
+	//mouseX *= sensitivity;
+	//mouseY *= sensitivity;
+	mouseXOffset *= sensitivity;
+	mouseYOffset *= sensitivity;
+	cam->AddCameraAngle(mouseXOffset, mouseYOffset);
 	return quit;
 }

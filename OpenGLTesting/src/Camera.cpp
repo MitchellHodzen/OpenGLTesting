@@ -19,7 +19,11 @@ glm::mat4 Camera::GetViewMatrix()
 	//If there is no target, point in the foward direction
 	if (target == NULL)
 	{
-		return glm::lookAt(position, position + forward, up);
+		//mouse movement
+		forward.x = glm::cos(glm::radians(pitch)) * glm::cos(glm::radians(yaw));
+		forward.y = glm::sin(glm::radians(pitch));
+		forward.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
+		return glm::lookAt(position, position + glm::normalize(forward), up);
 	}
 	//Otherwise point at the target
 	return glm::lookAt(position, *target, up); 
@@ -56,4 +60,20 @@ void Camera::SetTarget(glm::vec3* newTarget)
 		forward = glm::normalize(*target - position);
 	}
 	target = newTarget;
+}
+void Camera::SetPitch(float pitch)
+{
+	this->pitch = pitch;
+}
+void Camera::SetYaw(float yaw)
+{
+	this->yaw = yaw;
+}
+glm::vec3 Camera::GetUp()
+{
+	return up;
+}
+glm::vec3 Camera::GetForward()
+{
+	return forward;
 }

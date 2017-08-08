@@ -9,6 +9,8 @@
 #include "DirectionalLight.h"
 #include "PointLight.h"
 
+//#include <glm/gtx/quaternion.hpp>
+//#include <glm/gtc/quaternion.hpp>
 
 Renderer::Renderer(int screenWidth, int screenHeight, bool debug)
 {
@@ -69,6 +71,8 @@ void Renderer::Draw()
 		glm::mat4 model;
 		model = glm::translate(model, cubeArray[i].GetPosition());
 		model = glm::rotate(model, ((float)SDL_GetTicks()/1000)*glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+		//glm::quat myQuat = glm::normalize(glm::angleAxis(((float)SDL_GetTicks()/1000)*glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f)));
+		//model = model * glm::mat4_cast(myQuat);
 		shader->SetMat4("model", model);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 	}
@@ -87,6 +91,7 @@ bool Renderer::Initialize()
 	}
 	else
 	{
+		SDL_SetRelativeMouseMode(SDL_TRUE);
 		
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
