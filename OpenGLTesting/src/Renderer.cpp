@@ -53,14 +53,14 @@ void Renderer::Draw()
 	shader->SetVec3("poLight.ambient", 0.1, 0.1, 0.1);
 	shader->SetVec3("poLight.diffuse", 1, 1, 1);
 	shader->SetVec3("poLight.specular", 1.0, 1.0, 1.0);
-	shader->SetVec3("poLight.position", -1, 1, 1);
+	shader->SetVec3("poLight.position", 10, 3, 10);
 	shader->SetFloat("poLight.linear", 0.045f);
 	shader->SetFloat("poLight.quadratic", 0.0075f);
 
-	shader->SetVec3("dirLight.ambient", 0.1, 0.1, 0.1);
-	shader->SetVec3("dirLight.diffuse", 1, 1, 1);
-	shader->SetVec3("dirLight.specular", 1.0, 1.0, 1.0);
-	shader->SetVec3("dirLight.direction", 0, -1, 0);
+	//shader->SetVec3("dirLight.ambient", 0.1, 0.1, 0.1);
+	//shader->SetVec3("dirLight.diffuse", 1, 1, 1);
+	//shader->SetVec3("dirLight.specular", 1.0, 1.0, 1.0);
+	//shader->SetVec3("dirLight.direction", 0, -1, 0);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glUseProgram(shader->GetShaderID());
@@ -127,9 +127,15 @@ sdlWindow = SDL_CreateWindow("OpenGL", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UN
 				else
 				{
 					cubeArray = new Cube[cubeAmount];
-					for (int i = 0; i < cubeAmount; ++i)
+					int width = glm::sqrt(cubeAmount); 
+					int length = glm::sqrt(cubeAmount);
+					int counter = 0;
+					for (int x = 0; x < width; ++x)
 					{
-						cubeArray[i] = Cube(glm::vec3(i*2, 0, 0), 1.0f, 1.0f, 1.0f);
+						for (int z = 0; z < length; ++z)
+						{
+							cubeArray[counter++] = Cube(glm::vec3(x, -1, z), 1.0f, 1.0f, 1.0f);
+						}
 					}
 				}
 			}
