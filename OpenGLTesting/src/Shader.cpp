@@ -1,6 +1,8 @@
 #include "Shader.h"
 #include "DirectionalLight.h"
 #include "PointLight.h"
+#include "Material.h"
+#include "Texture.h"
 Shader::Shader()
 {
 }
@@ -100,6 +102,15 @@ void Shader::SetDirectionalLight(DirectionalLight* light)
 	SetVec3("directionalLight.specular", light->specular);
 	SetVec3("directionalLight.direction", light->direction);
 }
+void Shader::SetMaterial(Material* material)
+{
+	SetVec3("material.specular", material->specular);
+	SetFloat("material.shininess", material->shininess);
+	SetInt("material.diffuse", 0);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, material->diffuseTexture->GetTextureID()); 
+}
+
 
 std::string Shader::ReadShader(std::string location)
 {

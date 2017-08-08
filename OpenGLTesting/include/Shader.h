@@ -9,6 +9,7 @@
 #include <glm/vec3.hpp>
 class DirectionalLight;
 class PointLight;
+struct Material;
 class Shader
 {
 	public:
@@ -26,6 +27,7 @@ class Shader
 		void SetFloat(std::string name, float value);
 		void SetInt(std::string name, int value);
 		void SetDirectionalLight(DirectionalLight* light);
+		void SetMaterial(Material* material);
 	private:
 		GLuint shaderID;
 		GLuint vertexShader;

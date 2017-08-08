@@ -9,6 +9,7 @@
 #include "DirectionalLight.h"
 #include "PointLight.h"
 #include "Vertex.h"
+#include "Material.h"
 
 //#include <glm/gtx/quaternion.hpp>
 //#include <glm/gtc/quaternion.hpp>
@@ -26,6 +27,9 @@ Renderer::~Renderer()
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
+	delete material;
+	delete directionalLight;
+	delete texture;
 	delete shader;
 	SDL_DestroyWindow(sdlWindow);
 	sdlWindow = NULL;
@@ -45,11 +49,7 @@ void Renderer::Draw()
 	shader->SetMat4("VP", VP);
 	shader->SetVec3("eyePosition", camera->GetPosition());
 
-	shader->SetVec3("material.specular", 0.5f, 0.5f, 0.5f);
-	shader->SetFloat("material.shininess", 32.0f);
-	shader->SetInt("material.diffuse", 0);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture->GetTextureID()); 
+	shader->SetMaterial(material);
 
 	shader->SetVec3("poLight.ambient", 0.1, 0.1, 0.1);
 	shader->SetVec3("poLight.diffuse", 1, 1, 1);
@@ -59,10 +59,6 @@ void Renderer::Draw()
 	shader->SetFloat("poLight.quadratic", 0.0075f);
 
 	shader->SetDirectionalLight(directionalLight);
-	//shader->SetVec3("directionalLight.ambient", 0.1, 0.1, 0.1);
-	//shader->SetVec3("directionalLight.diffuse", 1, 1, 1);
-	//shader->SetVec3("directionalLight.specular", 1.0, 1.0, 1.0);
-	//shader->SetVec3("directionalLight.direction", 0, -1, 0);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glUseProgram(shader->GetShaderID());
@@ -72,7 +68,7 @@ void Renderer::Draw()
 	{
 		glm::mat4 model;
 		model = glm::translate(model, cubeArray[i].GetPosition());
-		model = glm::rotate(model, ((float)SDL_GetTicks()/1000)*glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+		//model = glm::rotate(model, ((float)SDL_GetTicks()/1000)*glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
 		//glm::quat myQuat = glm::normalize(glm::angleAxis(((float)SDL_GetTicks()/1000)*glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f)));
 		//model = model * glm::mat4_cast(myQuat);
 		shader->SetMat4("model", model);
@@ -139,7 +135,8 @@ sdlWindow = SDL_CreateWindow("OpenGL", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UN
 							cubeArray[counter++] = Cube(glm::vec3(x, -1, z), 1.0f, 1.0f, 1.0f);
 						}
 					}
-					directionalLight = new DirectionalLight(glm::vec3(0, -1, 0), glm::vec3(0.1, 0.1, 0.1), glm::vec3(1, 1, 1), glm::vec3(1.0, 1.0, 1.0));
+					directionalLight = new DirectionalLight(glm::vec3(0, -1, 0), glm::vec3(0.1, 0.1, 0.1), glm::vec3(.5, .5, .5), glm::vec3(1.0, 1.0, 1.0));
+					material = new Material(texture, glm::vec3(0.5, 0.5, 0.5), 32.0); 
 
 
 				}
