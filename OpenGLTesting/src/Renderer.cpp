@@ -136,7 +136,7 @@ sdlWindow = SDL_CreateWindow("OpenGL", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UN
 						}
 					}
 					directionalLight = new DirectionalLight(glm::vec3(0, -1, 0), glm::vec3(0.1, 0.1, 0.1), glm::vec3(.5, .5, .5), glm::vec3(1.0, 1.0, 1.0));
-					material = new Material(texture, glm::vec3(0.5, 0.5, 0.5), 32.0); 
+					material = new Material(texture->GetTextureID(), glm::vec3(0.5, 0.5, 0.5), 32.0); 
 
 
 				}

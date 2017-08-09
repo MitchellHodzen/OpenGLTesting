@@ -108,7 +108,7 @@ void Shader::SetMaterial(Material* material)
 	SetFloat("material.shininess", material->shininess);
 	SetInt("material.diffuse", 0);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, material->diffuseTexture->GetTextureID()); 
+	glBindTexture(GL_TEXTURE_2D, material->diffuseTextureID); 
 }
 
 

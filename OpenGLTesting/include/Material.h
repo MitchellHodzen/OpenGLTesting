@@ -1,15 +1,15 @@
 #pragma once
-class Texture;
+#include <SDL_opengl.h>
 struct Material
 {
-	Material(Texture* diffuseTexture, glm::vec3 specular, float shininess)
+	Material(GLuint diffuseTextureID, glm::vec3 specular, float shininess)
 	{
-		this->diffuseTexture = diffuseTexture;
+		this->diffuseTextureID = diffuseTextureID;
 		this->specular = specular;
 		this->shininess = shininess;
 	}
 	Material(){}
-	Texture* diffuseTexture;
+	GLuint diffuseTextureID;
 	glm::vec3 specular;
 	float shininess;
 };
