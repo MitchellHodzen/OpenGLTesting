@@ -6,7 +6,7 @@ class CameraController
 		CameraController(Camera* camera, float speed);
 		~CameraController();
 		enum class Direction {UP, DOWN, LEFT, RIGHT};
-		void MoveCamera(Direction direction);
+		void MoveCamera(Direction direction, float deltaTime);
 		void AddCameraAngle(float yaw, float pitch);
 	private:
 		float speed;

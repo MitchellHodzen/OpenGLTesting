@@ -19,7 +19,7 @@ void InputManager::SetCam(CameraController* cameraController)
 	cam = cameraController;
 }
 
-bool InputManager::HandleInput()
+bool InputManager::HandleInput(float deltaTime)
 {
 	bool quit = false;
 	while (SDL_PollEvent(&e) != 0 && e.key.repeat == 0)
@@ -53,19 +53,19 @@ bool InputManager::HandleInput()
 	}
 	if (currentKeyboardState[SDL_SCANCODE_W])
 	{
-		cam->MoveCamera(CameraController::Direction::UP);
+		cam->MoveCamera(CameraController::Direction::UP, deltaTime);
 	}
 	if (currentKeyboardState[SDL_SCANCODE_A])
 	{
-		cam->MoveCamera(CameraController::Direction::LEFT);
+		cam->MoveCamera(CameraController::Direction::LEFT, deltaTime);
 	}
 	if (currentKeyboardState[SDL_SCANCODE_D])
 	{
-		cam->MoveCamera(CameraController::Direction::RIGHT);
+		cam->MoveCamera(CameraController::Direction::RIGHT, deltaTime);
 	}
 	if (currentKeyboardState[SDL_SCANCODE_S])
 	{
-		cam->MoveCamera(CameraController::Direction::DOWN);
+		cam->MoveCamera(CameraController::Direction::DOWN, deltaTime);
 	}
 	int mouseX, mouseY;
 	SDL_GetRelativeMouseState(&mouseX, &mouseY);

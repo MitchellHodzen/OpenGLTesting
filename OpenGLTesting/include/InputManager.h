@@ -7,7 +7,7 @@ class InputManager
 public:
 	InputManager();
 	~InputManager();
-	bool HandleInput();
+	bool HandleInput(float deltaTime);
 	void SetCam(CameraController* cameraController);
 private:
 	SDL_Event e;

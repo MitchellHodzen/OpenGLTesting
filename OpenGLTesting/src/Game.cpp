@@ -32,14 +32,14 @@ void Game::Start()
 		double deltaTime = 0.0f;
 		currentFrameTime = SDL_GetTicks();
 
-		CameraController cam(renderer->camera, 0.25f);
+		CameraController cam(renderer->camera, 4.0f);
 		inputManager->SetCam(&cam);
 
 		Uint32 startTicks = SDL_GetTicks();
 		while (quit == false)
 		{
 			//Get user input
-			quit = inputManager->HandleInput();
+			quit = inputManager->HandleInput(deltaTime);
 			renderer->Draw();
 
 			//Calculate frame time
