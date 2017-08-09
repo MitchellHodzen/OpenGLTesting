@@ -5,10 +5,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "Camera.h"
-#include "Cube.h"
 #include "DirectionalLight.h"
 #include "PointLight.h"
-#include "Vertex.h"
 #include "Material.h"
 #include "Chunk.h"
 
@@ -32,6 +30,7 @@ Renderer::~Renderer()
 	delete directionalLight;
 	delete texture;
 	delete shader;
+	delete chunk;
 	SDL_DestroyWindow(sdlWindow);
 	sdlWindow = NULL;
 	SDL_Quit();
@@ -141,17 +140,6 @@ bool Renderer::Initialize()
 				}
 				else
 				{
-					cubeArray = new Cube[cubeAmount];
-					int width = glm::sqrt(cubeAmount);
-					int length = glm::sqrt(cubeAmount);
-					int counter = 0;
-					for (int x = 0; x < width; ++x)
-					{
-						for (int z = 0; z < length; ++z)
-						{
-							cubeArray[counter++] = Cube(glm::vec3(x, -1, z), 1.0f, 1.0f, 1.0f);
-						}
-					}
 					directionalLight = new DirectionalLight(glm::vec3(0, -1, 0), glm::vec3(0.1, 0.1, 0.1), glm::vec3(.5, .5, .5), glm::vec3(1.0, 1.0, 1.0));
 					material = new Material(texture->GetTextureID(), glm::vec3(0.5, 0.5, 0.5), 32.0);
 

@@ -11,6 +11,18 @@ Chunk::Chunk(glm::vec3 chunkPosition, int width, int height, int length, float b
 	this->blockLength = blockLength;
 	GenerateChunk();
 }
+Chunk::~Chunk()
+{
+	for (int x = 0; x < chunkWidth; ++x)
+	{
+		for (int y = 0; y < chunkHeight; ++y)
+		{
+			delete[] chunkData[x][y];
+		}
+		delete[] chunkData[x];
+	}
+	delete[] chunkData;
+}	
 
 void Chunk::GenerateChunk()
 {

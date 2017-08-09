@@ -7,7 +7,6 @@
 class Texture;
 class Shader;
 class Camera;
-class Cube;
 class DirectionalLight;
 class Chunk;
 struct Material;
@@ -36,7 +35,6 @@ private:
 	DirectionalLight* directionalLight;
 	Material* material;
 	glm::vec3* target;
-	Cube* cubeArray;
 	Chunk* chunk;
 	int cubeAmount;
 };
