@@ -9,6 +9,7 @@ class Shader;
 class Camera;
 class Cube;
 class DirectionalLight;
+class Chunk;
 struct Material;
 class Renderer
 {
@@ -36,6 +37,7 @@ private:
 	Material* material;
 	glm::vec3* target;
 	Cube* cubeArray;
+	Chunk* chunk;
 	int cubeAmount;
 };
 

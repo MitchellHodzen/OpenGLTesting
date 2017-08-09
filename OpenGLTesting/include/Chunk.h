@@ -1,15 +1,20 @@
 #pragma once
 #include <vector>
 #include "BlockTypes.h"
+#include <glm/vec3.hpp>
 
 class Chunk
 {
 	public:
-		Chunk(int width, int height, int length);
+		Chunk(glm::vec3 chunkPosition, int width, int height, int length, float blockWidth, float blockHeight, float blockLength);
 		Block*** chunkData;
+		glm::vec3 GetBlockPosition(int x, int y, int z);
+		int GetChunkWidth();
+		int GetChunkHeight();
+		int GetChunkLength();
 	private:
 		void GenerateChunk();
-		int chunkLength;
-		int chunkWidth;
-		int chunkHeight;
+		int chunkLength, chunkWidth, chunkHeight;
+		float blockWidth, blockHeight, blockLength;
+		glm::vec3 chunkPosition;
 };

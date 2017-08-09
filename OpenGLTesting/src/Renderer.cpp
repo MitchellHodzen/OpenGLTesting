@@ -64,7 +64,7 @@ void Renderer::Draw()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glUseProgram(shader->GetShaderID());
 	glBindVertexArray(VAO);
-
+	/*
 	for (int i = 0; i < cubeAmount; ++i)
 	{
 		glm::mat4 model;
@@ -74,6 +74,20 @@ void Renderer::Draw()
 		//model = model * glm::mat4_cast(myQuat);
 		shader->SetMat4("model", model);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
+	}
+	*/
+	for (int x = 0; x < chunk->GetChunkWidth(); ++x)
+	{
+		for (int y = 0; y < chunk->GetChunkHeight(); ++y)
+		{
+			for (int z = 0; z < chunk->GetChunkLength(); ++z)
+			{
+				glm::mat4 model;
+				model = glm::translate(model, chunk->GetBlockPosition(x, y, z));
+				shader->SetMat4("model", model);
+				glDrawArrays(GL_TRIANGLES, 0, 36);
+			}
+		}
 	}
 	//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	SDL_GL_SwapWindow(sdlWindow);
@@ -139,8 +153,7 @@ bool Renderer::Initialize()
 					directionalLight = new DirectionalLight(glm::vec3(0, -1, 0), glm::vec3(0.1, 0.1, 0.1), glm::vec3(.5, .5, .5), glm::vec3(1.0, 1.0, 1.0));
 					material = new Material(texture->GetTextureID(), glm::vec3(0.5, 0.5, 0.5), 32.0);
 
-					Chunk* chunk = new Chunk(16, 16, 16);
-					std::cout<<chunk->chunkData[10][10][4]<<std::endl;
+					chunk = new Chunk(glm::vec3(), 16, 16, 16, 4.0, 4.0, 4.0);
 
 
 				}
