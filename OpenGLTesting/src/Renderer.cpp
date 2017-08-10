@@ -84,7 +84,8 @@ void Renderer::Draw()
 				glm::mat4 model;
 				model = glm::translate(model, chunk->GetBlockPosition(x, y, z));
 				shader->SetMat4("model", model);
-				glDrawArrays(GL_TRIANGLES, 0, 36);
+				//glDrawArrays(GL_TRIANGLES, 0, 36);
+				glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (void*)0);
 			}
 		}
 	}
@@ -95,7 +96,6 @@ void Renderer::Draw()
 bool Renderer::Initialize()
 {
 	bool success = true;
-	cubeAmount = 1000;
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		std::cout << "SDL could not be initialized. SDL error: " << SDL_GetError() << std::endl;
@@ -177,6 +177,7 @@ bool Renderer::InitOpenGL()
 			}
 		}
 	}
+	/*
 	//	position	texture coords         normals
 	float verticies[] = {
 		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,  0.0f, 0.0f, -1.0f,
@@ -226,9 +227,65 @@ bool Renderer::InitOpenGL()
 		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,  0.0f, 1.0f, 0.0f,
 		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,  0.0f, 1.0f, 0.0f
 	};
+	*/
+	//	position	texture coords         normals
+	float verticies[] = {
+		//Back Face
+		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,  0.0f, 0.0f, -1.0f,
+		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,  0.0f, 0.0f, -1.0f,
+		0.5f, -0.5f, -0.5f,  1.0f, 0.0f,  0.0f, 0.0f, -1.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,  0.0f, 0.0f, -1.0f,
+
+		//Front Face
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,  0.0f, 0.0f, 1.0f,
+		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,  0.0f, 0.0f, 1.0f,
+		0.5f,  0.5f,  0.5f,  1.0f, 1.0f,  0.0f, 0.0f, 1.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,  0.0f, 0.0f, 1.0f,
+
+		//Left Face
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,  -1.0f, 0.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,  -1.0f, 0.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,  -1.0f, 0.0f, 0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,  -1.0f, 0.0f, 0.0f,
+
+		//Right Face
+		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,  1.0f, 0.0f, 0.0f,
+		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,  1.0f, 0.0f, 0.0f,
+		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,  1.0f, 0.0f, 0.0f,
+		0.5f, -0.5f,  0.5f,  0.0f, 0.0f,  1.0f, 0.0f, 0.0f,
+
+		//Bottom Face
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,  0.0f, -1.0f, 0.0f,
+		0.5f, -0.5f, -0.5f,  1.0f, 1.0f,  0.0f, -1.0f, 0.0f,
+		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,  0.0f, -1.0f, 0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,  0.0f, -1.0f, 0.0f,
+
+		//Top Face
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,  0.0f, 1.0f, 0.0f,
+		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,  0.0f, 1.0f, 0.0f,
+		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,  0.0f, 1.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,  0.0f, 1.0f, 0.0f,
+	};
+
 	unsigned int indicies[] = {
-		0, 1, 3,
-		1, 2, 3
+		//Back Face
+		0, 1, 2,
+		1, 0, 3,
+		//Front Face
+		4, 5, 6,
+		6, 7, 4,
+		//Left Face
+		8, 9, 10,
+		10, 11, 8,
+		//Right Face
+		13, 14, 15,
+		15, 14, 12,
+		//Bottom Face
+		16, 17, 18,
+		16, 18, 19,
+		//Top Face
+		22, 23, 21,
+		23, 22, 20
 	};
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
