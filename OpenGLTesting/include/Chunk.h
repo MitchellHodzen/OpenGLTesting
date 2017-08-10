@@ -12,15 +12,18 @@ class Chunk
 		Block*** chunkData;
 		glm::vec3 GetBlockPosition(int x, int y, int z);
 		void GenerateModelMatricies();
-		glm::mat4* GetModelMatricies();
+		std::vector<glm::mat4>* GetModelMatricies();
 		int GetChunkWidth();
 		int GetChunkHeight();
 		int GetChunkLength();
 		int GetChunkSize();
 	private:
 		void GenerateChunk();
+		Block GetBlockType(int x, int y, int z);
+		bool CheckBlockVisible(int x, int y, int z);
 		int chunkLength, chunkWidth, chunkHeight;
 		float blockWidth, blockHeight, blockLength;
 		glm::vec3 chunkPosition;
-		glm::mat4* modelMatricies;
+		//glm::mat4* modelMatricies;
+		std::vector<glm::mat4>* modelMatricies;
 };

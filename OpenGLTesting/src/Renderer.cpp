@@ -9,7 +9,7 @@
 #include "PointLight.h"
 #include "Material.h"
 #include "Chunk.h"
-
+#include <vector>
 //#include <glm/gtx/quaternion.hpp>
 //#include <glm/gtc/quaternion.hpp>
 
@@ -64,8 +64,8 @@ void Renderer::Draw()
 	glUseProgram(shader->GetShaderID());
 	glBindVertexArray(VAO);
 	
-	glm::mat4* modelMatricies = chunk->GetModelMatricies();
-	for (int i = 0; i < chunk->GetChunkSize(); ++i)
+	std::vector<glm::mat4> modelMatricies = *chunk->GetModelMatricies();
+	for (int i = 0; i < modelMatricies.size(); ++i)
 	{
 		shader->SetMat4("model", modelMatricies[i]);
 		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (void*)0);
@@ -303,7 +303,7 @@ bool Renderer::InitOpenGL()
 	target = new glm::vec3(0, 0, 0);
 	camera = new Camera();
 	camera->SetTarget(target);
-	camera->SetPosition(glm::vec3(0, 0, 3));
+	camera->SetPosition(glm::vec3(0, 0, 0));
 	camera->SetTarget(NULL);
 	return success;
 
