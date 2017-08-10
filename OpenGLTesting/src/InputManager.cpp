@@ -53,7 +53,7 @@ bool InputManager::HandleInput(float deltaTime)
 	}
 	if (currentKeyboardState[SDL_SCANCODE_W])
 	{
-		cam->MoveCamera(CameraController::Direction::UP, deltaTime);
+		cam->MoveCamera(CameraController::Direction::FORWARD, deltaTime);
 	}
 	if (currentKeyboardState[SDL_SCANCODE_A])
 	{
@@ -64,6 +64,14 @@ bool InputManager::HandleInput(float deltaTime)
 		cam->MoveCamera(CameraController::Direction::RIGHT, deltaTime);
 	}
 	if (currentKeyboardState[SDL_SCANCODE_S])
+	{
+		cam->MoveCamera(CameraController::Direction::BACKWARD, deltaTime);
+	}
+	if (currentKeyboardState[SDL_SCANCODE_SPACE])
+	{
+		cam->MoveCamera(CameraController::Direction::UP, deltaTime);
+	}
+	if (currentKeyboardState[SDL_SCANCODE_LCTRL])
 	{
 		cam->MoveCamera(CameraController::Direction::DOWN, deltaTime);
 	}

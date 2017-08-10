@@ -26,7 +26,7 @@ glm::mat4 Camera::GetViewMatrix()
 		return glm::lookAt(position, position + glm::normalize(forward), up);
 	}
 	//Otherwise point at the target
-	return glm::lookAt(position, *target, up); 
+	return glm::lookAt(position, *target, up);
 }
 
 glm::vec3 Camera::GetPosition()

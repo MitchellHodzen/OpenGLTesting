@@ -22,7 +22,7 @@ Chunk::~Chunk()
 		delete[] chunkData[x];
 	}
 	delete[] chunkData;
-}	
+}
 
 void Chunk::GenerateChunk()
 {
@@ -43,7 +43,7 @@ void Chunk::GenerateChunk()
 
 glm::vec3 Chunk::GetBlockPosition(int x, int y, int z)
 {
-	return glm::vec3(chunkPosition.x + (x * blockWidth) , chunkPosition.y + (y * blockHeight), chunkPosition.z + (z * blockLength));	
+	return glm::vec3(chunkPosition.x + (x * blockWidth) , chunkPosition.y + (y * blockHeight), chunkPosition.z + (z * blockLength));
 }
 int Chunk::GetChunkWidth()
 {

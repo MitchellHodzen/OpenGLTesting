@@ -54,7 +54,7 @@ void Renderer::Draw()
 	shader->SetVec3("poLight.ambient", 0.1, 0.1, 0.1);
 	shader->SetVec3("poLight.diffuse", 1, 1, 1);
 	shader->SetVec3("poLight.specular", 1.0, 1.0, 1.0);
-	shader->SetVec3("poLight.position", 10, 3, 10);
+	shader->SetVec3("poLight.position", 10, 3, 0);
 	shader->SetFloat("poLight.linear", 0.045f);
 	shader->SetFloat("poLight.quadratic", 0.0075f);
 
@@ -128,7 +128,7 @@ bool Renderer::Initialize()
 				glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 				glEnable(GL_DEPTH_TEST);
 				glEnable(GL_CULL_FACE);
-				//glFrontFace(GL_CCW);
+				glFrontFace(GL_CCW);
 				if (SDL_GL_SetSwapInterval(0) < 0)
 				{
 					std::cout<<"Unable to disable vsync"<<std::endl;
@@ -143,7 +143,7 @@ bool Renderer::Initialize()
 					directionalLight = new DirectionalLight(glm::vec3(0, -1, 0), glm::vec3(0.1, 0.1, 0.1), glm::vec3(.5, .5, .5), glm::vec3(1.0, 1.0, 1.0));
 					material = new Material(texture->GetTextureID(), glm::vec3(0.5, 0.5, 0.5), 32.0);
 
-					chunk = new Chunk(glm::vec3(), 16, 16, 16, 1.0, 1.0, 1.0);
+					chunk = new Chunk(glm::vec3(0, 0, -20), 16, 16, 16, 1.0, 1.0, 1.0);
 
 
 				}

@@ -5,7 +5,7 @@ class CameraController
 	public:
 		CameraController(Camera* camera, float speed);
 		~CameraController();
-		enum class Direction {UP, DOWN, LEFT, RIGHT};
+		enum class Direction {UP, DOWN, LEFT, RIGHT, FORWARD, BACKWARD};
 		void MoveCamera(Direction direction, float deltaTime);
 		void AddCameraAngle(float yaw, float pitch);
 	private:

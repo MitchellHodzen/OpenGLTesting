@@ -5,6 +5,7 @@ CameraController::CameraController(Camera* camera, float speed)
 {
 	this->camera = camera;
 	this->speed = speed;
+	yaw = -90;
 }
 CameraController::~CameraController()
 {
@@ -15,12 +16,14 @@ void CameraController::MoveCamera(Direction direction, float deltaTime)
 	glm::vec3 movementVector;
 	switch (direction)
 	{
-		case Direction::UP:
-			movementVector = glm::normalize(glm::vec3(camera->GetForward().x, 0, camera->GetForward().z)) * speed * deltaTime;
+		case Direction::FORWARD:
+			//movementVector = glm::normalize(glm::vec3(camera->GetForward().x, 0, camera->GetForward().z)) * speed * deltaTime;
+			movementVector = glm::normalize(glm::vec3(camera->GetForward())) * speed * deltaTime;
 			camera->SetPosition(camPosition + movementVector);
 			break;
-		case Direction::DOWN:
-			movementVector = -(glm::normalize(glm::vec3(camera->GetForward().x, 0, camera->GetForward().z))) * speed * deltaTime;
+		case Direction::BACKWARD:
+			//movementVector = -(glm::normalize(glm::vec3(camera->GetForward().x, 0, camera->GetForward().z))) * speed * deltaTime;
+			movementVector = -(glm::normalize(glm::vec3(camera->GetForward()))) * speed * deltaTime;
 			camera->SetPosition(camPosition + movementVector);
 			break;
 		case Direction::LEFT:
@@ -37,6 +40,14 @@ void CameraController::MoveCamera(Direction direction, float deltaTime)
 			camera->SetPosition(camPosition + movementVector);
 			break;
 			}
+		case Direction::UP:
+			movementVector = glm::normalize(glm::vec3(camera->GetUp())) * speed * deltaTime;
+			camera->SetPosition(camPosition + movementVector);
+			break;
+		case Direction::DOWN:
+			movementVector = glm::normalize(-(glm::vec3(camera->GetUp()))) * speed * deltaTime;
+			camera->SetPosition(camPosition + movementVector);
+			break;
 		default:
 			break;
 	}
