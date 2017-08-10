@@ -63,32 +63,14 @@ void Renderer::Draw()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glUseProgram(shader->GetShaderID());
 	glBindVertexArray(VAO);
-	/*
-	for (int i = 0; i < cubeAmount; ++i)
+	
+	glm::mat4* modelMatricies = chunk->GetModelMatricies();
+	for (int i = 0; i < chunk->GetChunkSize(); ++i)
 	{
-		glm::mat4 model;
-		model = glm::translate(model, cubeArray[i].GetPosition());
-		//model = glm::rotate(model, ((float)SDL_GetTicks()/1000)*glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
-		//glm::quat myQuat = glm::normalize(glm::angleAxis(((float)SDL_GetTicks()/1000)*glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f)));
-		//model = model * glm::mat4_cast(myQuat);
-		shader->SetMat4("model", model);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		shader->SetMat4("model", modelMatricies[i]);
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (void*)0);
 	}
-	*/
-	for (int x = 0; x < chunk->GetChunkWidth(); ++x)
-	{
-		for (int y = 0; y < chunk->GetChunkHeight(); ++y)
-		{
-			for (int z = 0; z < chunk->GetChunkLength(); ++z)
-			{
-				glm::mat4 model;
-				model = glm::translate(model, chunk->GetBlockPosition(x, y, z));
-				shader->SetMat4("model", model);
-				//glDrawArrays(GL_TRIANGLES, 0, 36);
-				glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (void*)0);
-			}
-		}
-	}
+
 	//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	SDL_GL_SwapWindow(sdlWindow);
 }
@@ -144,8 +126,6 @@ bool Renderer::Initialize()
 					material = new Material(texture->GetTextureID(), glm::vec3(0.5, 0.5, 0.5), 32.0);
 
 					chunk = new Chunk(glm::vec3(0, 0, -20), 16, 16, 16, 1.0, 1.0, 1.0);
-
-
 				}
 			}
 		}

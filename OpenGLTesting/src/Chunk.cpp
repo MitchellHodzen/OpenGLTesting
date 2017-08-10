@@ -1,4 +1,6 @@
 #include "Chunk.h"
+#include <glm/gtc/matrix_transform.hpp>
+
 
 Chunk::Chunk(glm::vec3 chunkPosition, int width, int height, int length, float blockWidth, float blockHeight, float blockLength)
 {
@@ -9,6 +11,7 @@ Chunk::Chunk(glm::vec3 chunkPosition, int width, int height, int length, float b
 	this->blockWidth = blockWidth;
 	this->blockHeight = blockHeight;
 	this->blockLength = blockLength;
+	modelMatricies = new glm::mat4[width * height * length];
 	GenerateChunk();
 }
 Chunk::~Chunk()
@@ -22,6 +25,7 @@ Chunk::~Chunk()
 		delete[] chunkData[x];
 	}
 	delete[] chunkData;
+	delete[] modelMatricies;
 }
 
 void Chunk::GenerateChunk()
@@ -39,6 +43,26 @@ void Chunk::GenerateChunk()
 			}
 		}
 	}
+	GenerateModelMatricies();
+}
+
+void Chunk::GenerateModelMatricies()
+{
+	for (int x = 0; x < chunkWidth; ++x)
+	{
+		for (int y = 0; y < chunkHeight; ++y)
+		{
+			for (int z = 0; z < chunkLength; ++z)
+			{
+				//modelMatricies[x + (y * chunkHeight) + (z * chunkHeight * chunkLength)] = glm::translate(glm::mat4(), GetBlockPosition(x, y, z));
+				modelMatricies[x*chunkHeight*chunkLength + y*chunkLength + z] = glm::translate(glm::mat4(), GetBlockPosition(x, y, z));
+			}
+		}
+	}
+}
+glm::mat4* Chunk::GetModelMatricies()
+{
+	return modelMatricies;
 }
 
 glm::vec3 Chunk::GetBlockPosition(int x, int y, int z)
@@ -56,4 +80,8 @@ int Chunk::GetChunkHeight()
 int Chunk::GetChunkLength()
 {
 	return chunkLength;
+}
+int Chunk::GetChunkSize()
+{
+	return chunkWidth * chunkHeight * chunkLength;
 }
