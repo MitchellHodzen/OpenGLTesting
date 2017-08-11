@@ -47,9 +47,10 @@ void Renderer::Draw()
 	glm::mat4 VP = projection * view;
 
 	shader->SetMat4("VP", VP);
-	shader->SetVec3("eyePosition", camera->GetPosition());
+	//shader->SetVec3("eyePosition", camera->GetPosition());
 
-	shader->SetMaterial(material);
+	//shader->SetMaterial(material);
+	/*
 
 	shader->SetVec3("poLight.ambient", 0.1, 0.1, 0.1);
 	shader->SetVec3("poLight.diffuse", 1, 1, 1);
@@ -59,11 +60,14 @@ void Renderer::Draw()
 	shader->SetFloat("poLight.quadratic", 0.0075f);
 
 	shader->SetDirectionalLight(directionalLight);
+	*/
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture->GetTextureID());
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glUseProgram(shader->GetShaderID());
 	glBindVertexArray(VAO);
-	
+
 	std::vector<glm::mat4> modelMatricies = *chunk->GetModelMatricies();
 	for (int i = 0; i < modelMatricies.size(); ++i)
 	{
@@ -136,14 +140,14 @@ bool Renderer::InitOpenGL()
 {
 	bool success = true;
 	shader = new Shader();
-	if (!shader->ReadVertexShader("src/shaders/vertexShader1.vert"))
+	if (!shader->ReadVertexShader("src/shaders/simpleVertex.vert"))
 	{
 		std::cout<<"Unable to compile vertex shader"<<std::endl;
 		success = false;
 	}
 	else
 	{
-		if (!shader->ReadFragmentShader("src/shaders/fragmentShader1.frag"))//fragmentShaderCompiled != GL_TRUE)
+		if (!shader->ReadFragmentShader("src/shaders/simpleFragment.frag"))//fragmentShaderCompiled != GL_TRUE)
 		{
 			std::cout<<"Unable to compile fragment shader"<<std::endl;
 			success = false;

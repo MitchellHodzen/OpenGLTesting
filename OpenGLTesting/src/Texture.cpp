@@ -22,7 +22,7 @@ bool Texture::LoadTexture(std::string path, GLenum sWrap, GLenum tWrap, GLenum m
 	int width;
 	int height;
 	int nrChannels;
-	data = stbi_load(path.c_str(), &width, &height, &nrChannels, 0);	
+	data = stbi_load(path.c_str(), &width, &height, &nrChannels, 0);
 	if (data)
 	{
 		glGenTextures(1, &textureID);
@@ -33,7 +33,7 @@ bool Texture::LoadTexture(std::string path, GLenum sWrap, GLenum tWrap, GLenum m
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
-		stbi_image_free(data);	
+		stbi_image_free(data);
 		return true;
 	}
 	std::cout<<"Failed to load texture"<<std::endl;

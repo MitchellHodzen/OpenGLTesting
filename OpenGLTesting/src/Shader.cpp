@@ -12,7 +12,7 @@ Shader::~Shader()
 bool Shader::LinkShaders()
 {
 	bool success = true;
-	shaderID = glCreateProgram();	
+	shaderID = glCreateProgram();
 	glAttachShader(shaderID, vertexShader);
 	glAttachShader(shaderID, fragmentShader);
 	glLinkProgram(shaderID);
@@ -22,14 +22,14 @@ bool Shader::LinkShaders()
 	{
 		std::cout<<"Unable to link program"<<std::endl;
 		success = false;
-	}	
+	}
 	else
 	{
 		glDeleteShader(vertexShader);
 		glDeleteShader(fragmentShader);
 	}
 	return success;
-	
+
 }
 bool Shader::ReadFragmentShader(std::string location)
 {
@@ -108,7 +108,7 @@ void Shader::SetMaterial(Material* material)
 	SetFloat("material.shininess", material->shininess);
 	SetInt("material.diffuse", 0);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, material->diffuseTextureID); 
+	glBindTexture(GL_TEXTURE_2D, material->diffuseTextureID);
 }
 
 
