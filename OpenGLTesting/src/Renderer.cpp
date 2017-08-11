@@ -130,6 +130,8 @@ bool Renderer::Initialize()
 					material = new Material(texture->GetTextureID(), glm::vec3(0.5, 0.5, 0.5), 32.0);
 
 					chunk = new Chunk(glm::vec3(0, 0, -20), 16, 16, 16, 1.0, 1.0, 1.0);
+					shader->SetUniformLocation("VP");
+					shader->SetUniformLocation("model");
 				}
 			}
 		}

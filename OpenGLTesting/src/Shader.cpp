@@ -68,15 +68,15 @@ bool Shader::ReadVertexShader(std::string location)
 }
 void Shader::SetVec3(std::string name, float x, float y, float z)
 {
-	glUniform3f(glGetUniformLocation(shaderID, name.c_str()), x, y, z);
+	glUniform3f(uniformLocations[name], x, y, z);
 }
 void Shader::SetVec3(std::string name, glm::vec3 value)
 {
-	glUniform3f(glGetUniformLocation(shaderID, name.c_str()), value.x, value.y, value.z);
+	glUniform3f(uniformLocations[name], value.x, value.y, value.z);
 }
 void Shader::SetVec4(std::string name, float x, float y, float z, float w)
 {
-	glUniform4f(glGetUniformLocation(shaderID, name.c_str()), x, y, z, w);
+	glUniform4f(uniformLocations[name], x, y, z, w);
 }
 void Shader::SetVec4(std::string name, glm::vec4 value)
 {
@@ -84,15 +84,16 @@ void Shader::SetVec4(std::string name, glm::vec4 value)
 }
 void Shader::SetMat4(std::string name, glm::mat4 value)
 {
-	glUniformMatrix4fv(glGetUniformLocation(shaderID, name.c_str()), 1, GL_FALSE, &value[0][0]);
+	//glUniformMatrix4fv(glGetUniformLocation(shaderID, name.c_str()), 1, GL_FALSE, &value[0][0]);
+	glUniformMatrix4fv(uniformLocations[name], 1, GL_FALSE, &value[0][0]);
 }
 void Shader::SetFloat(std::string name, float value)
 {
-	glUniform1f(glGetUniformLocation(shaderID, name.c_str()), value);
+	glUniform1f(uniformLocations[name], value);
 }
 void Shader::SetInt(std::string name, int value)
 {
-	glUniform1i(glGetUniformLocation(shaderID, name.c_str()), value);
+	glUniform1i(uniformLocations[name], value);
 }
 void Shader::SetDirectionalLight(DirectionalLight* light)
 {
@@ -109,6 +110,10 @@ void Shader::SetMaterial(Material* material)
 	SetInt("material.diffuse", 0);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, material->diffuseTextureID);
+}
+void Shader::SetUniformLocation(std::string name)
+{
+	uniformLocations[name] = glGetUniformLocation(shaderID, name.c_str());
 }
 
 

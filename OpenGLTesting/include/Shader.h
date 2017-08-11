@@ -7,6 +7,7 @@
 #include <iostream>
 #include <glm/mat4x4.hpp>
 #include <glm/vec3.hpp>
+#include <unordered_map>
 class DirectionalLight;
 class PointLight;
 struct Material;
@@ -28,9 +29,11 @@ class Shader
 		void SetInt(std::string name, int value);
 		void SetDirectionalLight(DirectionalLight* light);
 		void SetMaterial(Material* material);
+		void SetUniformLocation(std::string name);
 	private:
 		GLuint shaderID;
 		GLuint vertexShader;
 		GLuint fragmentShader;
 		std::string ReadShader(std::string location);
+		std::unordered_map<std::string, GLint> uniformLocations; 
 };
