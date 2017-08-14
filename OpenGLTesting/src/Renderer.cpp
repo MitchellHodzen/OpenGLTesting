@@ -10,6 +10,7 @@
 #include "Material.h"
 #include "Chunk.h"
 #include <vector>
+#include "Mesh.h"
 //#include <glm/gtx/quaternion.hpp>
 //#include <glm/gtc/quaternion.hpp>
 
@@ -42,11 +43,15 @@ SDL_Window* Renderer::GetWindow()
 }
 void Renderer::Draw()
 {
-	glm::mat4 view = camera->GetViewMatrix();
-	glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)screenWidth / screenHeight, 0.1f, 100.0f);
-	glm::mat4 VP = projection * view;
 
-	shader->SetMat4("VP", VP);
+	glUseProgram(shader->GetShaderID());
+	//glm::mat4 view = camera->GetViewMatrix();
+	//glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)screenWidth / screenHeight, 0.1f, 100.0f);
+	//glm::mat4 VP = projection * view;
+
+	//shader->SetMat4("VP", VP);
+	
+
 	//shader->SetVec3("eyePosition", camera->GetPosition());
 
 	//shader->SetMaterial(material);
@@ -64,19 +69,29 @@ void Renderer::Draw()
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture->GetTextureID());
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glUseProgram(shader->GetShaderID());
-	glBindVertexArray(VAO);
+	//shader->SetMat4("model", glm::translate(glm::mat4(), chunk->GetChunkPosition()));
+	//shader->SetMat4("model", glm::translate(glm::mat4(), glm::vec3()));
 
-	std::vector<glm::mat4> modelMatricies = *chunk->GetModelMatricies();
-	for (int i = 0; i < modelMatricies.size(); ++i)
-	{
-		shader->SetMat4("model", modelMatricies[i]);
-		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (void*)0);
-	}
+	glClear(GL_COLOR_BUFFER_BIT);// | GL_DEPTH_BUFFER_BIT);
+	//chunk->GetChunkMesh()->Draw();
+	mesh->Draw();
+	//glBindVertexArray(VAO);
+
+	//std::vector<glm::mat4> modelMatricies = *chunk->GetModelMatricies();
+	//for (int i = 0; i < modelMatricies.size(); ++i)
+	//{
+		//shader->SetMat4("model", modelMatricies[i]);
+		//glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (void*)0);
+	//}
 
 	//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	SDL_GL_SwapWindow(sdlWindow);
+
+	GLenum err;
+	while ((err=glGetError()) != GL_NO_ERROR)
+	{
+		std::cout<<"Error: "<< err << std::endl;
+	}
 }
 
 bool Renderer::Initialize()
@@ -112,9 +127,9 @@ bool Renderer::Initialize()
 			{
 				glViewport(0, 0, screenWidth, screenHeight);
 				glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-				glEnable(GL_DEPTH_TEST);
-				glEnable(GL_CULL_FACE);
-				glFrontFace(GL_CCW);
+				//glEnable(GL_DEPTH_TEST);
+				//glEnable(GL_CULL_FACE);
+				//glFrontFace(GL_CCW);
 				if (SDL_GL_SetSwapInterval(0) < 0)
 				{
 					std::cout<<"Unable to disable vsync"<<std::endl;
@@ -129,7 +144,7 @@ bool Renderer::Initialize()
 					directionalLight = new DirectionalLight(glm::vec3(0, -1, 0), glm::vec3(0.1, 0.1, 0.1), glm::vec3(.5, .5, .5), glm::vec3(1.0, 1.0, 1.0));
 					material = new Material(texture->GetTextureID(), glm::vec3(0.5, 0.5, 0.5), 32.0);
 
-					chunk = new Chunk(glm::vec3(0, 0, -20), 16, 16, 16, 1.0, 1.0, 1.0);
+					//chunk = new Chunk(glm::vec3(0, 0, -20), 16, 16, 16, 1.0, 1.0, 1.0);
 					shader->SetUniformLocation("VP");
 					shader->SetUniformLocation("model");
 				}
@@ -214,6 +229,9 @@ bool Renderer::InitOpenGL()
 		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,  0.0f, 1.0f, 0.0f
 	};
 	*/
+
+
+	/*
 	//	position	texture coords         normals
 	float verticies[] = {
 		//Back Face
@@ -293,6 +311,24 @@ bool Renderer::InitOpenGL()
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
+	*/
+	mesh = new Mesh();
+	Vertex vert1(glm::vec3(-0.5f, -0.5f, 0.0f));
+	Vertex vert2(glm::vec3(0.5f, -0.5f, 0.0f));
+	Vertex vert3(glm::vec3(0.0f, 0.5f, 0.0f));
+	//vert1.position = glm::vec3(-0.5f, -0.5f, 0.0f);
+	//vert1.normal = glm::vec3();
+	vert1.textureCoordinates = glm::vec2(0, 0);
+	//vert2.position = glm::vec3(0.5f, -0.5f, 0.0f);
+	//vert2.normal = glm::vec3();
+	vert2.textureCoordinates = glm::vec2(1, 1);
+	//vert3.position = glm::vec3(0, 0.5f, 0.0f);
+	//vert3.normal = glm::vec3();
+	vert3.textureCoordinates = glm::vec2(1, 0);
+	mesh->AddVertex(vert1);
+	mesh->AddVertex(vert2);
+	mesh->AddVertex(vert3);
+	mesh->BuildVBO();
 
 	texture = new Texture();
 
