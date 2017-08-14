@@ -12,7 +12,7 @@ Chunk::Chunk(glm::vec3 chunkPosition, int width, int height, int length, float b
 	this->blockWidth = blockWidth;
 	this->blockHeight = blockHeight;
 	this->blockLength = blockLength;
-	modelMatricies = new std::vector<glm::mat4>;
+	//modelMatricies = new std::vector<glm::mat4>;
 	chunkMesh = new Mesh();
 	GenerateChunk();
 }
@@ -28,7 +28,6 @@ Chunk::~Chunk()
 	}
 	delete[] chunkData;
 	delete chunkMesh;
-	delete modelMatricies;
 }
 
 void Chunk::GenerateChunk()
@@ -46,10 +45,10 @@ void Chunk::GenerateChunk()
 			}
 		}
 	}
-	GenerateModelMatricies();
+	GenerateChunkMesh();
 }
 
-void Chunk::GenerateModelMatricies()
+void Chunk::GenerateChunkMesh()
 {
 	for (int x = 0; x < chunkWidth; ++x)
 	{
@@ -57,11 +56,12 @@ void Chunk::GenerateModelMatricies()
 		{
 			for (int z = 0; z < chunkLength; ++z)
 			{
-				if (CheckBlockVisible(x, y, z))
-				{
-					glm::vec3 position = GetBlockPosition(x, y, z);
-					modelMatricies->push_back(glm::translate(glm::mat4(), GetBlockPosition(x, y, z)));
-				}
+				CheckVisibleFaces(x, y, z);
+				//if (CheckVisibleFaces(x, y, z))
+				//{
+					//glm::vec3 position = GetBlockPosition(x, y, z);
+					//modelMatricies->push_back(glm::translate(glm::mat4(), GetBlockPosition(x, y, z)));
+				//}
 			}
 		}
 	}
@@ -128,42 +128,43 @@ Mesh* Chunk::GetChunkMesh()
 {
 	return chunkMesh;
 }
-std::vector<glm::mat4>* Chunk::GetModelMatricies()
+//std::vector<glm::mat4>* Chunk::GetModelMatricies()
+//{
+	//return modelMatricies;
+//}
+bool Chunk::CheckVisibleFaces(int x, int y, int z)
 {
-	return modelMatricies;
-}
-bool Chunk::CheckBlockVisible(int x, int y, int z)
-{
+	glm::vec3 position(x, y, z);
 	bool visible = false;
 	if (GetBlockVisibility(x - 1, y, z) == BlockVisibility::INVISIBLE) 
 	{
 		visible = true;
-		AddBlockFace(BlockFace::LEFT, glm::vec3(x, y, z));
+		AddBlockFace(BlockFace::LEFT, position);
 	}
 	if (GetBlockVisibility(x, y - 1, z) == BlockVisibility::INVISIBLE) 
 	{
 		visible = true;
-		AddBlockFace(BlockFace::BOTTOM, glm::vec3(x, y, z));
+		AddBlockFace(BlockFace::BOTTOM, position);
 	}
 	if (GetBlockVisibility(x, y, z - 1) == BlockVisibility::INVISIBLE) 
 	{
 		visible = true;
-		AddBlockFace(BlockFace::BACK, glm::vec3(x, y, z));
+		AddBlockFace(BlockFace::BACK, position);
 	}
 	if (GetBlockVisibility(x + 1, y, z) == BlockVisibility::INVISIBLE) 
 	{
 		visible = true;
-		AddBlockFace(BlockFace::RIGHT, glm::vec3(x, y, z));
+		AddBlockFace(BlockFace::RIGHT, position);
 	}
 	if (GetBlockVisibility(x, y + 1, z) == BlockVisibility::INVISIBLE) 
 	{
 		visible = true;
-		AddBlockFace(BlockFace::TOP, glm::vec3(x, y, z));
+		AddBlockFace(BlockFace::TOP, position);
 	}
 	if (GetBlockVisibility(x, y, z + 1) == BlockVisibility::INVISIBLE) 
 	{
 		visible = true;
-		AddBlockFace(BlockFace::FRONT, glm::vec3(x, y, z));
+		AddBlockFace(BlockFace::FRONT, position);
 	}
 	return visible;
 }
