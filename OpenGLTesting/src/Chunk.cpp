@@ -61,59 +61,73 @@ void Chunk::GenerateModelMatricies()
 				{
 					glm::vec3 position = GetBlockPosition(x, y, z);
 					modelMatricies->push_back(glm::translate(glm::mat4(), GetBlockPosition(x, y, z)));
-					std::vector<Vertex> blockVerts;
-					blockVerts.push_back(Vertex(glm::vec3(-0.5f, -0.5f, -0.5f) + position, glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0.0f, 0.0f)));
-					blockVerts.push_back(Vertex(glm::vec3(0.5f, 0.5f, -0.5f) + position, glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(1.0f, 1.0f)));
-					blockVerts.push_back(Vertex(glm::vec3(0.5f, -0.5f, -0.5f) + position, glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(1.0f, 0.0f)));
-					blockVerts.push_back(Vertex(glm::vec3(0.5f, 0.5f, -0.5f) + position, glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(1.0f, 1.0f)));
-					blockVerts.push_back(Vertex(glm::vec3(-0.5f, -0.5f, -0.5f) + position, glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0.0f, 0.0f)));
-					blockVerts.push_back(Vertex(glm::vec3(-0.5f, 0.5f, -0.5f) + position, glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0.0f, 1.0f)));
-
-					blockVerts.push_back(Vertex(glm::vec3(-0.5f, -0.5f, 0.5f) + position, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 0.0f)));
-					blockVerts.push_back(Vertex(glm::vec3(0.5f, -0.5f, 0.5f) + position, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(1.0f, 0.0f)));
-					blockVerts.push_back(Vertex(glm::vec3(0.5f, 0.5f, 0.5f) + position, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(1.0f, 1.0f)));
-					blockVerts.push_back(Vertex(glm::vec3(0.5f, 0.5f, 0.5f) + position, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(1.0f, 1.0f)));
-					blockVerts.push_back(Vertex(glm::vec3(-0.5f, 0.5f, 0.5f) + position, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 1.0f)));
-					blockVerts.push_back(Vertex(glm::vec3(-0.5f, -0.5f, 0.5f) + position, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 0.0f)));
-
-					blockVerts.push_back(Vertex(glm::vec3(-0.5f, 0.5f, 0.5f) + position, glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 0.0f)));
-					blockVerts.push_back(Vertex(glm::vec3(-0.5f, 0.5f, -0.5f) + position, glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 1.0f)));
-					blockVerts.push_back(Vertex(glm::vec3(-0.5f, -0.5f, -0.5f) + position, glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 1.0f)));
-					blockVerts.push_back(Vertex(glm::vec3(-0.5f, -0.5f, -0.5f) + position, glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 1.0f)));
-					blockVerts.push_back(Vertex(glm::vec3(-0.5f, -0.5f, 0.5f) + position, glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 0.0f)));
-					blockVerts.push_back(Vertex(glm::vec3(-0.5f, 0.5f, 0.5f) + position, glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 0.0f)));
-
-					blockVerts.push_back(Vertex(glm::vec3(0.5f, 0.5f, 0.5f) + position, glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 0.0f)));
-					blockVerts.push_back(Vertex(glm::vec3(0.5f, -0.5f, -0.5f) + position, glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 1.0f)));
-					blockVerts.push_back(Vertex(glm::vec3(0.5f, 0.5f, -0.5f) + position, glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 1.0f)));
-					blockVerts.push_back(Vertex(glm::vec3(0.5f, -0.5f, -0.5f) + position, glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 1.0f)));
-					blockVerts.push_back(Vertex(glm::vec3(0.5f, 0.5f, 0.5f) + position, glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 0.0f)));
-					blockVerts.push_back(Vertex(glm::vec3(0.5f, -0.5f, 0.5f) + position, glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 0.0f)));
-
-					blockVerts.push_back(Vertex(glm::vec3(-0.5f, -0.5f, -0.5f) + position, glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(0.0f, 1.0f)));
-					blockVerts.push_back(Vertex(glm::vec3(0.5f, -0.5f, -0.5f) + position, glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(1.0f, 1.0f)));
-					blockVerts.push_back(Vertex(glm::vec3(0.5f, -0.5f, 0.5f) + position, glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(1.0f, 0.0f)));
-					blockVerts.push_back(Vertex(glm::vec3(0.5f, -0.5f, 0.5f) + position, glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(1.0f, 0.0f)));
-					blockVerts.push_back(Vertex(glm::vec3(-0.5f, -0.5f, 0.5f) + position, glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(0.0f, 0.0f)));
-					blockVerts.push_back(Vertex(glm::vec3(-0.5f, -0.5f, -0.5f) + position, glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(0.0f, 1.0f)));
-
-					blockVerts.push_back(Vertex(glm::vec3(-0.5f, 0.5f, -0.5f) + position, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.0f, 1.0f)));
-					blockVerts.push_back(Vertex(glm::vec3(0.5f, 0.5f, 0.5f) + position, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 0.0f)));
-					blockVerts.push_back(Vertex(glm::vec3(0.5f, 0.5f, -0.5f) + position, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 1.0f)));
-					blockVerts.push_back(Vertex(glm::vec3(-0.5f, 0.5f, 0.5f) + position, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.0f, 0.0f)));
-					blockVerts.push_back(Vertex(glm::vec3(0.5f, 0.5f, 0.5f) + position, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 0.0f)));
-					blockVerts.push_back(Vertex(glm::vec3(-0.5f, 0.5f, -0.5f) + position, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.0f, 1.0f)));
-
-					for(int i = 0; i < blockVerts.size(); ++i)
-					{
-						chunkMesh->AddVertex(blockVerts.at(i));
-					}
-
+					AddBlockFace(BlockFace::FRONT, position);
+					AddBlockFace(BlockFace::BACK, position);
+					AddBlockFace(BlockFace::LEFT, position);
+					AddBlockFace(BlockFace::RIGHT, position);
+					AddBlockFace(BlockFace::TOP, position);
+					AddBlockFace(BlockFace::BOTTOM, position);
 				}
 			}
 		}
 	}
 	chunkMesh->BuildVBO();
+}
+
+void Chunk::AddBlockFace(BlockFace face, glm::vec3 blockPosition)
+{
+	switch(face)
+	{
+		case BlockFace::FRONT:
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, -0.5f, 0.5f) + blockPosition, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, -0.5f, 0.5f) + blockPosition, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(1.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, 0.5f, 0.5f) + blockPosition, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(1.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, 0.5f, 0.5f) + blockPosition, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(1.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, 0.5f, 0.5f) + blockPosition, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, -0.5f, 0.5f) + blockPosition, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 0.0f)));
+			break;
+		case BlockFace::BACK:
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, -0.5f, -0.5f) + blockPosition, glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, 0.5f, -0.5f) + blockPosition, glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(1.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, -0.5f, -0.5f) + blockPosition, glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(1.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, 0.5f, -0.5f) + blockPosition, glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(1.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, -0.5f, -0.5f) + blockPosition, glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, 0.5f, -0.5f) + blockPosition, glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0.0f, 1.0f)));
+			break;
+		case BlockFace::RIGHT:
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, 0.5f, 0.5f) + blockPosition, glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, -0.5f, -0.5f) + blockPosition, glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, 0.5f, -0.5f) + blockPosition, glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, -0.5f, -0.5f) + blockPosition, glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, 0.5f, 0.5f) + blockPosition, glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, -0.5f, 0.5f) + blockPosition, glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 0.0f)));
+			break;
+		case BlockFace::LEFT:
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, 0.5f, 0.5f) + blockPosition, glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, 0.5f, -0.5f) + blockPosition, glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, -0.5f, -0.5f) + blockPosition, glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, -0.5f, -0.5f) + blockPosition, glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, -0.5f, 0.5f) + blockPosition, glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, 0.5f, 0.5f) + blockPosition, glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 0.0f)));
+			break;
+		case BlockFace::TOP:
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, 0.5f, -0.5f) + blockPosition, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, 0.5f, 0.5f) + blockPosition, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, 0.5f, -0.5f) + blockPosition, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, 0.5f, 0.5f) + blockPosition, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, 0.5f, 0.5f) + blockPosition, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, 0.5f, -0.5f) + blockPosition, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.0f, 1.0f)));
+			break;
+		case BlockFace::BOTTOM:
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, -0.5f, -0.5f) + blockPosition, glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(0.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, -0.5f, -0.5f) + blockPosition, glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(1.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, -0.5f, 0.5f) + blockPosition, glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(1.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, -0.5f, 0.5f) + blockPosition, glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(1.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, -0.5f, 0.5f) + blockPosition, glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(0.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, -0.5f, -0.5f) + blockPosition, glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(0.0f, 1.0f)));
+			break;
+	}
+
 }
 
 Mesh* Chunk::GetChunkMesh()

@@ -102,7 +102,7 @@ bool Renderer::Initialize()
 		}
 		else
 		{
-			gContext = SDL_GL_CreateContext(sdlWindow);
+			SDL_GLContext gContext = SDL_GL_CreateContext(sdlWindow);
 			if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress))
 			{
 				std::cout<<"Failed to initialize GLAD" << std::endl;

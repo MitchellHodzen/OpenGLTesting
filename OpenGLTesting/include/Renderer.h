@@ -26,7 +26,7 @@ private:
 	int screenWidth;
 	int screenHeight;
 	bool InitOpenGL();
-	SDL_GLContext gContext;	
+	//SDL_GLContext gContext;	
 	Shader* shader;
 	Texture* texture;
 	DirectionalLight* directionalLight;

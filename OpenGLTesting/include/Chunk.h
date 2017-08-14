@@ -11,6 +11,8 @@ class Chunk
 		Chunk(glm::vec3 chunkPosition, int width, int height, int length, float blockWidth, float blockHeight, float blockLength);
 		~Chunk();
 		BlockType*** chunkData;
+		enum BlockFace {FRONT, BACK, LEFT, RIGHT, TOP, BOTTOM};
+		void AddBlockFace(BlockFace face, glm::vec3 blockPosition);
 		glm::vec3 GetBlockPosition(int x, int y, int z);
 		glm::vec3 GetChunkPosition();
 		void GenerateModelMatricies();
