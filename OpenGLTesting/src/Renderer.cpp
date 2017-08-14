@@ -45,11 +45,11 @@ void Renderer::Draw()
 {
 
 	glUseProgram(shader->GetShaderID());
-	//glm::mat4 view = camera->GetViewMatrix();
-	//glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)screenWidth / screenHeight, 0.1f, 100.0f);
-	//glm::mat4 VP = projection * view;
+	glm::mat4 view = camera->GetViewMatrix();
+	glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)screenWidth / screenHeight, 0.1f, 100.0f);
+	glm::mat4 VP = projection * view;
 
-	//shader->SetMat4("VP", VP);
+	shader->SetMat4("VP", VP);
 	
 
 	//shader->SetVec3("eyePosition", camera->GetPosition());
@@ -69,8 +69,7 @@ void Renderer::Draw()
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture->GetTextureID());
 
-	//shader->SetMat4("model", glm::translate(glm::mat4(), chunk->GetChunkPosition()));
-	//shader->SetMat4("model", glm::translate(glm::mat4(), glm::vec3()));
+	shader->SetMat4("model", glm::translate(glm::mat4(), chunk->GetChunkPosition()));
 
 	glClear(GL_COLOR_BUFFER_BIT);// | GL_DEPTH_BUFFER_BIT);
 	//chunk->GetChunkMesh()->Draw();
@@ -144,7 +143,7 @@ bool Renderer::Initialize()
 					directionalLight = new DirectionalLight(glm::vec3(0, -1, 0), glm::vec3(0.1, 0.1, 0.1), glm::vec3(.5, .5, .5), glm::vec3(1.0, 1.0, 1.0));
 					material = new Material(texture->GetTextureID(), glm::vec3(0.5, 0.5, 0.5), 32.0);
 
-					//chunk = new Chunk(glm::vec3(0, 0, -20), 16, 16, 16, 1.0, 1.0, 1.0);
+					chunk = new Chunk(glm::vec3(0, 0, -20), 16, 16, 16, 1.0, 1.0, 1.0);
 					shader->SetUniformLocation("VP");
 					shader->SetUniformLocation("model");
 				}
@@ -313,18 +312,18 @@ bool Renderer::InitOpenGL()
 	glBindVertexArray(0);
 	*/
 	mesh = new Mesh();
-	Vertex vert1(glm::vec3(-0.5f, -0.5f, 0.0f));
-	Vertex vert2(glm::vec3(0.5f, -0.5f, 0.0f));
-	Vertex vert3(glm::vec3(0.0f, 0.5f, 0.0f));
+	Vertex vert1(glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0.0f, 0.0f));
+	Vertex vert2(glm::vec3(0.5f, -0.5f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(1.0f, 1.0f));
+	Vertex vert3(glm::vec3(0.0f, 0.5f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(1.0f, 0.0f));
 	//vert1.position = glm::vec3(-0.5f, -0.5f, 0.0f);
 	//vert1.normal = glm::vec3();
-	vert1.textureCoordinates = glm::vec2(0, 0);
+	//vert1.textureCoordinates = glm::vec2(0, 0);
 	//vert2.position = glm::vec3(0.5f, -0.5f, 0.0f);
 	//vert2.normal = glm::vec3();
-	vert2.textureCoordinates = glm::vec2(1, 1);
+	//vert2.textureCoordinates = glm::vec2(1, 1);
 	//vert3.position = glm::vec3(0, 0.5f, 0.0f);
 	//vert3.normal = glm::vec3();
-	vert3.textureCoordinates = glm::vec2(1, 0);
+	//vert3.textureCoordinates = glm::vec2(1, 0);
 	mesh->AddVertex(vert1);
 	mesh->AddVertex(vert2);
 	mesh->AddVertex(vert3);
