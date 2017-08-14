@@ -7,6 +7,11 @@ Mesh::Mesh()
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
 }
+Mesh::~Mesh()
+{
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &VBO);
+}
 
 void Mesh::Draw()
 {

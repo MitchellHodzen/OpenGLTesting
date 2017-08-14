@@ -9,6 +9,7 @@ class Mesh
 {
 	public:
 		Mesh();
+		~Mesh();
 		void AddVertex(Vertex vertex);
 		void Draw();
 		void BuildVBO();

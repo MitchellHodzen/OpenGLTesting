@@ -24,9 +24,6 @@ Renderer::Renderer(int screenWidth, int screenHeight, bool debug)
 
 Renderer::~Renderer()
 {
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
-	glDeleteBuffers(1, &EBO);
 	delete material;
 	delete directionalLight;
 	delete texture;
@@ -43,19 +40,18 @@ SDL_Window* Renderer::GetWindow()
 }
 void Renderer::Draw()
 {
-
 	glUseProgram(shader->GetShaderID());
+
 	glm::mat4 view = camera->GetViewMatrix();
 	glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)screenWidth / screenHeight, 0.1f, 100.0f);
 	glm::mat4 VP = projection * view;
-
 	shader->SetMat4("VP", VP);
 	
 
+	/*
 	//shader->SetVec3("eyePosition", camera->GetPosition());
 
 	//shader->SetMaterial(material);
-	/*
 
 	shader->SetVec3("poLight.ambient", 0.1, 0.1, 0.1);
 	shader->SetVec3("poLight.diffuse", 1, 1, 1);
@@ -66,24 +62,14 @@ void Renderer::Draw()
 
 	shader->SetDirectionalLight(directionalLight);
 	*/
+
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture->GetTextureID());
 
 	shader->SetMat4("model", glm::translate(glm::mat4(), chunk->GetChunkPosition()));
 
-	glClear(GL_COLOR_BUFFER_BIT);// | GL_DEPTH_BUFFER_BIT);
-	//chunk->GetChunkMesh()->Draw();
-	mesh->Draw();
-	//glBindVertexArray(VAO);
-
-	//std::vector<glm::mat4> modelMatricies = *chunk->GetModelMatricies();
-	//for (int i = 0; i < modelMatricies.size(); ++i)
-	//{
-		//shader->SetMat4("model", modelMatricies[i]);
-		//glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (void*)0);
-	//}
-
-	//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	chunk->GetChunkMesh()->Draw();
 	SDL_GL_SwapWindow(sdlWindow);
 
 	GLenum err;
@@ -126,9 +112,9 @@ bool Renderer::Initialize()
 			{
 				glViewport(0, 0, screenWidth, screenHeight);
 				glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-				//glEnable(GL_DEPTH_TEST);
-				//glEnable(GL_CULL_FACE);
-				//glFrontFace(GL_CCW);
+				glEnable(GL_DEPTH_TEST);
+				glEnable(GL_CULL_FACE);
+				glFrontFace(GL_CCW);
 				if (SDL_GL_SetSwapInterval(0) < 0)
 				{
 					std::cout<<"Unable to disable vsync"<<std::endl;
@@ -290,44 +276,7 @@ bool Renderer::InitOpenGL()
 		22, 23, 21,
 		23, 22, 20
 	};
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
-
-	glBindVertexArray(VAO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(verticies), verticies, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8*sizeof(GL_FLOAT), (void*)0);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8*sizeof(GL_FLOAT), (void*)(3*sizeof(GL_FLOAT)));
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8*sizeof(GL_FLOAT), (void*)(5*sizeof(GL_FLOAT)));
-	glEnableVertexAttribArray(2);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicies), indicies, GL_STATIC_DRAW);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
 	*/
-	mesh = new Mesh();
-	Vertex vert1(glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0.0f, 0.0f));
-	Vertex vert2(glm::vec3(0.5f, -0.5f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(1.0f, 1.0f));
-	Vertex vert3(glm::vec3(0.0f, 0.5f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(1.0f, 0.0f));
-	//vert1.position = glm::vec3(-0.5f, -0.5f, 0.0f);
-	//vert1.normal = glm::vec3();
-	//vert1.textureCoordinates = glm::vec2(0, 0);
-	//vert2.position = glm::vec3(0.5f, -0.5f, 0.0f);
-	//vert2.normal = glm::vec3();
-	//vert2.textureCoordinates = glm::vec2(1, 1);
-	//vert3.position = glm::vec3(0, 0.5f, 0.0f);
-	//vert3.normal = glm::vec3();
-	//vert3.textureCoordinates = glm::vec2(1, 0);
-	mesh->AddVertex(vert1);
-	mesh->AddVertex(vert2);
-	mesh->AddVertex(vert3);
-	mesh->BuildVBO();
 
 	texture = new Texture();
 

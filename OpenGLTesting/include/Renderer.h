@@ -27,17 +27,11 @@ private:
 	int screenHeight;
 	bool InitOpenGL();
 	SDL_GLContext gContext;	
-	GLuint gProgramID;
-	GLuint VBO;
-	GLuint VAO;
-	GLuint EBO;
 	Shader* shader;
 	Texture* texture;
 	DirectionalLight* directionalLight;
 	Material* material;
 	glm::vec3* target;
 	Chunk* chunk;
-	int cubeAmount;
-	Mesh* mesh;
 };
 
