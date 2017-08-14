@@ -1,2 +1,3 @@
 #pragma once
-enum BlockType {AIR, DIRT};
+enum BlockVisibility {VISIBLE, INVISIBLE};
+//enum BlockType {AIR, DIRT};
