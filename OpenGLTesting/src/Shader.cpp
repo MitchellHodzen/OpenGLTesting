@@ -28,6 +28,14 @@ bool Shader::LinkShaders()
 		glDeleteShader(vertexShader);
 		glDeleteShader(fragmentShader);
 	}
+	SetUniformLocation("directionalLight.ambient");
+	SetUniformLocation("directionalLight.diffuse");
+	SetUniformLocation("directionalLight.specular");
+	SetUniformLocation("directionalLight.direction");
+	SetUniformLocation("material.specular");
+	SetUniformLocation("material.shininess");
+	SetUniformLocation("material.diffuse");
+
 	return success;
 
 }

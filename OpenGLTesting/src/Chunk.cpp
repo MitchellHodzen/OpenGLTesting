@@ -56,7 +56,10 @@ void Chunk::GenerateChunkMesh()
 		{
 			for (int z = 0; z < chunkLength; ++z)
 			{
-				CheckVisibleFaces(x, y, z);
+				if(GetBlockVisibility(x, y, z) == BlockVisibility::VISIBLE)
+				{
+					CheckVisibleFaces(x, y, z);
+				}
 				//if (CheckVisibleFaces(x, y, z))
 				//{
 					//glm::vec3 position = GetBlockPosition(x, y, z);

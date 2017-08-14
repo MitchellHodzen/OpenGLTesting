@@ -48,23 +48,21 @@ void Renderer::Draw()
 	shader->SetMat4("VP", VP);
 	
 
-	/*
-	//shader->SetVec3("eyePosition", camera->GetPosition());
+	shader->SetVec3("eyePosition", camera->GetPosition());
 
-	//shader->SetMaterial(material);
+	shader->SetMaterial(material);
 
 	shader->SetVec3("poLight.ambient", 0.1, 0.1, 0.1);
 	shader->SetVec3("poLight.diffuse", 1, 1, 1);
 	shader->SetVec3("poLight.specular", 1.0, 1.0, 1.0);
-	shader->SetVec3("poLight.position", 10, 3, 0);
+	shader->SetVec3("poLight.position", 10, 3, 3);
 	shader->SetFloat("poLight.linear", 0.045f);
 	shader->SetFloat("poLight.quadratic", 0.0075f);
 
 	shader->SetDirectionalLight(directionalLight);
-	*/
 
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture->GetTextureID());
+	//glActiveTexture(GL_TEXTURE0);
+	//glBindTexture(GL_TEXTURE_2D, texture->GetTextureID());
 
 	shader->SetMat4("model", glm::translate(glm::mat4(), chunk->GetChunkPosition()));
 
@@ -132,6 +130,13 @@ bool Renderer::Initialize()
 					chunk = new Chunk(glm::vec3(0, 0, -16), 16, 16, 16, 1.0, 1.0, 1.0);
 					shader->SetUniformLocation("VP");
 					shader->SetUniformLocation("model");
+					shader->SetUniformLocation("eyePosition");
+					shader->SetUniformLocation("poLight.ambient");
+					shader->SetUniformLocation("poLight.diffuse");
+					shader->SetUniformLocation("poLight.specular");
+					shader->SetUniformLocation("poLight.position");
+					shader->SetUniformLocation("poLight.linear");
+					shader->SetUniformLocation("poLight.quadratic");
 				}
 			}
 		}
@@ -142,21 +147,21 @@ bool Renderer::InitOpenGL()
 {
 	bool success = true;
 	shader = new Shader();
-	if (!shader->ReadVertexShader("src/shaders/simpleVertex.vert"))
+	if (!shader->ReadVertexShader("src/shaders/vertexShader1.vert"))
 	{
 		std::cout<<"Unable to compile vertex shader"<<std::endl;
 		success = false;
 	}
 	else
 	{
-		if (!shader->ReadFragmentShader("src/shaders/simpleFragment.frag"))//fragmentShaderCompiled != GL_TRUE)
+		if (!shader->ReadFragmentShader("src/shaders/fragmentShader1.frag"))
 		{
 			std::cout<<"Unable to compile fragment shader"<<std::endl;
 			success = false;
 		}
 		else
 		{
-			if (!shader->LinkShaders())//programLinked != GL_TRUE)
+			if (!shader->LinkShaders())
 			{
 				std::cout<<"Unable to link program"<<std::endl;
 				success = false;
