@@ -12,6 +12,7 @@
 #include <vector>
 #include "Mesh.h"
 #include "ChunkManager.h"
+#include "World.h"
 //#include <glm/gtx/quaternion.hpp>
 //#include <glm/gtc/quaternion.hpp>
 
@@ -66,12 +67,12 @@ void Renderer::Draw()
 
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	std::vector<Chunk*>* chunks= chunkManager->QueryChunks(glm::vec3());
+	std::vector<Chunk*> chunks= chunkManager->QueryChunks(glm::vec3());
 	//chunk->GetChunkMesh()->Draw();
-	for(int i = 0; i < chunks->size(); ++i)
+	for(int i = 0; i < chunks.size(); ++i)
 	{
-		shader->SetMat4("model", glm::translate(glm::mat4(), chunks->at(i)->GetChunkPosition()));
-		chunks->at(i)->GetChunkMesh()->Draw();
+		shader->SetMat4("model", glm::translate(glm::mat4(), chunks.at(i)->GetChunkPosition()));
+		chunks.at(i)->GetChunkMesh()->Draw();
 	}
 	SDL_GL_SwapWindow(sdlWindow);
 
@@ -133,7 +134,8 @@ bool Renderer::Initialize()
 					material = new Material(texture->GetTextureID(), glm::vec3(0.5, 0.5, 0.5), 32.0);
 
 					//chunk = new Chunk(glm::vec3(0, 0, -16), 16, 16, 16, 1.0, 1.0, 1.0);
-					chunkManager = new ChunkManager(16, 16, 16, 1.0, 1.0, 1.0);
+					world = new World(16, 16, 16, 1.0, 1.0, 1.0);
+					chunkManager = new ChunkManager(world, 16, 16, 16);
 					shader->SetUniformLocation("VP");
 					shader->SetUniformLocation("model");
 					shader->SetUniformLocation("eyePosition");
@@ -304,7 +306,7 @@ bool Renderer::InitOpenGL()
 	target = new glm::vec3(0, 0, 0);
 	camera = new Camera();
 	camera->SetTarget(target);
-	camera->SetPosition(glm::vec3(0, 0, 0));
+	camera->SetPosition(glm::vec3(0, 0, 17));
 	camera->SetTarget(NULL);
 	return success;
 

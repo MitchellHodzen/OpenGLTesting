@@ -11,6 +11,7 @@ struct DirectionalLight;
 class Chunk;
 class ChunkManager;
 class Mesh;
+class World;
 struct Material;
 class Renderer
 {
@@ -35,5 +36,6 @@ private:
 	glm::vec3* target;
 	//Chunk* chunk;
 	ChunkManager* chunkManager;
+	World* world;
 };
 

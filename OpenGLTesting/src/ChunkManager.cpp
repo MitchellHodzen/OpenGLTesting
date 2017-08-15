@@ -1,33 +1,22 @@
 #include "ChunkManager.h"
-#include <iostream>
+#include "World.h"
 
-ChunkManager::ChunkManager(int chunkWidth, int chunkHeight, int chunkLength, float blockWidth, float blockHeight, float blockLength)
+ChunkManager::ChunkManager(World* world, int chunkWidth, int chunkHeight, int chunkLength)
 {
 	this->chunkWidth = chunkWidth;
 	this->chunkHeight = chunkHeight;
 	this->chunkLength = chunkLength;
-	this->blockWidth = blockWidth;
-	this->blockHeight = blockHeight;
-	this->blockLength = blockLength;
-	currentChunks = new std::vector<Chunk*>;
-	GenerateChunks();
+	this->world = world;
 }
 ChunkManager::~ChunkManager()
 {
 }
-void ChunkManager::GenerateChunks()
+
+std::vector<Chunk*> ChunkManager::QueryChunks(glm::vec3 playerPosition)
 {
-	CreateChunkAtPosition(0, -chunkHeight, 0);
-	CreateChunkAtPosition(chunkWidth, -chunkHeight, 0);
+	std::vector<Chunk*> chunks;
+	chunks.push_back(world->GetChunkAtPosition(0, -chunkHeight, 0));
+	chunks.push_back(world->GetChunkAtPosition(chunkWidth, -chunkHeight, 0));
+	return chunks;
 }
-std::vector<Chunk*>* ChunkManager::QueryChunks(glm::vec3 playerPosition)
-{
-	currentChunks->clear();
-	currentChunks->push_back(chunkMap[0][-chunkHeight][0]);
-	currentChunks->push_back(chunkMap[chunkWidth][-chunkHeight][0]);
-	return currentChunks;
-}
-void ChunkManager::CreateChunkAtPosition(int x, int y, int z)
-{
-	chunkMap[x][y][z] = new Chunk(glm::vec3(x, y, z), chunkWidth, chunkHeight, chunkLength, blockWidth, blockHeight, blockLength);
-}
+
