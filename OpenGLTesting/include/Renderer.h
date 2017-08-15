@@ -7,8 +7,9 @@
 class Texture;
 class Shader;
 class Camera;
-class DirectionalLight;
+struct DirectionalLight;
 class Chunk;
+class ChunkManager;
 class Mesh;
 struct Material;
 class Renderer
@@ -26,12 +27,13 @@ private:
 	int screenWidth;
 	int screenHeight;
 	bool InitOpenGL();
-	//SDL_GLContext gContext;	
+	//SDL_GLContext gContext;
 	Shader* shader;
 	Texture* texture;
 	DirectionalLight* directionalLight;
 	Material* material;
 	glm::vec3* target;
-	Chunk* chunk;
+	//Chunk* chunk;
+	ChunkManager* chunkManager;
 };
 

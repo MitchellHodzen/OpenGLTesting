@@ -24,6 +24,10 @@ void Mesh::AddVertex(Vertex vertex)
 {
 	vertices->push_back(vertex);
 }
+void Mesh::ClearVertices()
+{
+	vertices->clear();
+}
 void Mesh::BuildVBO()
 {
 	glGenVertexArrays(1, &VAO);

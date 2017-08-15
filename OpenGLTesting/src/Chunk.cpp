@@ -50,6 +50,7 @@ void Chunk::GenerateChunk()
 
 void Chunk::GenerateChunkMesh()
 {
+	chunkMesh->ClearVertices();
 	for (int x = 0; x < chunkWidth; ++x)
 	{
 		for (int y = 0; y < chunkHeight; ++y)

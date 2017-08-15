@@ -13,6 +13,7 @@ class Mesh
 		void AddVertex(Vertex vertex);
 		void Draw();
 		void BuildVBO();
+		void ClearVertices();
 	private:
 		std::vector<Vertex>* vertices;
 		GLuint VAO, VBO;

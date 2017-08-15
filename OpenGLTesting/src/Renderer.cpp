@@ -11,6 +11,7 @@
 #include "Chunk.h"
 #include <vector>
 #include "Mesh.h"
+#include "ChunkManager.h"
 //#include <glm/gtx/quaternion.hpp>
 //#include <glm/gtc/quaternion.hpp>
 
@@ -28,7 +29,7 @@ Renderer::~Renderer()
 	delete directionalLight;
 	delete texture;
 	delete shader;
-	delete chunk;
+	//delete chunk;
 	SDL_DestroyWindow(sdlWindow);
 	sdlWindow = NULL;
 	SDL_Quit();
@@ -46,7 +47,6 @@ void Renderer::Draw()
 	glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)screenWidth / screenHeight, 0.1f, 100.0f);
 	glm::mat4 VP = projection * view;
 	shader->SetMat4("VP", VP);
-	
 
 	shader->SetVec3("eyePosition", camera->GetPosition());
 
@@ -64,10 +64,15 @@ void Renderer::Draw()
 	//glActiveTexture(GL_TEXTURE0);
 	//glBindTexture(GL_TEXTURE_2D, texture->GetTextureID());
 
-	shader->SetMat4("model", glm::translate(glm::mat4(), chunk->GetChunkPosition()));
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	chunk->GetChunkMesh()->Draw();
+	std::vector<Chunk*>* chunks= chunkManager->QueryChunks(glm::vec3());
+	//chunk->GetChunkMesh()->Draw();
+	for(int i = 0; i < chunks->size(); ++i)
+	{
+		shader->SetMat4("model", glm::translate(glm::mat4(), chunks->at(i)->GetChunkPosition()));
+		chunks->at(i)->GetChunkMesh()->Draw();
+	}
 	SDL_GL_SwapWindow(sdlWindow);
 
 	GLenum err;
@@ -127,7 +132,8 @@ bool Renderer::Initialize()
 					directionalLight = new DirectionalLight(glm::vec3(0, -1, 0), glm::vec3(0.1, 0.1, 0.1), glm::vec3(.5, .5, .5), glm::vec3(1.0, 1.0, 1.0));
 					material = new Material(texture->GetTextureID(), glm::vec3(0.5, 0.5, 0.5), 32.0);
 
-					chunk = new Chunk(glm::vec3(0, 0, -16), 16, 16, 16, 1.0, 1.0, 1.0);
+					//chunk = new Chunk(glm::vec3(0, 0, -16), 16, 16, 16, 1.0, 1.0, 1.0);
+					chunkManager = new ChunkManager(16, 16, 16, 1.0, 1.0, 1.0);
 					shader->SetUniformLocation("VP");
 					shader->SetUniformLocation("model");
 					shader->SetUniformLocation("eyePosition");

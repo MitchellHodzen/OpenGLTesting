@@ -1,5 +1,5 @@
 CC = g++
-CLIBS = `sdl2-config --cflags --libs` -lSDL2_image -ldl -lGL 
+CLIBS = `sdl2-config --cflags --libs` -lSDL2_image -ldl -lGL -g 
 INCLUDES = -Iinclude
 OUTPUT = test
 DEBUGOUTPUTDIR = bin/debug
