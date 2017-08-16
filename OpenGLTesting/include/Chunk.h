@@ -19,11 +19,11 @@ class Chunk
 		int GetChunkLength();
 		int GetChunkSize();
 	private:
-		BlockVisibility*** chunkData;
+		BlockData::BlockVisibility*** chunkData;
 		glm::vec3 GetBlockPosition(int x, int y, int z);
 		void AddBlockFace(BlockFace face, glm::vec3 blockPosition);
 		void GenerateChunk();
-		BlockVisibility GetBlockVisibility(int x, int y, int z);
+		BlockData::BlockVisibility GetBlockVisibility(int x, int y, int z);
 		bool CheckVisibleFaces(int x, int y, int z);
 		int chunkLength, chunkWidth, chunkHeight;
 		float blockWidth, blockHeight, blockLength;

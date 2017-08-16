@@ -1,3 +1,7 @@
 #pragma once
-enum BlockVisibility {VISIBLE, INVISIBLE};
-//enum BlockType {AIR, DIRT};
+#include "BlockData.h"
+struct Block
+{
+	Block(BlockData::BlockName name);
+	BlockData* type;
+};

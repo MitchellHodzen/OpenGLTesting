@@ -13,6 +13,7 @@ class World
 		int chunkWidth, chunkHeight, chunkLength;
 		float blockWidth, blockHeight, blockLength;
 		void GenerateChunks();
+		void GenerateBlockData();
 		void CreateChunkAtPosition(int x, int y, int z);
 
 };
