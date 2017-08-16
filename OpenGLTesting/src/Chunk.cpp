@@ -32,16 +32,16 @@ Chunk::~Chunk()
 
 void Chunk::GenerateChunk()
 {
-	chunkData = new BlockData::BlockVisibility**[chunkWidth];
+	chunkData = new Block**[chunkWidth];
 	for (int x = 0; x < chunkWidth; ++x)
 	{
-		chunkData[x] = new BlockData::BlockVisibility*[chunkHeight];
+		chunkData[x] = new Block*[chunkHeight];
 		for (int y = 0; y < chunkHeight; ++y)
 		{
-			chunkData[x][y] = new BlockData::BlockVisibility[chunkLength];
+			chunkData[x][y] = new Block[chunkLength];
 			for (int z = 0; z < chunkLength; ++z)
 			{
-				chunkData[x][y][z] = BlockData::BlockVisibility::VISIBLE;
+				chunkData[x][y][z] = Block(BlockData::BlockName::DIRT);
 			}
 		}
 	}
@@ -186,7 +186,7 @@ BlockData::BlockVisibility Chunk::GetBlockVisibility(int x, int y, int z)
 	{
 		return BlockData::BlockVisibility::INVISIBLE;
 	}
-	return chunkData[x][y][z];
+	return chunkData[x][y][z].type->visibility;
 }
 int Chunk::GetChunkWidth()
 {

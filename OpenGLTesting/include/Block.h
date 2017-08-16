@@ -3,5 +3,6 @@
 struct Block
 {
 	Block(BlockData::BlockName name);
+	Block();
 	BlockData* type;
 };

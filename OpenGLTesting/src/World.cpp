@@ -9,8 +9,8 @@ World::World(int chunkWidth, int chunkHeight, int chunkLength, float blockWidth,
 	this->blockWidth = blockWidth;
 	this->blockHeight = blockHeight;
 	this->blockLength = blockLength;
-	GenerateChunks();
 	GenerateBlockData();
+	GenerateChunks();
 }
 World::~World()
 {
@@ -32,5 +32,4 @@ void World::CreateChunkAtPosition(int x, int y, int z)
 void World::GenerateBlockData()
 {
 	BlockData::CreateBlock(BlockData::BlockName::DIRT, BlockData::BlockVisibility::VISIBLE);
-	std::cout<<BlockData::BlockTypes[BlockData::BlockName::DIRT]->visibility<<std::endl;
 }

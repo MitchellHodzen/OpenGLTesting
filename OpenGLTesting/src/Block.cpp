@@ -4,3 +4,6 @@ Block::Block(BlockData::BlockName name)
 {
 	type = BlockData::BlockTypes[name];
 }
+Block::Block()
+{
+}
