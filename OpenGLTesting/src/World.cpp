@@ -1,14 +1,12 @@
 #include "World.h"
 #include "BlockData.h"
 #include <iostream>
-World::World(int chunkWidth, int chunkHeight, int chunkLength, float blockWidth, float blockHeight, float blockLength)
+World::World(int chunkWidth, int chunkHeight, int chunkLength, float blockSize)
 {
 	this->chunkWidth = chunkWidth;
 	this->chunkHeight = chunkHeight;
 	this->chunkLength = chunkLength;
-	this->blockWidth = blockWidth;
-	this->blockHeight = blockHeight;
-	this->blockLength = blockLength;
+	this->blockSize = blockSize;
 	GenerateBlockData();
 	GenerateChunks();
 }
@@ -30,7 +28,7 @@ void World::GenerateChunks()
 
 void World::CreateChunkAtPosition(int x, int y, int z)
 {
-	chunkMap[x][y][z] = new Chunk(glm::vec3(x * chunkWidth * blockWidth, y * chunkHeight * blockHeight, z * chunkLength * blockLength), chunkWidth, chunkHeight, chunkLength, blockWidth, blockHeight, blockLength);
+	chunkMap[x][y][z] = new Chunk(glm::vec3(x * chunkWidth * blockSize, y * chunkHeight * blockSize, z * chunkLength * blockSize), chunkWidth, chunkHeight, chunkLength, blockSize);
 }
 void World::GenerateBlockData()
 {

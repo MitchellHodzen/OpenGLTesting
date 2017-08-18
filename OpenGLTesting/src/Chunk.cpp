@@ -3,15 +3,13 @@
 #include <iostream>
 
 
-Chunk::Chunk(glm::vec3 chunkPosition, int width, int height, int length, float blockWidth, float blockHeight, float blockLength)
+Chunk::Chunk(glm::vec3 chunkPosition, int width, int height, int length, float blockSize)
 {
 	this->chunkPosition = chunkPosition;
 	chunkWidth = width;
 	chunkHeight = height;
 	chunkLength = length;
-	this->blockWidth = blockWidth;
-	this->blockHeight = blockHeight;
-	this->blockLength = blockLength;
+	this->blockSize = blockSize;
 	//modelMatricies = new std::vector<glm::mat4>;
 	chunkMesh = new Mesh();
 	GenerateChunk();
@@ -138,7 +136,7 @@ Mesh* Chunk::GetChunkMesh()
 //}
 bool Chunk::CheckVisibleFaces(int x, int y, int z)
 {
-	glm::vec3 position(x * blockWidth, y * blockHeight, z * blockLength);
+	glm::vec3 position = glm::vec3(x, y, z) * blockSize;
 	bool visible = false;
 	if (GetBlockVisibility(x - 1, y, z) == BlockData::BlockVisibility::INVISIBLE)
 	{
@@ -174,7 +172,7 @@ bool Chunk::CheckVisibleFaces(int x, int y, int z)
 }
 glm::vec3 Chunk::GetBlockPosition(int x, int y, int z)
 {
-	return glm::vec3(chunkPosition.x + (x * blockWidth) , chunkPosition.y + (y * blockHeight), chunkPosition.z + (z * blockLength));
+	return glm::vec3(chunkPosition.x + (x * blockSize) , chunkPosition.y + (y * blockSize), chunkPosition.z + (z * blockSize));
 }
 glm::vec3 Chunk::GetChunkPosition()
 {
