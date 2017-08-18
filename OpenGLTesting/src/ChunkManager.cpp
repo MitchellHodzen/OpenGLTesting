@@ -15,8 +15,11 @@ ChunkManager::~ChunkManager()
 std::vector<Chunk*> ChunkManager::QueryChunks(glm::vec3 playerPosition)
 {
 	std::vector<Chunk*> chunks;
-	chunks.push_back(world->GetChunkAtPosition(0, -chunkHeight, 0));
-	chunks.push_back(world->GetChunkAtPosition(chunkWidth, -chunkHeight, 0));
+	chunks.push_back(world->GetChunkAtPosition(0, -1, 0));
+	chunks.push_back(world->GetChunkAtPosition(1, -1, 0));
+	chunks.push_back(world->GetChunkAtPosition(-1, -1, 0));
+	chunks.push_back(world->GetChunkAtPosition(0, -1, -1));
+	chunks.push_back(world->GetChunkAtPosition(0, -1, 1));
 	return chunks;
 }
 

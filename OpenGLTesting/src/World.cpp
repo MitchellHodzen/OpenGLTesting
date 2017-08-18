@@ -21,13 +21,16 @@ Chunk* World::GetChunkAtPosition(int x, int y, int z)
 }
 void World::GenerateChunks()
 {
-	CreateChunkAtPosition(0, -chunkHeight, 0);
-	CreateChunkAtPosition(chunkWidth, -chunkHeight, 0);
+	CreateChunkAtPosition(0, -1, 0);
+	CreateChunkAtPosition(1, -1, 0);
+	CreateChunkAtPosition(-1, -1, 0);
+	CreateChunkAtPosition(0, -1, -1);
+	CreateChunkAtPosition(0, -1, 1);
 }
 
 void World::CreateChunkAtPosition(int x, int y, int z)
 {
-	chunkMap[x][y][z] = new Chunk(glm::vec3(x, y, z), chunkWidth, chunkHeight, chunkLength, blockWidth, blockHeight, blockLength);
+	chunkMap[x][y][z] = new Chunk(glm::vec3(x * chunkWidth * blockWidth, y * chunkHeight * blockHeight, z * chunkLength * blockLength), chunkWidth, chunkHeight, chunkLength, blockWidth, blockHeight, blockLength);
 }
 void World::GenerateBlockData()
 {

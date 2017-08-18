@@ -138,7 +138,7 @@ Mesh* Chunk::GetChunkMesh()
 //}
 bool Chunk::CheckVisibleFaces(int x, int y, int z)
 {
-	glm::vec3 position(x, y, z);
+	glm::vec3 position(x * blockWidth, y * blockHeight, z * blockLength);
 	bool visible = false;
 	if (GetBlockVisibility(x - 1, y, z) == BlockData::BlockVisibility::INVISIBLE)
 	{
