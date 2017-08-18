@@ -67,7 +67,7 @@ void Renderer::Draw()
 
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	std::vector<Chunk*> chunks= chunkManager->QueryChunks(glm::vec3());
+	std::vector<Chunk*> chunks= chunkManager->QueryChunks(camera->GetPosition());
 	//chunk->GetChunkMesh()->Draw();
 	for(int i = 0; i < chunks.size(); ++i)
 	{
@@ -306,7 +306,7 @@ bool Renderer::InitOpenGL()
 	target = new glm::vec3(0, 0, 0);
 	camera = new Camera();
 	camera->SetTarget(target);
-	camera->SetPosition(glm::vec3(0, 0, 17));
+	camera->SetPosition(glm::vec3(0, 0, 0));
 	camera->SetTarget(NULL);
 	return success;
 

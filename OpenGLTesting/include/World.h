@@ -8,6 +8,7 @@ class World
 		World(int chunkWidth, int chunkHeight, int chunkLength, float blockSize);
 		~World();
 		Chunk* GetChunkAtPosition(int x, int y, int z);
+		float GetBlockSize();
 	private:
 		std::unordered_map< int, std::unordered_map< int, std::unordered_map< int, Chunk* > > > chunkMap;
 		int chunkWidth, chunkHeight, chunkLength;

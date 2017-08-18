@@ -19,11 +19,23 @@ Chunk* World::GetChunkAtPosition(int x, int y, int z)
 }
 void World::GenerateChunks()
 {
+	for (int x = -2; x <= 2; ++x)
+	{
+		for(int y = -2; y <= 2; ++y)
+		{
+			for(int z = -2; z <= 2; ++z)
+			{
+				CreateChunkAtPosition(x, y, z);
+			}
+		}
+	}
+	/*
 	CreateChunkAtPosition(0, -1, 0);
 	CreateChunkAtPosition(1, -1, 0);
 	CreateChunkAtPosition(-1, -1, 0);
 	CreateChunkAtPosition(0, -1, -1);
 	CreateChunkAtPosition(0, -1, 1);
+	*/
 }
 
 void World::CreateChunkAtPosition(int x, int y, int z)
@@ -33,4 +45,8 @@ void World::CreateChunkAtPosition(int x, int y, int z)
 void World::GenerateBlockData()
 {
 	BlockData::CreateBlock(BlockData::BlockName::DIRT, BlockData::BlockVisibility::VISIBLE);
+}
+float World::GetBlockSize()
+{
+	return blockSize;
 }
