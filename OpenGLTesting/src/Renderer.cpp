@@ -45,7 +45,7 @@ void Renderer::Draw()
 	glUseProgram(shader->GetShaderID());
 
 	glm::mat4 view = camera->GetViewMatrix();
-	glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)screenWidth / screenHeight, 0.1f, 200.0f);
+	glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)screenWidth / screenHeight, 0.1f, 500.0f);
 	glm::mat4 VP = projection * view;
 	shader->SetMat4("VP", VP);
 

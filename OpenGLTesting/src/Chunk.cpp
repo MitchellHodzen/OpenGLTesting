@@ -110,57 +110,57 @@ void Chunk::GenerateChunkMesh()
 	chunkMesh->BuildVBO();
 }
 
-void Chunk::AddBlockFace(BlockFace face, glm::vec3 blockPosition)
+void Chunk::AddBlockFace(BlockFace face, glm::vec3 blockPosition, glm::vec3 color)
 {
 	switch(face)
 	{
 		case BlockFace::FRONT:
-			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, -0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 0.0f)));
-			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, -0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(1.0f, 0.0f)));
-			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, 0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(1.0f, 1.0f)));
-			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, 0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(1.0f, 1.0f)));
-			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, 0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 1.0f)));
-			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, -0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, -0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 0.0f, 1.0f), color));//glm::vec2(0.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, -0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 0.0f, 1.0f), color));//glm::vec2(1.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, 0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 0.0f, 1.0f), color));//glm::vec2(1.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, 0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 0.0f, 1.0f), color));//glm::vec2(1.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, 0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 0.0f, 1.0f), color));//glm::vec2(0.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, -0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 0.0f, 1.0f), color));//glm::vec2(0.0f, 0.0f)));
 			break;
 		case BlockFace::BACK:
-			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, -0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0.0f, 0.0f)));
-			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, 0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(1.0f, 1.0f)));
-			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, -0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(1.0f, 0.0f)));
-			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, 0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(1.0f, 1.0f)));
-			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, -0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0.0f, 0.0f)));
-			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, 0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, -0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 0.0f, -1.0f), color));//glm::vec2(0.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, 0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 0.0f, -1.0f), color));//glm::vec2(1.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, -0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 0.0f, -1.0f), color));//glm::vec2(1.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, 0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 0.0f, -1.0f), color));//glm::vec2(1.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, -0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 0.0f, -1.0f), color));//glm::vec2(0.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, 0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 0.0f, -1.0f), color));//glm::vec2(0.0f, 1.0f)));
 			break;
 		case BlockFace::RIGHT:
-			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, 0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 0.0f)));
-			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, -0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 1.0f)));
-			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, 0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 1.0f)));
-			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, -0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 1.0f)));
-			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, 0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 0.0f)));
-			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, -0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, 0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(1.0f, 0.0f, 0.0f), color));//glm::vec2(1.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, -0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(1.0f, 0.0f, 0.0f), color));//glm::vec2(0.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, 0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(1.0f, 0.0f, 0.0f), color));//glm::vec2(1.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, -0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(1.0f, 0.0f, 0.0f), color));//glm::vec2(0.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, 0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(1.0f, 0.0f, 0.0f), color));//glm::vec2(1.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, -0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(1.0f, 0.0f, 0.0f), color));//glm::vec2(0.0f, 0.0f)));
 			break;
 		case BlockFace::LEFT:
-			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, 0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 0.0f)));
-			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, 0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 1.0f)));
-			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, -0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 1.0f)));
-			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, -0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 1.0f)));
-			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, -0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 0.0f)));
-			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, 0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, 0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(-1.0f, 0.0f, 0.0f), color));//glm::vec2(1.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, 0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(-1.0f, 0.0f, 0.0f), color));//glm::vec2(1.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, -0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(-1.0f, 0.0f, 0.0f), color));//glm::vec2(0.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, -0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(-1.0f, 0.0f, 0.0f), color));//glm::vec2(0.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, -0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(-1.0f, 0.0f, 0.0f), color));//glm::vec2(0.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, 0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(-1.0f, 0.0f, 0.0f), color));//glm::vec2(1.0f, 0.0f)));
 			break;
 		case BlockFace::TOP:
-			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, 0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.0f, 1.0f)));
-			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, 0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 0.0f)));
-			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, 0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 1.0f)));
-			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, 0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.0f, 0.0f)));
-			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, 0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 0.0f)));
-			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, 0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, 0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 1.0f, 0.0f), color));//glm::vec2(0.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, 0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 1.0f, 0.0f), color));//glm::vec2(1.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, 0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 1.0f, 0.0f), color));//glm::vec2(1.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, 0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 1.0f, 0.0f), color));//glm::vec2(0.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, 0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 1.0f, 0.0f), color));//glm::vec2(1.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, 0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(0.0f, 1.0f, 0.0f), color));//glm::vec2(0.0f, 1.0f)));
 			break;
 		case BlockFace::BOTTOM:
-			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, -0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(0.0f, 1.0f)));
-			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, -0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(1.0f, 1.0f)));
-			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, -0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(1.0f, 0.0f)));
-			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, -0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(1.0f, 0.0f)));
-			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, -0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(0.0f, 0.0f)));
-			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, -0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(0.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, -0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(0.0f, -1.0f, 0.0f), color));//glm::vec2(0.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, -0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(0.0f, -1.0f, 0.0f), color));//glm::vec2(1.0f, 1.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, -0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(0.0f, -1.0f, 0.0f), color));//glm::vec2(1.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(0.5f, -0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(0.0f, -1.0f, 0.0f), color));//glm::vec2(1.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, -0.5f, 0.5f) * blockSize + blockPosition, glm::vec3(0.0f, -1.0f, 0.0f), color));//glm::vec2(0.0f, 0.0f)));
+			chunkMesh->AddVertex(Vertex(glm::vec3(-0.5f, -0.5f, -0.5f) * blockSize + blockPosition, glm::vec3(0.0f, -1.0f, 0.0f), color));//glm::vec2(0.0f, 1.0f)));
 			break;
 	}
 
@@ -177,36 +177,37 @@ Mesh* Chunk::GetChunkMesh()
 bool Chunk::CheckVisibleFaces(int x, int y, int z)
 {
 	glm::vec3 position = glm::vec3(x, y, z) * blockSize;
+	glm::vec3 color = glm::vec3(0.0f, 0.6f, 0.1f);
 	bool visible = false;
 	if (GetBlockVisibility(x - 1, y, z) == BlockData::BlockVisibility::INVISIBLE)
 	{
 		visible = true;
-		AddBlockFace(BlockFace::LEFT, position);
+		AddBlockFace(BlockFace::LEFT, position, color);
 	}
 	if (GetBlockVisibility(x, y - 1, z) == BlockData::BlockVisibility::INVISIBLE)
 	{
 		visible = true;
-		AddBlockFace(BlockFace::BOTTOM, position);
+		AddBlockFace(BlockFace::BOTTOM, position, color);
 	}
 	if (GetBlockVisibility(x, y, z - 1) == BlockData::BlockVisibility::INVISIBLE)
 	{
 		visible = true;
-		AddBlockFace(BlockFace::BACK, position);
+		AddBlockFace(BlockFace::BACK, position, color);
 	}
 	if (GetBlockVisibility(x + 1, y, z) == BlockData::BlockVisibility::INVISIBLE)
 	{
 		visible = true;
-		AddBlockFace(BlockFace::RIGHT, position);
+		AddBlockFace(BlockFace::RIGHT, position, color);
 	}
 	if (GetBlockVisibility(x, y + 1, z) == BlockData::BlockVisibility::INVISIBLE)
 	{
 		visible = true;
-		AddBlockFace(BlockFace::TOP, position);
+		AddBlockFace(BlockFace::TOP, position, color);
 	}
 	if (GetBlockVisibility(x, y, z + 1) == BlockData::BlockVisibility::INVISIBLE)
 	{
 		visible = true;
-		AddBlockFace(BlockFace::FRONT, position);
+		AddBlockFace(BlockFace::FRONT, position, color);
 	}
 	return visible;
 }

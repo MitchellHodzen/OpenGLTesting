@@ -1,9 +1,10 @@
 #version 450 core
 out vec4 FragColor;
 
-in vec2 texCoord;
+//in vec2 texCoord;
 in vec3 normal;
 in vec3 fragPosition;
+in vec3 color;
 
 struct Material
 {
@@ -73,13 +74,15 @@ vec3 CalculatePointLight(PointLight light, vec3 normal, vec3 viewDirection)
 vec3 CalculateLight(vec3 lightAmbient, vec3 lightDiffuse, vec3 lightSpecular, vec3 lightDirection, vec3 normal, vec3 viewDirection)
 {
 	float diff = max(dot(normal, lightDirection), 0.0);
-	vec3 diffuse = (diff * vec3(texture(material.diffuse, texCoord))) * lightDiffuse;
+	//vec3 diffuse = (diff * vec3(texture(material.diffuse, texCoord))) * lightDiffuse;
+	vec3 diffuse = (diff * color) * lightDiffuse;
 
 	vec3 reflectDirection = reflect(-lightDirection, normal);
 	float spec = pow(max(dot(viewDirection, reflectDirection), 0.0), material.shininess);
 	vec3 specular = (material.specular * spec) * lightSpecular;
 
-	vec3 ambient = vec3(texture(material.diffuse, texCoord)) * lightAmbient;
+	//vec3 ambient = vec3(texture(material.diffuse, texCoord)) * lightAmbient;
+	vec3 ambient = color * lightAmbient;
 
 	return (ambient + diffuse + specular);
 

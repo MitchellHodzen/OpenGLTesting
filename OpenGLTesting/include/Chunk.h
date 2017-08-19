@@ -22,7 +22,7 @@ class Chunk
 		//Block*** chunkData;
 		Block* chunkData;
 		glm::vec3 GetBlockPosition(int x, int y, int z);
-		void AddBlockFace(BlockFace face, glm::vec3 blockPosition);
+		void AddBlockFace(BlockFace face, glm::vec3 blockPosition, glm::vec3 color);
 		void GenerateChunk(int* heightData);
 		BlockData::BlockVisibility GetBlockVisibility(int x, int y, int z);
 		bool CheckVisibleFaces(int x, int y, int z);
