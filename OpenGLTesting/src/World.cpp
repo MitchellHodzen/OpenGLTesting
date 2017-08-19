@@ -15,10 +15,18 @@ World::~World()
 }
 Chunk* World::GetChunkAtPosition(int x, int y, int z)
 {
+	//If the chunk at that position doesn't exist, create it
+	if (chunkMap.count(x) == 0 || chunkMap[x].count(y) == 0 || chunkMap[x][y].count(z) == 0)
+	{
+		CreateChunkAtPosition(x, y, z);
+		return chunkMap[x][y][z];
+	}
 	return chunkMap[x][y][z];
 }
 void World::GenerateChunks()
 {
+	//Temporarily useless, as chunks are loaded as needed. Remove?
+	/*
 	for (int x = -2; x <= 2; ++x)
 	{
 		for(int y = -2; y <= 2; ++y)
@@ -29,6 +37,7 @@ void World::GenerateChunks()
 			}
 		}
 	}
+	*/
 	/*
 	CreateChunkAtPosition(0, -1, 0);
 	CreateChunkAtPosition(1, -1, 0);
