@@ -63,7 +63,7 @@ void World::CreateChunkAtPosition(int x, int y, int z)
 		{
 			int positionX = chunkPosition.x + (noiseX * blockSize);
 			int positionY = chunkPosition.z + (noiseY * blockSize);
-			heightArray[noiseX + (noiseY * chunkWidth)] = (noiseGenerator->GetNoise(positionX, positionY) + 1) * 8;
+			heightArray[noiseX + (noiseY * chunkWidth)] = (noiseGenerator->GetNoise(positionX, positionY)) * 32;
 			//std::cout<<heightArray[x + (y * chunkWidth)]<<std::endl;
 		}
 	}

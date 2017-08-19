@@ -6,4 +6,5 @@ Block::Block(BlockData::BlockName name)
 }
 Block::Block()
 {
+	type = BlockData::BlockTypes[BlockData::BlockName::AIR];
 }

@@ -59,15 +59,12 @@ void Chunk::GenerateChunk(int* heightData)
 		{
 			for(int y = 0; y < chunkHeight; ++y)
 			{
-				//std::cout<<y<< " " <<heightData[x + (z * chunkWidth)]<<std::endl;
-				if (y < heightData[x + (z * chunkWidth)])
+				if (((y * blockSize) + chunkPosition.y) > heightData[x + (z * chunkWidth)])
 				{
-					chunkData[y + (x * chunkHeight) + (z * chunkHeight * chunkWidth)] = Block(BlockData::BlockName::DIRT);
+					//We generate blocks by column from the bottom to the top. If a block is air, then all blocks above will be air
+					break;
 				}
-				else
-				{
-					chunkData[y + (x * chunkHeight) + (z * chunkHeight * chunkWidth)] = Block(BlockData::BlockName::AIR);
-				}
+				chunkData[y + (x * chunkHeight) + (z * chunkHeight * chunkWidth)] = Block(BlockData::BlockName::DIRT);
 			}
 		}
 	}
