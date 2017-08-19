@@ -16,6 +16,7 @@ Chunk::Chunk(glm::vec3 chunkPosition, int width, int height, int length, float b
 }
 Chunk::~Chunk()
 {
+	/*
 	for (int x = 0; x < chunkWidth; ++x)
 	{
 		for (int y = 0; y < chunkHeight; ++y)
@@ -24,12 +25,14 @@ Chunk::~Chunk()
 		}
 		delete[] chunkData[x];
 	}
+	*/
 	delete[] chunkData;
 	delete chunkMesh;
 }
 
 void Chunk::GenerateChunk()
 {
+	/*
 	chunkData = new Block**[chunkWidth];
 	for (int x = 0; x < chunkWidth; ++x)
 	{
@@ -43,12 +46,19 @@ void Chunk::GenerateChunk()
 			}
 		}
 	}
+	*/
+	chunkData = new Block[chunkWidth * chunkHeight * chunkLength];
+	for(int i = 0; i < chunkWidth * chunkHeight * chunkLength; ++i)
+	{
+		chunkData[i] = Block(BlockData::BlockName::DIRT);
+	}
 	GenerateChunkMesh();
 }
 
 void Chunk::GenerateChunkMesh()
 {
 	chunkMesh->ClearVertices();
+	/*
 	for (int x = 0; x < chunkWidth; ++x)
 	{
 		for (int y = 0; y < chunkHeight; ++y)
@@ -64,6 +74,20 @@ void Chunk::GenerateChunkMesh()
 					//glm::vec3 position = GetBlockPosition(x, y, z);
 					//modelMatricies->push_back(glm::translate(glm::mat4(), GetBlockPosition(x, y, z)));
 				//}
+			}
+		}
+	}
+	*/
+	for(int z = 0; z < chunkLength; ++z)
+	{
+		for(int x = 0; x < chunkWidth; ++x)
+		{
+			for(int y = 0; y < chunkHeight; ++y)
+			{
+				if (GetBlockVisibility(x, y, z) == BlockData::BlockVisibility::VISIBLE)
+				{
+					CheckVisibleFaces(x, y, z);
+				}
 			}
 		}
 	}
@@ -184,7 +208,8 @@ BlockData::BlockVisibility Chunk::GetBlockVisibility(int x, int y, int z)
 	{
 		return BlockData::BlockVisibility::INVISIBLE;
 	}
-	return chunkData[x][y][z].type->visibility;
+	//return chunkData[x][y][z].type->visibility;
+	return chunkData[y + (x * chunkHeight) + (z * chunkHeight * chunkWidth)].type->visibility;
 }
 int Chunk::GetChunkWidth()
 {

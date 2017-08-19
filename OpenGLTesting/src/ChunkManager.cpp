@@ -19,7 +19,7 @@ std::vector<Chunk*> ChunkManager::QueryChunks(glm::vec3 playerPosition)
 	int chunkX = floor((playerPosition.x + world->GetBlockSize()/2) / chunkWidth);
 	int chunkY = floor((playerPosition.y + world->GetBlockSize()/2) / chunkHeight);
 	int chunkZ = floor((playerPosition.z + world->GetBlockSize()/2) / chunkLength);
-	std::cout<<chunkX << ", " << chunkY << ", " << chunkZ << std::endl;
+	//std::cout<<chunkX << ", " << chunkY << ", " << chunkZ << std::endl;
 	std::vector<Chunk*> chunks;
 	chunks.push_back(world->GetChunkAtPosition(chunkX, chunkY - 1, chunkZ));
 	chunks.push_back(world->GetChunkAtPosition(chunkX + 1, chunkY - 1, chunkZ));
