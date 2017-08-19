@@ -16,6 +16,7 @@ class World
 		float blockSize;
 		void GenerateChunks();
 		void GenerateBlockData();
+		void GenerateBlockColors();
 		void CreateChunkAtPosition(int x, int y, int z);
 		FastNoise* noiseGenerator;
 

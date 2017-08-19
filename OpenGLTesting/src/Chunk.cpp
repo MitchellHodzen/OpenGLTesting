@@ -177,7 +177,7 @@ Mesh* Chunk::GetChunkMesh()
 bool Chunk::CheckVisibleFaces(int x, int y, int z)
 {
 	glm::vec3 position = glm::vec3(x, y, z) * blockSize;
-	glm::vec3 color = glm::vec3(0.0f, 0.6f, 0.1f);
+	glm::vec3 color = *chunkData[y + (x * chunkHeight) + (z * chunkHeight * chunkWidth)].type->color;//glm::vec3(0.0f, 0.6f, 0.1f);
 	bool visible = false;
 	if (GetBlockVisibility(x - 1, y, z) == BlockData::BlockVisibility::INVISIBLE)
 	{
