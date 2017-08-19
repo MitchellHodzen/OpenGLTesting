@@ -2,6 +2,7 @@
 #include <vector>
 #include "Chunk.h"
 #include <unordered_map>
+class FastNoise;
 class World
 {
 	public:
@@ -16,5 +17,6 @@ class World
 		void GenerateChunks();
 		void GenerateBlockData();
 		void CreateChunkAtPosition(int x, int y, int z);
+		FastNoise* noiseGenerator;
 
 };

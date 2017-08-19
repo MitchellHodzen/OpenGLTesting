@@ -134,8 +134,9 @@ bool Renderer::Initialize()
 					material = new Material(texture->GetTextureID(), glm::vec3(0.5, 0.5, 0.5), 32.0);
 
 					//chunk = new Chunk(glm::vec3(0, 0, -16), 16, 16, 16, 1.0, 1.0, 1.0);
-					world = new World(16, 16, 16, 1.0f);
-					chunkManager = new ChunkManager(world, 16, 16, 16);
+					int chunkDimension = 16;
+					world = new World(chunkDimension, chunkDimension, chunkDimension, 1.0f);
+					chunkManager = new ChunkManager(world, chunkDimension, chunkDimension, chunkDimension);
 					shader->SetUniformLocation("VP");
 					shader->SetUniformLocation("model");
 					shader->SetUniformLocation("eyePosition");

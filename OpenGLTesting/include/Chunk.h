@@ -8,7 +8,7 @@
 class Chunk
 {
 	public:
-		Chunk(glm::vec3 chunkPosition, int width, int height, int length, float blockSize);
+		Chunk(glm::vec3 chunkPosition, int width, int height, int length, float blockSize, int* heightData);
 		~Chunk();
 		enum BlockFace {FRONT, BACK, LEFT, RIGHT, TOP, BOTTOM};
 		glm::vec3 GetChunkPosition();
@@ -23,7 +23,7 @@ class Chunk
 		Block* chunkData;
 		glm::vec3 GetBlockPosition(int x, int y, int z);
 		void AddBlockFace(BlockFace face, glm::vec3 blockPosition);
-		void GenerateChunk();
+		void GenerateChunk(int* heightData);
 		BlockData::BlockVisibility GetBlockVisibility(int x, int y, int z);
 		bool CheckVisibleFaces(int x, int y, int z);
 		int chunkLength, chunkWidth, chunkHeight;

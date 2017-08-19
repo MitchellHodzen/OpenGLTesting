@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-Chunk::Chunk(glm::vec3 chunkPosition, int width, int height, int length, float blockSize)
+Chunk::Chunk(glm::vec3 chunkPosition, int width, int height, int length, float blockSize, int* heightData)
 {
 	this->chunkPosition = chunkPosition;
 	chunkWidth = width;
@@ -12,7 +12,7 @@ Chunk::Chunk(glm::vec3 chunkPosition, int width, int height, int length, float b
 	this->blockSize = blockSize;
 	//modelMatricies = new std::vector<glm::mat4>;
 	chunkMesh = new Mesh();
-	GenerateChunk();
+	GenerateChunk(heightData);
 }
 Chunk::~Chunk()
 {
@@ -30,7 +30,7 @@ Chunk::~Chunk()
 	delete chunkMesh;
 }
 
-void Chunk::GenerateChunk()
+void Chunk::GenerateChunk(int* heightData)
 {
 	/*
 	chunkData = new Block**[chunkWidth];
@@ -46,11 +46,30 @@ void Chunk::GenerateChunk()
 			}
 		}
 	}
-	*/
 	chunkData = new Block[chunkWidth * chunkHeight * chunkLength];
 	for(int i = 0; i < chunkWidth * chunkHeight * chunkLength; ++i)
 	{
 		chunkData[i] = Block(BlockData::BlockName::DIRT);
+	}
+	*/
+	chunkData = new Block[chunkWidth * chunkHeight * chunkLength];
+	for(int z = 0; z < chunkLength; ++z)
+	{
+		for(int x = 0; x < chunkWidth; ++x)
+		{
+			for(int y = 0; y < chunkHeight; ++y)
+			{
+				//std::cout<<y<< " " <<heightData[x + (z * chunkWidth)]<<std::endl;
+				if (y < heightData[x + (z * chunkWidth)])
+				{
+					chunkData[y + (x * chunkHeight) + (z * chunkHeight * chunkWidth)] = Block(BlockData::BlockName::DIRT);
+				}
+				else
+				{
+					chunkData[y + (x * chunkHeight) + (z * chunkHeight * chunkWidth)] = Block(BlockData::BlockName::AIR);
+				}
+			}
+		}
 	}
 	GenerateChunkMesh();
 }

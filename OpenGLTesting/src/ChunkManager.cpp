@@ -21,12 +21,12 @@ std::vector<Chunk*> ChunkManager::QueryChunks(glm::vec3 playerPosition)
 	int chunkZ = floor((playerPosition.z + world->GetBlockSize()/2) / world->GetBlockSize() / chunkLength);
 	//std::cout<<chunkX << ", " << chunkY << ", " << chunkZ << std::endl;
 	std::vector<Chunk*> chunks;
-	int amount = 1;
+	int amount = 3;
 	for(int x = chunkX - amount; x <= chunkX + amount; ++x)
 	{
 		for(int z = chunkZ - amount; z <= chunkZ + amount; ++z)
 		{
-			chunks.push_back(world->GetChunkAtPosition(x, chunkY - 1, z));
+			chunks.push_back(world->GetChunkAtPosition(x, chunkY, z));
 		}
 	}
 	return chunks;
