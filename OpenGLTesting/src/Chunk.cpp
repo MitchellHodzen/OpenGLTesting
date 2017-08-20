@@ -62,12 +62,20 @@ void Chunk::GenerateChunk(int* heightData)
 		{
 			for(int y = 0; y < chunkHeight; ++y)
 			{
-				if (((y * blockSize) + chunkPosition.y) > heightData[x + (z * chunkWidth)])
+				int height = (y * blockSize) + chunkPosition.y;
+				if (height > heightData[x + (z * chunkWidth)])
 				{
 					//We generate blocks by column from the bottom to the top. If a block is air, then all blocks above will be air
 					break;
 				}
-				chunkData[y + (x * chunkHeight) + (z * chunkHeight * chunkWidth)] = Block(BlockData::BlockName::DIRT);
+				if (height == heightData[x + (z * chunkWidth)])
+				{
+					chunkData[y + (x * chunkHeight) + (z * chunkHeight * chunkWidth)] = Block(BlockData::BlockName::GRASS);
+				}
+				else
+				{
+					chunkData[y + (x * chunkHeight) + (z * chunkHeight * chunkWidth)] = Block(BlockData::BlockName::DIRT);
+				}
 			}
 		}
 	}

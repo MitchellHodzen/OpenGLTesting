@@ -53,12 +53,14 @@ void Renderer::Draw()
 
 	shader->SetMaterial(material);
 
+	///*
 	shader->SetVec3("poLight.ambient", 0.1, 0.1, 0.1);
 	shader->SetVec3("poLight.diffuse", 1, 1, 1);
 	shader->SetVec3("poLight.specular", 1.0, 1.0, 1.0);
 	shader->SetVec3("poLight.position", 10, 3, 3);
 	shader->SetFloat("poLight.linear", 0.045f);
 	shader->SetFloat("poLight.quadratic", 0.0075f);
+	//*/
 
 	shader->SetDirectionalLight(directionalLight);
 

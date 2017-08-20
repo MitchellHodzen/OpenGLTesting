@@ -4,8 +4,8 @@
 struct BlockData
 {
 	enum BlockVisibility {VISIBLE, INVISIBLE};
-	enum BlockName {DIRT, AIR};
-	enum BlockColor {GREEN, WHITE};
+	enum BlockName {DIRT, GRASS, AIR};
+	enum BlockColor {BROWN, GREEN, WHITE};
 	static std::unordered_map<BlockName, BlockData*> BlockTypes;
 	static std::unordered_map<BlockColor, glm::vec3*> BlockColors;
 	static void SetColor(BlockColor color, glm::vec3 value);
