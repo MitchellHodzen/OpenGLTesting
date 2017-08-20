@@ -1,6 +1,7 @@
 #include "ChunkManager.h"
 #include "World.h"
 #include <iostream>
+#include "Chunk.h"
 
 ChunkManager::ChunkManager(World* world, int chunkWidth, int chunkHeight, int chunkLength)
 {
@@ -22,17 +23,34 @@ std::vector<Chunk*> ChunkManager::QueryChunks(glm::vec3 playerPosition)
 	//std::cout<<chunkX << ", " << chunkY << ", " << chunkZ << std::endl;
 	std::vector<Chunk*> chunks;
 	int amount = 8;
+	//chunks.push_back(world->GetChunkAtPosition(0, 0, 0));
+	///*
 	for(int x = chunkX - amount; x <= chunkX + amount; ++x)
 	{
 		for(int z = chunkZ - amount; z <= chunkZ + amount; ++z)
 		{
 			for(int y = chunkY - 1; y <= chunkY + 1; ++y)
 			{
-				chunks.push_back(world->GetChunkAtPosition(x, y, z));
+				Chunk* chunk = world->GetChunkAtPosition(x, y, z);
+				if (chunk->GetChunkMesh() == NULL)
+				{
+					chunk->GenerateChunkMesh();
+				}
+				chunks.push_back(chunk);
 			}
 			//chunks.push_back(world->GetChunkAtPosition(x, chunkY, z));
 		}
 	}
+	//*/
+	/*
+	Chunk* chunk = world->GetChunkAtPosition(0, 0, 0);
+	if (chunk->GetChunkMesh() == NULL)
+	{
+		chunk->GenerateChunkMesh();
+	}
+	chunks.push_back(chunk);
+	*/
+
 	return chunks;
 }
 

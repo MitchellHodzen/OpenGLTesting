@@ -1,8 +1,9 @@
 #pragma once
 #include <vector>
-#include "Chunk.h"
 #include <unordered_map>
 class FastNoise;
+class Chunk;
+class Block;
 class World
 {
 	public:
@@ -10,14 +11,14 @@ class World
 		~World();
 		Chunk* GetChunkAtPosition(int x, int y, int z);
 		float GetBlockSize();
+		Block* GetBlockAtPosition(int x, int y, int z);
 	private:
 		std::unordered_map< int, std::unordered_map< int, std::unordered_map< int, Chunk* > > > chunkMap;
 		int chunkWidth, chunkHeight, chunkLength;
 		float blockSize;
-		void GenerateChunks();
+		void SetUpNoise();
 		void GenerateBlockData();
 		void GenerateBlockColors();
 		void CreateChunkAtPosition(int x, int y, int z);
 		FastNoise* noiseGenerator;
-
 };

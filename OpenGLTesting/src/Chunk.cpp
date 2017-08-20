@@ -1,9 +1,10 @@
 #include "Chunk.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
+#include "World.h"
 
 
-Chunk::Chunk(glm::vec3 chunkPosition, int width, int height, int length, float blockSize, int* heightData)
+Chunk::Chunk(glm::vec3 chunkPosition, World* world, int width, int height, int length, float blockSize, int* heightData)
 {
 	this->chunkPosition = chunkPosition;
 	chunkWidth = width;
@@ -11,7 +12,9 @@ Chunk::Chunk(glm::vec3 chunkPosition, int width, int height, int length, float b
 	chunkLength = length;
 	this->blockSize = blockSize;
 	//modelMatricies = new std::vector<glm::mat4>;
-	chunkMesh = new Mesh();
+	//chunkMesh = new Mesh();
+	chunkMesh = NULL;
+	this->world = world;
 	GenerateChunk(heightData);
 }
 Chunk::~Chunk()
@@ -68,11 +71,15 @@ void Chunk::GenerateChunk(int* heightData)
 			}
 		}
 	}
-	GenerateChunkMesh();
+	//GenerateChunkMesh();
 }
 
 void Chunk::GenerateChunkMesh()
 {
+	if (chunkMesh == NULL)
+	{
+		chunkMesh = new Mesh();
+	}
 	chunkMesh->ClearVertices();
 	/*
 	for (int x = 0; x < chunkWidth; ++x)
@@ -223,10 +230,14 @@ BlockData::BlockVisibility Chunk::GetBlockVisibility(int x, int y, int z)
 {
 	if (x < 0 || y < 0 || z < 0 || x >= chunkWidth || y >= chunkHeight || z >= chunkLength)
 	{
-		return BlockData::BlockVisibility::INVISIBLE;
+		Block* block = world->GetBlockAtPosition(x + chunkPosition.x, y + chunkPosition.y, z + chunkPosition.z);
+		return block->type->visibility; //BlockData::BlockVisibility::INVISIBLE;
 	}
-	//return chunkData[x][y][z].type->visibility;
 	return chunkData[y + (x * chunkHeight) + (z * chunkHeight * chunkWidth)].type->visibility;
+}
+Block* Chunk::GetBlockAtPosition(int x, int y, int z)
+{
+	return &chunkData[y + (x * chunkHeight) + (z * chunkHeight * chunkWidth)];
 }
 int Chunk::GetChunkWidth()
 {

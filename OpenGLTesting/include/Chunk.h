@@ -5,15 +5,17 @@
 #include <glm/mat4x4.hpp>
 #include "Vertex.h"
 #include "Mesh.h"
+class World;
 class Chunk
 {
 	public:
-		Chunk(glm::vec3 chunkPosition, int width, int height, int length, float blockSize, int* heightData);
+		Chunk(glm::vec3 chunkPosition, World* world, int width, int height, int length, float blockSize, int* heightData);
 		~Chunk();
 		enum BlockFace {FRONT, BACK, LEFT, RIGHT, TOP, BOTTOM};
 		glm::vec3 GetChunkPosition();
 		void GenerateChunkMesh();
 		Mesh* GetChunkMesh();
+		Block* GetBlockAtPosition(int x, int y, int z);
 		int GetChunkWidth();
 		int GetChunkHeight();
 		int GetChunkLength();
@@ -30,4 +32,5 @@ class Chunk
 		float blockSize;
 		glm::vec3 chunkPosition;
 		Mesh* chunkMesh;
+		World* world;
 };

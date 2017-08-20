@@ -2,6 +2,7 @@
 #include "BlockData.h"
 #include <iostream>
 #include "FastNoise.h"
+#include "Chunk.h"
 
 World::World(int chunkWidth, int chunkHeight, int chunkLength, float blockSize)
 {
@@ -12,7 +13,7 @@ World::World(int chunkWidth, int chunkHeight, int chunkLength, float blockSize)
 	noiseGenerator = new FastNoise();
 	GenerateBlockColors();
 	GenerateBlockData();
-	GenerateChunks();
+	SetUpNoise();
 }
 World::~World()
 {
@@ -26,37 +27,20 @@ Chunk* World::GetChunkAtPosition(int x, int y, int z)
 		CreateChunkAtPosition(x, y, z);
 		return chunkMap[x][y][z];
 	}
+	//if (chunkMap[x][y][z]->GetChunkMesh() == NULL)
+	//{
+		//chunkMap[x][y][z]->GenerateChunkMesh();
+	//}
 	return chunkMap[x][y][z];
 }
-void World::GenerateChunks()
+void World::SetUpNoise()
 {
 	noiseGenerator->SetNoiseType(FastNoise::SimplexFractal);
-	//Temporarily useless, as chunks are loaded as needed. Remove?
-	/*
-	for (int x = -2; x <= 2; ++x)
-	{
-		for(int y = -2; y <= 2; ++y)
-		{
-			for(int z = -2; z <= 2; ++z)
-			{
-				CreateChunkAtPosition(x, y, z);
-			}
-		}
-	}
-	*/
-	/*
-	CreateChunkAtPosition(0, -1, 0);
-	CreateChunkAtPosition(1, -1, 0);
-	CreateChunkAtPosition(-1, -1, 0);
-	CreateChunkAtPosition(0, -1, -1);
-	CreateChunkAtPosition(0, -1, 1);
-	*/
 }
 
 void World::CreateChunkAtPosition(int x, int y, int z)
 {
 	glm::vec3 chunkPosition(x * chunkWidth * blockSize, y * chunkHeight * blockSize, z * chunkLength * blockSize);
-	//int heightArray[chunkWidth * chunkLength];
 	int* heightArray = new int[chunkWidth * chunkLength];
 	for (int noiseX = 0; noiseX < chunkWidth; ++noiseX)
 	{
@@ -65,11 +49,34 @@ void World::CreateChunkAtPosition(int x, int y, int z)
 			int positionX = chunkPosition.x + (noiseX * blockSize);
 			int positionY = chunkPosition.z + (noiseY * blockSize);
 			heightArray[noiseX + (noiseY * chunkWidth)] = (noiseGenerator->GetNoise(positionX, positionY)) * 32;
-			//std::cout<<heightArray[x + (y * chunkWidth)]<<std::endl;
 		}
 	}
-	chunkMap[x][y][z] = new Chunk(chunkPosition, chunkWidth, chunkHeight, chunkLength, blockSize, heightArray);
+	chunkMap[x][y][z] = new Chunk(chunkPosition, this, chunkWidth, chunkHeight, chunkLength, blockSize, heightArray);
 	delete[] heightArray;
+}
+//bool test = true;
+Block* World::GetBlockAtPosition(int x, int y, int z)
+{
+	/*
+	if (test)
+	{
+		std::cout<<x/chunkWidth<<" "<<y/chunkHeight<<" "<<z/chunkLength<<std::endl;
+		std::cout<<floor(x/chunkWidth)<<" "<<floor(y/chunkHeight)<<" "<<floor(z/chunkLength)<<std::endl;
+		test = false;
+	}
+	*/
+	//std::cout<<x<<" "<<y<<" "<<z<<std::endl;
+	int chunkX = floor((float)x/chunkWidth);
+	int chunkY = floor((float)y/chunkHeight);
+	int chunkZ = floor((float)z/chunkLength);
+	Chunk* chunk = GetChunkAtPosition(chunkX, chunkY, chunkZ);
+	glm::vec3 chunkPosition = chunk->GetChunkPosition();
+	int blockX =(x - (int)chunkPosition.x + chunkWidth)%chunkWidth;
+	int blockY =(y - (int)chunkPosition.y + chunkHeight)%chunkHeight;
+	int blockZ =(z - (int)chunkPosition.z + chunkLength)%chunkLength;
+
+	//std::cout<<chunkPosition.x<<" "<<chunkPosition.y<<" "<<chunkPosition.z<<".   "<< chunkX << " "<<chunkY<<" "<<chunkZ<<".   "<<x<<" "<<y<<" "<<z<<".   "<<blockX<<", "<<blockY<<", "<<blockZ<<std::endl;
+	return chunk->GetBlockAtPosition(blockX, blockY, blockZ);
 }
 void World::GenerateBlockData()
 {
