@@ -238,8 +238,7 @@ BlockData::BlockVisibility Chunk::GetBlockVisibility(int x, int y, int z)
 {
 	if (x < 0 || y < 0 || z < 0 || x >= chunkWidth || y >= chunkHeight || z >= chunkLength)
 	{
-		Block* block = world->GetBlockAtPosition(x + chunkPosition.x, y + chunkPosition.y, z + chunkPosition.z);
-		return block->type->visibility; //BlockData::BlockVisibility::INVISIBLE;
+		return world->GetBlockAtPosition(GetBlockPosition(x, y, z))->type->visibility;
 	}
 	return chunkData[y + (x * chunkHeight) + (z * chunkHeight * chunkWidth)].type->visibility;
 }

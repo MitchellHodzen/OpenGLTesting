@@ -55,28 +55,27 @@ void World::CreateChunkAtPosition(int x, int y, int z)
 	delete[] heightArray;
 }
 //bool test = true;
-Block* World::GetBlockAtPosition(int x, int y, int z)
+Block* World::GetBlockAtPosition(glm::vec3 blockPosition)
 {
-	/*
-	if (test)
-	{
-		std::cout<<x/chunkWidth<<" "<<y/chunkHeight<<" "<<z/chunkLength<<std::endl;
-		std::cout<<floor(x/chunkWidth)<<" "<<floor(y/chunkHeight)<<" "<<floor(z/chunkLength)<<std::endl;
-		test = false;
-	}
-	*/
-	//std::cout<<x<<" "<<y<<" "<<z<<std::endl;
-	int chunkX = floor((float)x/chunkWidth);
-	int chunkY = floor((float)y/chunkHeight);
-	int chunkZ = floor((float)z/chunkLength);
+	int chunkX = floor((float)blockPosition.x/(chunkWidth * blockSize));
+	int chunkY = floor((float)blockPosition.y/(chunkHeight * blockSize));
+	int chunkZ = floor((float)blockPosition.z/(chunkLength * blockSize));
+	//std::cout<<chunkX<<" "<<chunkY<<" "<<chunkZ<<std::endl;
 	Chunk* chunk = GetChunkAtPosition(chunkX, chunkY, chunkZ);
 	glm::vec3 chunkPosition = chunk->GetChunkPosition();
-	int blockX =(x - (int)chunkPosition.x + chunkWidth)%chunkWidth;
-	int blockY =(y - (int)chunkPosition.y + chunkHeight)%chunkHeight;
-	int blockZ =(z - (int)chunkPosition.z + chunkLength)%chunkLength;
+	/*
+	int blockIndexX = (int)floor((blockPosition.x  - chunkPosition.x + chunkWidth))%chunkWidth;
+	int blockIndexY = (int)floor((blockPosition.y - chunkPosition.y + chunkHeight))%chunkHeight;
+	int blockIndexZ = (int)floor((blockPosition.z  - chunkPosition.z + chunkLength))%chunkLength;
+	*/
+	int blockIndexX = (int)(((blockPosition.x  - chunkPosition.x)/blockSize) + chunkWidth)%chunkWidth;
+	int blockIndexY = (int)(((blockPosition.y - chunkPosition.y)/blockSize) + chunkHeight)%chunkHeight;
+	int blockIndexZ = (int)(((blockPosition.z  - chunkPosition.z)/blockSize) + chunkLength)%chunkLength;
+	//std::cout<<blockIndexX<<" "<<blockIndexY<<" "<<blockIndexZ<<std::endl;
 
-	//std::cout<<chunkPosition.x<<" "<<chunkPosition.y<<" "<<chunkPosition.z<<".   "<< chunkX << " "<<chunkY<<" "<<chunkZ<<".   "<<x<<" "<<y<<" "<<z<<".   "<<blockX<<", "<<blockY<<", "<<blockZ<<std::endl;
-	return chunk->GetBlockAtPosition(blockX, blockY, blockZ);
+	//std::cout<<((int)(x * blockSize) - (int)chunkPosition.x + chunkWidth)%chunkWidth<<" "<<((int)(y * blockSize) - (int)chunkPosition.y + chunkHeight)%chunkHeight<<" "<<((int)(z*blockSize) - (int)chunkPosition.z + chunkLength)%chunkLength<<std::endl;
+
+	return chunk->GetBlockAtPosition(blockIndexX, blockIndexY, blockIndexZ);
 }
 void World::GenerateBlockData()
 {
