@@ -19,42 +19,12 @@ Chunk::Chunk(glm::vec3 chunkPosition, World* world, int width, int height, int l
 }
 Chunk::~Chunk()
 {
-	/*
-	for (int x = 0; x < chunkWidth; ++x)
-	{
-		for (int y = 0; y < chunkHeight; ++y)
-		{
-			delete[] chunkData[x][y];
-		}
-		delete[] chunkData[x];
-	}
-	*/
 	delete[] chunkData;
 	delete chunkMesh;
 }
 
 void Chunk::GenerateChunk(float* heightData)
 {
-	/*
-	chunkData = new Block**[chunkWidth];
-	for (int x = 0; x < chunkWidth; ++x)
-	{
-		chunkData[x] = new Block*[chunkHeight];
-		for (int y = 0; y < chunkHeight; ++y)
-		{
-			chunkData[x][y] = new Block[chunkLength];
-			for (int z = 0; z < chunkLength; ++z)
-			{
-				chunkData[x][y][z] = Block(BlockData::BlockName::DIRT);
-			}
-		}
-	}
-	chunkData = new Block[chunkWidth * chunkHeight * chunkLength];
-	for(int i = 0; i < chunkWidth * chunkHeight * chunkLength; ++i)
-	{
-		chunkData[i] = Block(BlockData::BlockName::DIRT);
-	}
-	*/
 	chunkData = new Block[chunkWidth * chunkHeight * chunkLength];
 	for(int z = 0; z < chunkLength; ++z)
 	{
@@ -76,6 +46,12 @@ void Chunk::GenerateChunk(float* heightData)
 				{
 					chunkData[y + (x * chunkHeight) + (z * chunkHeight * chunkWidth)] = Block(BlockData::BlockName::GRASS);
 				}
+				/*
+				if (x == 0 || z == 0 || y == 0 || x == chunkWidth -1 || y == chunkHeight -1 || z == chunkLength -1)
+				{
+					chunkData[y + (x * chunkHeight) + (z * chunkHeight * chunkWidth)] = Block(BlockData::BlockName::DEBUG);
+				}
+				*/
 			}
 		}
 	}
@@ -89,26 +65,6 @@ void Chunk::GenerateChunkMesh()
 		chunkMesh = new Mesh();
 	}
 	chunkMesh->ClearVertices();
-	/*
-	for (int x = 0; x < chunkWidth; ++x)
-	{
-		for (int y = 0; y < chunkHeight; ++y)
-		{
-			for (int z = 0; z < chunkLength; ++z)
-			{
-				if(GetBlockVisibility(x, y, z) == BlockData::BlockVisibility::VISIBLE)
-				{
-					CheckVisibleFaces(x, y, z);
-				}
-				//if (CheckVisibleFaces(x, y, z))
-				//{
-					//glm::vec3 position = GetBlockPosition(x, y, z);
-					//modelMatricies->push_back(glm::translate(glm::mat4(), GetBlockPosition(x, y, z)));
-				//}
-			}
-		}
-	}
-	*/
 	for(int z = 0; z < chunkLength; ++z)
 	{
 		for(int x = 0; x < chunkWidth; ++x)
@@ -189,42 +145,34 @@ Mesh* Chunk::GetChunkMesh()
 //{
 	//return modelMatricies;
 //}
-bool Chunk::CheckVisibleFaces(int x, int y, int z)
+void Chunk::CheckVisibleFaces(int x, int y, int z)
 {
 	glm::vec3 position = glm::vec3(x, y, z) * blockSize;
 	glm::vec3 color = *chunkData[y + (x * chunkHeight) + (z * chunkHeight * chunkWidth)].type->color;//glm::vec3(0.0f, 0.6f, 0.1f);
-	bool visible = false;
 	if (GetBlockVisibility(x - 1, y, z) == BlockData::BlockVisibility::INVISIBLE)
 	{
-		visible = true;
 		AddBlockFace(BlockFace::LEFT, position, color);
 	}
 	if (GetBlockVisibility(x, y - 1, z) == BlockData::BlockVisibility::INVISIBLE)
 	{
-		visible = true;
 		AddBlockFace(BlockFace::BOTTOM, position, color);
 	}
 	if (GetBlockVisibility(x, y, z - 1) == BlockData::BlockVisibility::INVISIBLE)
 	{
-		visible = true;
 		AddBlockFace(BlockFace::BACK, position, color);
 	}
 	if (GetBlockVisibility(x + 1, y, z) == BlockData::BlockVisibility::INVISIBLE)
 	{
-		visible = true;
 		AddBlockFace(BlockFace::RIGHT, position, color);
 	}
 	if (GetBlockVisibility(x, y + 1, z) == BlockData::BlockVisibility::INVISIBLE)
 	{
-		visible = true;
 		AddBlockFace(BlockFace::TOP, position, color);
 	}
 	if (GetBlockVisibility(x, y, z + 1) == BlockData::BlockVisibility::INVISIBLE)
 	{
-		visible = true;
 		AddBlockFace(BlockFace::FRONT, position, color);
 	}
-	return visible;
 }
 glm::vec3 Chunk::GetBlockPosition(int x, int y, int z)
 {

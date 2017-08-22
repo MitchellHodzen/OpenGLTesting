@@ -3,9 +3,9 @@
 #include <glm/vec3.hpp>
 struct BlockData
 {
-	enum BlockVisibility {VISIBLE, INVISIBLE};
-	enum BlockName {DIRT, GRASS, AIR};
-	enum BlockColor {BROWN, GREEN, WHITE};
+	enum class BlockVisibility {VISIBLE, INVISIBLE};
+	enum class BlockName {DIRT, GRASS, AIR, DEBUG};
+	enum class BlockColor {BROWN, GREEN, WHITE, DEBUG};
 	static std::unordered_map<BlockName, BlockData*> BlockTypes;
 	static std::unordered_map<BlockColor, glm::vec3*> BlockColors;
 	static void SetColor(BlockColor color, glm::vec3 value);

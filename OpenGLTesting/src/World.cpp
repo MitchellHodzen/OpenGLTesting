@@ -74,12 +74,14 @@ void World::GenerateBlockData()
 	BlockData::CreateBlock(BlockData::BlockName::DIRT, BlockData::BlockVisibility::VISIBLE, BlockData::BlockColor::BROWN);
 	BlockData::CreateBlock(BlockData::BlockName::GRASS, BlockData::BlockVisibility::VISIBLE, BlockData::BlockColor::GREEN);
 	BlockData::CreateBlock(BlockData::BlockName::AIR, BlockData::BlockVisibility::INVISIBLE, BlockData::BlockColor::WHITE);
+	BlockData::CreateBlock(BlockData::BlockName::DEBUG, BlockData::BlockVisibility::VISIBLE, BlockData::BlockColor::DEBUG);
 }
 void World::GenerateBlockColors()
 {
 	BlockData::SetColor(BlockData::BlockColor::GREEN, glm::vec3(0.0f, 0.6f, 0.1f));
 	BlockData::SetColor(BlockData::BlockColor::BROWN, glm::vec3(0.8f, 0.4f, 0.0f));
 	BlockData::SetColor(BlockData::BlockColor::WHITE, glm::vec3(1.0f, 1.0f, 1.0f));
+	BlockData::SetColor(BlockData::BlockColor::DEBUG, glm::vec3(0.6f, 0.0f, 0.4f));
 }
 float World::GetBlockSize()
 {
