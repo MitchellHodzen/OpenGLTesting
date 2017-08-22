@@ -137,7 +137,7 @@ bool Renderer::Initialize()
 
 					//chunk = new Chunk(glm::vec3(0, 0, -16), 16, 16, 16, 1.0, 1.0, 1.0);
 					int chunkDimension = 16;
-					world = new World(chunkDimension, chunkDimension, chunkDimension, 1.0f);
+					world = new World(chunkDimension, chunkDimension, chunkDimension, 0.5f);
 					chunkManager = new ChunkManager(world, chunkDimension, chunkDimension, chunkDimension);
 					shader->SetUniformLocation("VP");
 					shader->SetUniformLocation("model");

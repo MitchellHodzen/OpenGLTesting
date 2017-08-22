@@ -4,7 +4,7 @@
 #include "World.h"
 
 
-Chunk::Chunk(glm::vec3 chunkPosition, World* world, int width, int height, int length, float blockSize, int* heightData)
+Chunk::Chunk(glm::vec3 chunkPosition, World* world, int width, int height, int length, float blockSize, float* heightData)
 {
 	this->chunkPosition = chunkPosition;
 	chunkWidth = width;
@@ -33,7 +33,7 @@ Chunk::~Chunk()
 	delete chunkMesh;
 }
 
-void Chunk::GenerateChunk(int* heightData)
+void Chunk::GenerateChunk(float* heightData)
 {
 	/*
 	chunkData = new Block**[chunkWidth];
@@ -62,19 +62,19 @@ void Chunk::GenerateChunk(int* heightData)
 		{
 			for(int y = 0; y < chunkHeight; ++y)
 			{
-				int height = (y * blockSize) + chunkPosition.y;
+				float height = (y * blockSize) + chunkPosition.y;
 				if (height > heightData[x + (z * chunkWidth)])
 				{
 					//We generate blocks by column from the bottom to the top. If a block is air, then all blocks above will be air
 					break;
 				}
-				if (height == heightData[x + (z * chunkWidth)])
+				if (height < heightData[x + (z * chunkWidth)] - 1)
 				{
-					chunkData[y + (x * chunkHeight) + (z * chunkHeight * chunkWidth)] = Block(BlockData::BlockName::GRASS);
+					chunkData[y + (x * chunkHeight) + (z * chunkHeight * chunkWidth)] = Block(BlockData::BlockName::DIRT);
 				}
 				else
 				{
-					chunkData[y + (x * chunkHeight) + (z * chunkHeight * chunkWidth)] = Block(BlockData::BlockName::DIRT);
+					chunkData[y + (x * chunkHeight) + (z * chunkHeight * chunkWidth)] = Block(BlockData::BlockName::GRASS);
 				}
 			}
 		}
@@ -239,6 +239,7 @@ BlockData::BlockVisibility Chunk::GetBlockVisibility(int x, int y, int z)
 	if (x < 0 || y < 0 || z < 0 || x >= chunkWidth || y >= chunkHeight || z >= chunkLength)
 	{
 		return world->GetBlockAtPosition(GetBlockPosition(x, y, z))->type->visibility;
+		//return BlockData::BlockVisibility::INVISIBLE;
 	}
 	return chunkData[y + (x * chunkHeight) + (z * chunkHeight * chunkWidth)].type->visibility;
 }
