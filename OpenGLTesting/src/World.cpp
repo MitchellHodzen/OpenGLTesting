@@ -40,7 +40,7 @@ void World::SetUpNoise()
 
 void World::CreateChunkAtPosition(int x, int y, int z)
 {
-	glm::vec3 chunkPosition((float)x * (float)chunkWidth * blockSize, (float)y * (float)chunkHeight * blockSize, (float)z * (float)chunkLength * blockSize);
+	glm::vec3 chunkPosition(x * chunkWidth * blockSize, y * chunkHeight * blockSize, z * chunkLength * blockSize);
 	float* heightArray = new float[chunkWidth * chunkLength];
 	for (int noiseX = 0; noiseX < chunkWidth; ++noiseX)
 	{
@@ -57,29 +57,15 @@ void World::CreateChunkAtPosition(int x, int y, int z)
 //bool test = true;
 Block* World::GetBlockAtPosition(glm::vec3 blockPosition)
 {
-	//Chunk position is consistent
 	int chunkX = floor((float)blockPosition.x/(chunkWidth * blockSize));
 	int chunkY = floor((float)blockPosition.y/(chunkHeight * blockSize));
 	int chunkZ = floor((float)blockPosition.z/(chunkLength * blockSize));
-	//std::cout<<chunkX<<" "<<chunkY<<" "<<chunkZ<<std::endl;
 	Chunk* chunk = GetChunkAtPosition(chunkX, chunkY, chunkZ);
 	glm::vec3 chunkPosition = chunk->GetChunkPosition();
-	/*
-	int blockIndexX = (int)floor((blockPosition.x  - chunkPosition.x + chunkWidth))%chunkWidth;
-	int blockIndexY = (int)floor((blockPosition.y - chunkPosition.y + chunkHeight))%chunkHeight;
-	int blockIndexZ = (int)floor((blockPosition.z  - chunkPosition.z + chunkLength))%chunkLength;
 
-	int blockIndexX = (int)(((blockPosition.x  - chunkPosition.x)/blockSize) + chunkWidth)%chunkWidth;
-	int blockIndexY = (int)(((blockPosition.y - chunkPosition.y)/blockSize) + chunkHeight)%chunkHeight;
-	int blockIndexZ = (int)(((blockPosition.z  - chunkPosition.z)/blockSize) + chunkLength)%chunkLength;
-	*/
 	int blockIndexX = (blockPosition.x  - chunkPosition.x)/blockSize;
 	int blockIndexY = (blockPosition.y - chunkPosition.y)/blockSize;
 	int blockIndexZ = (blockPosition.z  - chunkPosition.z)/blockSize;
-	//std::cout<<blockPosition.x<<" - "<<chunkPosition.x<<" / "<<blockSize<<" = "<<(blockPosition.x - chunkPosition.x)/blockSize<<std::endl;
-	//std::cout<<blockIndexX<<" "<<blockIndexY<<" "<<blockIndexZ<<std::endl;
-
-	//std::cout<<((int)(x * blockSize) - (int)chunkPosition.x + chunkWidth)%chunkWidth<<" "<<((int)(y * blockSize) - (int)chunkPosition.y + chunkHeight)%chunkHeight<<" "<<((int)(z*blockSize) - (int)chunkPosition.z + chunkLength)%chunkLength<<std::endl;
 
 	return chunk->GetBlockAtPosition(blockIndexX, blockIndexY, blockIndexZ);
 }

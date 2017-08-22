@@ -68,7 +68,7 @@ void Chunk::GenerateChunk(float* heightData)
 					//We generate blocks by column from the bottom to the top. If a block is air, then all blocks above will be air
 					break;
 				}
-				if (height < heightData[x + (z * chunkWidth)] - 1)
+				if (height < heightData[x + (z * chunkWidth)] - .5)
 				{
 					chunkData[y + (x * chunkHeight) + (z * chunkHeight * chunkWidth)] = Block(BlockData::BlockName::DIRT);
 				}
