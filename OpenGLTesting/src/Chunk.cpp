@@ -2,6 +2,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
 #include "World.h"
+#include <SDL.h>
 
 
 Chunk::Chunk(glm::vec3 chunkPosition, World* world, int width, int height, int length, float blockSize, float* heightData)
@@ -15,16 +16,31 @@ Chunk::Chunk(glm::vec3 chunkPosition, World* world, int width, int height, int l
 	//chunkMesh = new Mesh();
 	chunkMesh = NULL;
 	this->world = world;
+	layerHasEmptyBlock = new bool[chunkHeight];
 	GenerateChunk(heightData);
 }
 Chunk::~Chunk()
 {
 	delete[] chunkData;
 	delete chunkMesh;
+	delete[] layerHasEmptyBlock;
 }
-
+int Chunk::chunkCount = 0;
 void Chunk::GenerateChunk(float* heightData)
 {
+	/*
+	std::cout<<"Generating Chunk "<< chunkCount++<<std::endl;
+	double start = (double)SDL_GetTicks();
+	*/
+	
+	/*
+	chunkData = new Block[chunkWidth * chunkHeight * chunkLength];
+	for (int i = 0; i < chunkWidth * chunkHeight * chunkLength; ++i)
+	{
+		chunkData[i] = Block(BlockData::BlockName::GRASS);
+	}
+	*/
+	///*
 	chunkData = new Block[chunkWidth * chunkHeight * chunkLength];
 	for(int z = 0; z < chunkLength; ++z)
 	{
@@ -46,20 +62,28 @@ void Chunk::GenerateChunk(float* heightData)
 				{
 					chunkData[y + (x * chunkHeight) + (z * chunkHeight * chunkWidth)] = Block(BlockData::BlockName::GRASS);
 				}
-				/*
-				if (x == 0 || z == 0 || y == 0 || x == chunkWidth -1 || y == chunkHeight -1 || z == chunkLength -1)
-				{
-					chunkData[y + (x * chunkHeight) + (z * chunkHeight * chunkWidth)] = Block(BlockData::BlockName::DEBUG);
-				}
-				*/
+				//if (x == 0 || z == 0 || y == 0 || x == chunkWidth -1 || y == chunkHeight -1 || z == chunkLength -1)
+				//{
+					//chunkData[y + (x * chunkHeight) + (z * chunkHeight * chunkWidth)] = Block(BlockData::BlockName::DEBUG);
+				//}
 			}
 		}
 	}
+	//*/
 	//GenerateChunkMesh();
+	/*
+	double end = (double) SDL_GetTicks();
+	double total = end - start;
+	std::cout<<"Start: "<< start<< ". End: "<<end<<". Time to generate: "<<total<<std::endl<<std::endl;
+	*/
 }
 
 void Chunk::GenerateChunkMesh()
 {
+	///*
+	std::cout<<"Generating Chunk Mesh "<< chunkCount++<<std::endl;
+	double start = (double)SDL_GetTicks();
+	//*/
 	if (chunkMesh == NULL)
 	{
 		chunkMesh = new Mesh();
@@ -79,6 +103,11 @@ void Chunk::GenerateChunkMesh()
 		}
 	}
 	chunkMesh->BuildVBO();
+	///*
+	double end = (double) SDL_GetTicks();
+	double total = end - start;
+	std::cout<<"Start: "<< start<< ". End: "<<end<<". Time to generate: "<<total<<std::endl<<std::endl;
+	//*/
 }
 
 void Chunk::AddBlockFace(BlockFace face, glm::vec3 blockPosition, glm::vec3 color)
@@ -181,6 +210,16 @@ glm::vec3 Chunk::GetBlockPosition(int x, int y, int z)
 glm::vec3 Chunk::GetChunkPosition()
 {
 	return chunkPosition;
+}
+bool Chunk::LayerContainsEmptyBlocks(int layerNumber)
+{
+	/*
+	if (y < 0 || y >= chunkHeight)
+	{
+		return false;
+	}
+	return layerHasEmptyBlock[y];
+	*/
 }
 BlockData::BlockVisibility Chunk::GetBlockVisibility(int x, int y, int z)
 {

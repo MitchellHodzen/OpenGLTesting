@@ -27,7 +27,7 @@ std::vector<Chunk*> ChunkManager::QueryChunks(glm::vec3 playerPosition)
 	*/
 	//std::cout<<chunkX << ", " << chunkY << ", " << chunkZ << std::endl;
 	std::vector<Chunk*> chunks;
-	int amount = 8;
+	int amount = 1;
 	//chunks.push_back(world->GetChunkAtPosition(0, 0, 0));
 	///*
 	for(int x = chunkX - amount; x <= chunkX + amount; ++x)
@@ -55,7 +55,28 @@ std::vector<Chunk*> ChunkManager::QueryChunks(glm::vec3 playerPosition)
 	}
 	chunks.push_back(chunk);
 	*/
+	/*
+	chunkX = 0;
+	chunkY = 0;
+	chunkZ = 0;
 
+	for(int x = chunkX - amount; x <= chunkX + amount; ++x)
+	{
+		for(int z = chunkZ - amount; z <= chunkZ + amount; ++z)
+		{
+			for(int y = chunkY - 1; y <= chunkY + 1; ++y)
+			{
+				Chunk* chunk = world->GetChunkAtPosition(x, y, z);
+				if (chunk->GetChunkMesh() == NULL)
+				{
+					chunk->GenerateChunkMesh();
+				}
+				chunks.push_back(chunk);
+			}
+			//chunks.push_back(world->GetChunkAtPosition(x, chunkY, z));
+		}
+	}
+	*/
 	return chunks;
 }
 

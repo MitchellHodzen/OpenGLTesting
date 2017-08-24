@@ -16,10 +16,12 @@ class Chunk
 		void GenerateChunkMesh();
 		Mesh* GetChunkMesh();
 		Block* GetBlockAtPosition(int x, int y, int z);
+		bool LayerContainsEmptyBlocks(int layerNumber);
 		int GetChunkWidth();
 		int GetChunkHeight();
 		int GetChunkLength();
 		int GetChunkSize();
+		static int chunkCount;
 	private:
 		//Block*** chunkData;
 		Block* chunkData;
@@ -33,4 +35,5 @@ class Chunk
 		glm::vec3 chunkPosition;
 		Mesh* chunkMesh;
 		World* world;
+		bool* layerHasEmptyBlock;
 };

@@ -22,20 +22,19 @@ World::~World()
 Chunk* World::GetChunkAtPosition(int x, int y, int z)
 {
 	//If the chunk at that position doesn't exist, create it
-	if (chunkMap.count(x) == 0 || chunkMap[x].count(y) == 0 || chunkMap[x][y].count(z) == 0)
+	if (!chunkMap.count(x)|| !chunkMap[x].count(y)|| !chunkMap[x][y].count(z))
 	{
 		CreateChunkAtPosition(x, y, z);
 		return chunkMap[x][y][z];
 	}
-	//if (chunkMap[x][y][z]->GetChunkMesh() == NULL)
-	//{
-		//chunkMap[x][y][z]->GenerateChunkMesh();
-	//}
 	return chunkMap[x][y][z];
 }
 void World::SetUpNoise()
 {
 	noiseGenerator->SetNoiseType(FastNoise::SimplexFractal);
+	noiseGenerator->SetFractalOctaves(3);
+	noiseGenerator->SetFractalLacunarity(2.0f);
+	noiseGenerator->SetFractalGain(0.5);
 }
 
 void World::CreateChunkAtPosition(int x, int y, int z)
