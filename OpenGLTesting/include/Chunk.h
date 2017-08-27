@@ -36,4 +36,5 @@ class Chunk
 		Mesh* chunkMesh;
 		World* world;
 		bool* layerHasEmptyBlock;
+		int CalculateIndexPosition(int x, int y, int z);
 };

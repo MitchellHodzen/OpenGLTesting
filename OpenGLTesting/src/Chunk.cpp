@@ -25,6 +25,14 @@ Chunk::~Chunk()
 	delete chunkMesh;
 	delete[] layerHasEmptyBlock;
 }
+int Chunk::CalculateIndexPosition(int x, int y, int z)
+{
+	//All Y coordinates grouped together
+	//return y + (x * chunkHeight) + (z * chunkHeight * chunkWidth);
+	//All y coordinates far appart (layers calculated one Y coordinate at a time)
+	return z + (x * chunkLength) + (y * chunkLength * chunkWidth);
+}	
+
 int Chunk::chunkCount = 0;
 void Chunk::GenerateChunk(float* heightData)
 {
@@ -32,7 +40,7 @@ void Chunk::GenerateChunk(float* heightData)
 	std::cout<<"Generating Chunk "<< chunkCount++<<std::endl;
 	double start = (double)SDL_GetTicks();
 	*/
-	
+
 	/*
 	chunkData = new Block[chunkWidth * chunkHeight * chunkLength];
 	for (int i = 0; i < chunkWidth * chunkHeight * chunkLength; ++i)
@@ -56,11 +64,11 @@ void Chunk::GenerateChunk(float* heightData)
 				}
 				if (height < heightData[x + (z * chunkWidth)] - .5)
 				{
-					chunkData[y + (x * chunkHeight) + (z * chunkHeight * chunkWidth)] = Block(BlockData::BlockName::DIRT);
+					chunkData[CalculateIndexPosition(x, y, z)] = Block(BlockData::BlockName::DIRT);
 				}
 				else
 				{
-					chunkData[y + (x * chunkHeight) + (z * chunkHeight * chunkWidth)] = Block(BlockData::BlockName::GRASS);
+					chunkData[CalculateIndexPosition(x, y, z)] = Block(BlockData::BlockName::GRASS);
 				}
 				//if (x == 0 || z == 0 || y == 0 || x == chunkWidth -1 || y == chunkHeight -1 || z == chunkLength -1)
 				//{
@@ -106,7 +114,7 @@ void Chunk::GenerateChunkMesh()
 	///*
 	double end = (double) SDL_GetTicks();
 	double total = end - start;
-	std::cout<<"Start: "<< start<< ". End: "<<end<<". Time to generate: "<<total<<std::endl<<std::endl;
+	std::cout<<"Time to generate: "<<total<<std::endl<<" ms"<<std::endl;
 	//*/
 }
 
@@ -177,7 +185,7 @@ Mesh* Chunk::GetChunkMesh()
 void Chunk::CheckVisibleFaces(int x, int y, int z)
 {
 	glm::vec3 position = glm::vec3(x, y, z) * blockSize;
-	glm::vec3 color = *chunkData[y + (x * chunkHeight) + (z * chunkHeight * chunkWidth)].type->color;//glm::vec3(0.0f, 0.6f, 0.1f);
+	glm::vec3 color = *chunkData[CalculateIndexPosition(x, y, z)].type->color;//glm::vec3(0.0f, 0.6f, 0.1f);
 	if (GetBlockVisibility(x - 1, y, z) == BlockData::BlockVisibility::INVISIBLE)
 	{
 		AddBlockFace(BlockFace::LEFT, position, color);
@@ -228,7 +236,7 @@ BlockData::BlockVisibility Chunk::GetBlockVisibility(int x, int y, int z)
 		return world->GetBlockAtPosition(GetBlockPosition(x, y, z))->type->visibility;
 		//return BlockData::BlockVisibility::INVISIBLE;
 	}
-	return chunkData[y + (x * chunkHeight) + (z * chunkHeight * chunkWidth)].type->visibility;
+	return chunkData[CalculateIndexPosition(x, y, z)].type->visibility;
 }
 Block* Chunk::GetBlockAtPosition(int x, int y, int z)
 {
