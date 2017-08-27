@@ -29,9 +29,11 @@ int Chunk::CalculateIndexPosition(int x, int y, int z)
 {
 	//All Y coordinates grouped together
 	//return y + (x * chunkHeight) + (z * chunkHeight * chunkWidth);
+
+
 	//All y coordinates far appart (layers calculated one Y coordinate at a time)
 	return z + (x * chunkLength) + (y * chunkLength * chunkWidth);
-}	
+}
 
 int Chunk::chunkCount = 0;
 void Chunk::GenerateChunk(float* heightData)
@@ -50,16 +52,17 @@ void Chunk::GenerateChunk(float* heightData)
 	*/
 	///*
 	chunkData = new Block[chunkWidth * chunkHeight * chunkLength];
-	for(int z = 0; z < chunkLength; ++z)
+	for(int y = 0; y < chunkHeight; ++y)
 	{
 		for(int x = 0; x < chunkWidth; ++x)
 		{
-			for(int y = 0; y < chunkHeight; ++y)
+			for(int z = 0; z < chunkLength; ++z)
 			{
 				float height = (y * blockSize) + chunkPosition.y;
 				if (height > heightData[x + (z * chunkWidth)])
 				{
 					//We generate blocks by column from the bottom to the top. If a block is air, then all blocks above will be air
+					layerHasEmptyBlock[y] = true;
 					break;
 				}
 				if (height < heightData[x + (z * chunkWidth)] - .5)
@@ -70,6 +73,7 @@ void Chunk::GenerateChunk(float* heightData)
 				{
 					chunkData[CalculateIndexPosition(x, y, z)] = Block(BlockData::BlockName::GRASS);
 				}
+				layerHasEmptyBlock[y] = false;
 				//if (x == 0 || z == 0 || y == 0 || x == chunkWidth -1 || y == chunkHeight -1 || z == chunkLength -1)
 				//{
 					//chunkData[y + (x * chunkHeight) + (z * chunkHeight * chunkWidth)] = Block(BlockData::BlockName::DEBUG);
@@ -97,11 +101,11 @@ void Chunk::GenerateChunkMesh()
 		chunkMesh = new Mesh();
 	}
 	chunkMesh->ClearVertices();
-	for(int z = 0; z < chunkLength; ++z)
+	for(int y = 0; y < chunkHeight; ++y)
 	{
 		for(int x = 0; x < chunkWidth; ++x)
 		{
-			for(int y = 0; y < chunkHeight; ++y)
+			for(int z = 0; z < chunkLength; ++z)
 			{
 				if (GetBlockVisibility(x, y, z) == BlockData::BlockVisibility::VISIBLE)
 				{
@@ -221,13 +225,11 @@ glm::vec3 Chunk::GetChunkPosition()
 }
 bool Chunk::LayerContainsEmptyBlocks(int layerNumber)
 {
-	/*
-	if (y < 0 || y >= chunkHeight)
+	if (layerNumber < 0 || layerNumber >= chunkHeight)
 	{
 		return false;
 	}
-	return layerHasEmptyBlock[y];
-	*/
+	return layerHasEmptyBlock[layerNumber];
 }
 BlockData::BlockVisibility Chunk::GetBlockVisibility(int x, int y, int z)
 {
@@ -240,7 +242,7 @@ BlockData::BlockVisibility Chunk::GetBlockVisibility(int x, int y, int z)
 }
 Block* Chunk::GetBlockAtPosition(int x, int y, int z)
 {
-	return &chunkData[y + (x * chunkHeight) + (z * chunkHeight * chunkWidth)];
+	return &chunkData[CalculateIndexPosition(x, y, z)];
 }
 int Chunk::GetChunkWidth()
 {
